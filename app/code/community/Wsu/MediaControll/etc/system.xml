@@ -1,7 +1,25 @@
 <?xml version="1.0"?>
 <config>
   <sections>
-    <wsu_mediacontroll translate="label" module="wsu_mediacontroll">
+	<design>
+		<groups>
+			<watermark>
+				<fields>
+					<adapter>
+						<label>Image Adatpter</label>
+						<frontend_type>select</frontend_type>
+						<comment>Please choose your image adapter</comment>
+						<source_model>wsu_mediacontroll/source_image_adapter</source_model>
+						<backend_model>wsu_mediacontroll/system_config_adapter</backend_model>
+						<show_in_default>1</show_in_default>
+						<show_in_website>1</show_in_website>
+						<show_in_store>1</show_in_store>
+					</adapter>
+				</fields>
+			</watermark>
+		</groups>
+	</design>
+    <wsu_mediacontroll translate="label comment" module="wsu_mediacontroll">
       <label>Wsu MediaControll</label>
       <tab>utilitiestab</tab>
       <sort_order>1000</sort_order>
@@ -16,14 +34,32 @@
           <show_in_website>1</show_in_website>
           <show_in_store>1</show_in_store>
         </hint>
-        <config translate="label">
-          <label>MediaControll sample Settings</label>
+        <config translate="label comment">
+          <label>MediaControll Settings</label>
           <sort_order>10</sort_order>
           <show_in_default>1</show_in_default>
           <show_in_website>0</show_in_website>
           <show_in_store>0</show_in_store>
 		  <comment>NOTE YOU WOULD LOOK TO THE /etc/system.xml for the samples</comment>
           <fields>
+			<apikey translate="label comment">
+				<label>Filepicker.io API Key</label>
+				<frontend_type>text</frontend_type>
+				<comment><![CDATA[Sign up to <a href="https://www.filepicker.io/">Filepicker.io</a> and get an API key from there.]]></comment>
+				<sort_order>10</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>0</show_in_website>
+				<show_in_store>0</show_in_store>
+			</apikey>
+			<services translate="label comment">
+				<label>Services</label>
+				<frontend_type>multiselect</frontend_type>
+				<source_model>aoe_filepicker/source_filePickerServices</source_model>
+				<sort_order>20</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>0</show_in_website>
+				<show_in_store>0</show_in_store>
+			</services>
             <!--
 			<theme translate="label">
               <label>Current Admin Theme</label>

@@ -1,5 +1,12 @@
 <?xml version="1.0"?>
 <config>
+    <phpunit>
+        <suite>
+            <modules>
+                <Wsu_MediaControll/>
+            </modules>
+        </suite>
+    </phpunit>
     <modules>
         <Wsu_MediaControll>
             <version>0.0.1</version>
@@ -10,6 +17,11 @@
             <wsu_mediacontroll>
                 <class>Wsu_MediaControll_Block</class>
             </wsu_mediacontroll>
+			<adminhtml>
+				<rewrite>
+					<media_uploader>Wsu_MediaControll_Block_FilePicker</media_uploader>
+				</rewrite>
+			</adminhtml>
         </blocks>
         <helpers>
             <wsu_mediacontroll>
@@ -20,6 +32,11 @@
             <wsu_mediacontroll>
                 <class>Wsu_MediaControll_Model</class>
             </wsu_mediacontroll>
+            <catalog>
+                <rewrite>
+                    <product_image>Wsu_MediaControll_Model_Product_Image</product_image>
+                </rewrite>
+            </catalog>
         </models>
         <!--
 		This is an example of a event hook
@@ -73,5 +90,12 @@
 				<logo>logo.gif</logo>-->
             </config>
         </wsu_mediacontroll>
+        <design>
+            <watermark>
+                <image_adapter>GD2</image_adapter>
+                <small_image_adapter>GD2</small_image_adapter>
+                <thumbnail_adapter>GD2</thumbnail_adapter>
+            </watermark>
+        </design>
     </default>
 </config>
