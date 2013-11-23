@@ -1,5 +1,5 @@
 <?php
-class Wsu_MediaControll_Block_FilePicker extends Mage_Adminhtml_Block_Media_Uploader {
+class Wsu_Mediacontroll_Block_FilePicker extends Mage_Adminhtml_Block_Media_Uploader {
 
 	/**
 	 * Constructor

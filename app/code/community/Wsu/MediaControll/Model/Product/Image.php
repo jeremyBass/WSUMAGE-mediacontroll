@@ -1,5 +1,5 @@
 <?php
-class Wsu_MediaControll_Model_Product_Image extends Mage_Catalog_Model_Product_Image {
+class Wsu_Mediacontroll_Model_Product_Image extends Mage_Catalog_Model_Product_Image {
     private $_disableMemoryCheck = true;
     /**
      * @return bool

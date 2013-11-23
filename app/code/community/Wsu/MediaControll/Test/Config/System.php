@@ -1,5 +1,5 @@
 <?php
-class Wsu_MediaControll_Test_Config_System extends EcomDev_PHPUnit_Test_Case_Config {
+class Wsu_Mediacontroll_Test_Config_System extends EcomDev_PHPUnit_Test_Case_Config {
     public function testDefaultWatermarkImageAdapterPreset() {
         $this->assertDefaultConfigValue('design/watermark/image_adapter', Varien_Image_Adapter::ADAPTER_GD2);
     }

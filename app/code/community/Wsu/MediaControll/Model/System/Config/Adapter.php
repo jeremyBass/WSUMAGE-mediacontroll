@@ -1,5 +1,5 @@
 <?php
-class Wsu_MediaControll_Model_System_Config_Adapter extends Mage_Core_Model_Config_Data {
+class Wsu_Mediacontroll_Model_System_Config_Adapter extends Mage_Core_Model_Config_Data {
     /**
      * @var Varien_Image_Adapter_Abstract
      */

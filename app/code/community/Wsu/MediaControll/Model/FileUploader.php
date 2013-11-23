@@ -1,5 +1,5 @@
 <?php
-class Wsu_MediaControll_Model_FileUploader extends Mage_Core_Model_File_Uploader {
+class Wsu_Mediacontroll_Model_FileUploader extends Mage_Core_Model_File_Uploader {
 
 	/**
 	 * Constructor

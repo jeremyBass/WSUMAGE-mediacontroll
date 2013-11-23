@@ -1,5 +1,5 @@
 <?php
-class Wsu_MediaControll_Model_Launcher extends Mage_Core_Model_Abstract {
+class Wsu_Mediacontroll_Model_Launcher extends Mage_Core_Model_Abstract {
     const CONFIG_CACHE_ID = 'wsu_mediacontroll_config';
     protected $_config;
     protected $_indexers = array( );

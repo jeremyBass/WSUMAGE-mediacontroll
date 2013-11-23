@@ -1,5 +1,5 @@
 <?php
-class Wsu_MediaControll_Model_Source_Image_Adapter {
+class Wsu_Mediacontroll_Model_Source_Image_Adapter {
     /**
      * get Authtypes as Option Array
      *

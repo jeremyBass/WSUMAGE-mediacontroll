@@ -1,5 +1,5 @@
 <?php
-class Wsu_MediaControll_Test_Model_Product_Image extends EcomDev_PHPUnit_Test_Case {
+class Wsu_Mediacontroll_Test_Model_Product_Image extends EcomDev_PHPUnit_Test_Case {
     /** @var Mage_Catalog_Model_Product_Image */
     protected $_model;
     protected function setUp() {

@@ -1,6 +1,6 @@
 <?php
 
-class Wsu_MediaControll_Model_Source_FilePickerServices {
+class Wsu_Mediacontroll_Model_Source_FilePickerServices {
 
 	public function toOptionArray($isMultiselect = false) {
 		$options = array();

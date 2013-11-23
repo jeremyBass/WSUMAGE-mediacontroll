@@ -1,7 +1,7 @@
 <?php
-class Wsu_MediaControll_Test_Helper_Data extends EcomDev_PHPUnit_Test_Case_Config {
+class Wsu_Mediacontroll_Test_Helper_Data extends EcomDev_PHPUnit_Test_Case_Config {
     /**
-     * @var Wsu_MediaControll_Helper_Data
+     * @var Wsu_Mediacontroll_Helper_Data
      */
     protected $_helper;
     public function setUp() {

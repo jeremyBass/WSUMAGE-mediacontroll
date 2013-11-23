@@ -2,7 +2,7 @@
 
 require_once('Mage/Adminhtml/controllers/Catalog/Product/GalleryController.php');
 
-class Wsu_MediaControll_Catalog_Product_GalleryController extends Mage_Adminhtml_Catalog_Product_GalleryController {
+class Wsu_Mediacontroll_Catalog_Product_GalleryController extends Mage_Adminhtml_Catalog_Product_GalleryController {
 
 
 	public function uploadAction() {

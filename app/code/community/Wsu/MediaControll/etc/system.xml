@@ -20,7 +20,7 @@
 		</groups>
 	</design>
     <wsu_mediacontroll translate="label comment" module="wsu_mediacontroll">
-      <label>Wsu MediaControll</label>
+      <label>Wsu Mediacontroll</label>
       <tab>utilitiestab</tab>
       <sort_order>1000</sort_order>
       <show_in_default>1</show_in_default>
@@ -35,7 +35,7 @@
           <show_in_store>1</show_in_store>
         </hint>
         <config translate="label comment">
-          <label>MediaControll Settings</label>
+          <label>Mediacontroll Settings</label>
           <sort_order>10</sort_order>
           <show_in_default>1</show_in_default>
           <show_in_website>0</show_in_website>

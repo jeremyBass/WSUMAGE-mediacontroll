@@ -1,101 +1,156 @@
 <?xml version="1.0"?>
 <config>
-    <phpunit>
-        <suite>
-            <modules>
-                <Wsu_MediaControll/>
-            </modules>
-        </suite>
-    </phpunit>
-    <modules>
-        <Wsu_MediaControll>
-            <version>0.0.1</version>
-        </Wsu_MediaControll>
-    </modules>
-    <global>
-        <blocks>
-            <wsu_mediacontroll>
-                <class>Wsu_MediaControll_Block</class>
-            </wsu_mediacontroll>
-			<adminhtml>
-				<rewrite>
-					<media_uploader>Wsu_MediaControll_Block_FilePicker</media_uploader>
-				</rewrite>
-			</adminhtml>
-        </blocks>
-        <helpers>
-            <wsu_mediacontroll>
-                <class>Wsu_MediaControll_Helper</class>
-            </wsu_mediacontroll>
-        </helpers>
-        <models>
-            <wsu_mediacontroll>
-                <class>Wsu_MediaControll_Model</class>
-            </wsu_mediacontroll>
-            <catalog>
-                <rewrite>
-                    <product_image>Wsu_MediaControll_Model_Product_Image</product_image>
-                </rewrite>
-            </catalog>
-        </models>
-        <!--
+  <phpunit>
+    <suite>
+      <modules>
+        <Wsu_Mediacontroll/>
+      </modules>
+    </suite>
+  </phpunit>
+  <modules>
+    <Wsu_Mediacontroll>
+      <version>0.0.1</version>
+    </Wsu_Mediacontroll>
+  </modules>
+  <global>
+    <blocks>
+      <wsu_mediacontroll>
+        <class>Wsu_Mediacontroll_Block</class>
+      </wsu_mediacontroll>
+      <adminhtml>
+        <rewrite>
+          <media_uploader>Wsu_Mediacontroll_Block_FilePicker</media_uploader>
+        </rewrite>
+      </adminhtml>
+    </blocks>
+    <helpers>
+      <wsu_mediacontroll>
+        <class>Wsu_Mediacontroll_Helper</class>
+      </wsu_mediacontroll>
+    </helpers>
+    <models>
+      <wsu_mediacontroll>
+        <class>Wsu_Mediacontroll_Model</class>
+      </wsu_mediacontroll>
+      <catalog>
+        <rewrite>
+          <product_image>Wsu_Mediacontroll_Model_Product_Image</product_image>
+        </rewrite>
+      </catalog>
+    </models>
+    <!--
 		This is an example of a event hook
 		<events>
             <adminhtml_controller_action_predispatch_start>
                 <observers>
                     <wsu_mediacontroll_admin_predispatch>
-                        <class>Wsu_MediaControll_Model_Adminhtml_Observer</class>
+                        <class>Wsu_Mediacontroll_Model_Adminhtml_Observer</class>
                         <method>setTheme</method>
                     </wsu_mediacontroll_admin_predispatch>
                 </observers>
             </adminhtml_controller_action_predispatch_start>
         </events>-->
-    </global>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <wsu_mediacontroll before="Mage_Adminhtml">Wsu_MediaControll_Adminhtml</wsu_mediacontroll>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
-    <adminhtml>
-        <layout>
-            <updates>
-                <wsu_mediacontroll>
-                    <file>wsu/mediacontroll.xml</file>
-                </wsu_mediacontroll>
-            </updates>
-        </layout>
-        <translate>
-            <modules>
-                <Wsu_MediaControll>
-                    <files>
-                        <default>Wsu_MediaControll.csv</default>
-                    </files>
-                </Wsu_MediaControll>
-            </modules>
-        </translate>
-    </adminhtml>
-    <default>
+  </global>
+  <admin>
+    <routers>
+      <adminhtml>
+        <args>
+          <modules>
+            <wsu_mediacontroll before="Mage_Adminhtml">Wsu_Mediacontroll_Adminhtml</wsu_mediacontroll>
+          </modules>
+        </args>
+      </adminhtml>
+      <imgclean>
+        <use>admin</use>
+        <args>
+          <module>Wsu_Mediacontroll</module>
+          <frontName>imgclean</frontName>
+        </args>
+      </imgclean>
+    </routers>
+  </admin>
+  <adminhtml>
+    <layout>
+      <updates>
         <wsu_mediacontroll>
-            <config>
-                <!--
+          <file>wsu/mediacontroll.xml</file>
+        </wsu_mediacontroll>
+      </updates>
+    </layout>
+    <translate>
+      <modules>
+        <Wsu_Mediacontroll>
+          <files>
+            <default>Wsu_Mediacontroll.csv</default>
+          </files>
+        </Wsu_Mediacontroll>
+      </modules>
+    </translate>
+    <menu>
+	<system>
+		<children>
+			<tools>
+				<children>
+					<items module="wsu_mediacontroll">
+						<title>Rouge Img Cleaner</title>
+						<sort_order>0</sort_order>
+						<action>mediacontroll/imgclean</action>
+					</items>
+				</children>
+			</tools>	  
+	  </children>
+	  </system>
+    </menu>
+    <acl>
+      <resources>
+        <all>
+          <title>Allow Everything</title>
+        </all>
+        <admin>
+          <children>
+            <Wsu_Mediacontroll>
+              <title>Rouge Img Cleaner</title>
+              <sort_order>10</sort_order>
+            </Wsu_Mediacontroll>
+          </children>
+        </admin>
+      </resources>
+    </acl>
+  </adminhtml>
+  <frontend>
+    <routers>
+      <imgclean>
+        <use>standard</use>
+        <args>
+          <module>Wsu_Mediacontroll</module>
+          <frontName>imgclean</frontName>
+        </args>
+      </imgclean>
+    </routers>
+    <layout>
+      <updates>
+        <mediacontroll>
+          <file>wsu/mediacontroll.xml</file>
+        </mediacontroll>
+      </updates>
+    </layout>
+  </frontend>
+  <default>
+    <wsu_mediacontroll>
+      <config>
+        <!--
 				Some examples on the config defaults
 				<theme>go</theme>
 				<showmageads>0</showmageads>
 				<logo>logo.gif</logo>-->
-            </config>
-        </wsu_mediacontroll>
-        <design>
-            <watermark>
-                <image_adapter>GD2</image_adapter>
-                <small_image_adapter>GD2</small_image_adapter>
-                <thumbnail_adapter>GD2</thumbnail_adapter>
-            </watermark>
-        </design>
-    </default>
+      </config>
+    </wsu_mediacontroll>
+    <design>
+      <watermark>
+        <image_adapter>GD2</image_adapter>
+        <small_image_adapter>GD2</small_image_adapter>
+        <thumbnail_adapter>GD2</thumbnail_adapter>
+      </watermark>
+    </design>
+  </default>
 </config>

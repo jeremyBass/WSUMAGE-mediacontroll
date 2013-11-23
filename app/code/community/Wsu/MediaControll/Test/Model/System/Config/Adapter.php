@@ -1,7 +1,7 @@
 <?php
-class Wsu_MediaControll_Test_Model_System_Config_Adapter extends EcomDev_PHPUnit_Test_Case {
+class Wsu_Mediacontroll_Test_Model_System_Config_Adapter extends EcomDev_PHPUnit_Test_Case {
     /**
-     * @var Wsu_MediaControll_Model_System_Config_Adapter
+     * @var Wsu_Mediacontroll_Model_System_Config_Adapter
      */
     protected $_model = null;
     public function setUp() {
