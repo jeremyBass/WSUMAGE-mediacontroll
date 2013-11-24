@@ -12,63 +12,82 @@
       <version>0.0.1</version>
     </Wsu_Mediacontroll>
   </modules>
+  <frontend>
+    <routers>
+      <mediacontroll>
+        <use>standard</use>
+        <args>
+          <module>Wsu_Mediacontroll</module>
+          <frontName>mediacontroll</frontName>
+        </args>
+      </mediacontroll>
+    </routers>
+  </frontend>
   <global>
-    <blocks>
+    <helpers>
       <wsu_mediacontroll>
-        <class>Wsu_Mediacontroll_Block</class>
+        <class>Wsu_Mediacontroll_Helper</class>
       </wsu_mediacontroll>
+    </helpers>
+    <blocks>
+      <mediacontroll>
+        <class>Wsu_Mediacontroll_Block</class>
+      </mediacontroll>
       <adminhtml>
         <rewrite>
           <media_uploader>Wsu_Mediacontroll_Block_FilePicker</media_uploader>
         </rewrite>
       </adminhtml>
     </blocks>
-    <helpers>
-      <wsu_mediacontroll>
-        <class>Wsu_Mediacontroll_Helper</class>
-      </wsu_mediacontroll>
-    </helpers>
-    <models>
+	<models>
+
       <wsu_mediacontroll>
         <class>Wsu_Mediacontroll_Model</class>
+        <resourceModel>wsu_mediacontroll_resource</resourceModel>
       </wsu_mediacontroll>
-      <catalog>
-        <rewrite>
-          <product_image>Wsu_Mediacontroll_Model_Product_Image</product_image>
-        </rewrite>
-      </catalog>
-    </models>
-    <!--
-		This is an example of a event hook
-		<events>
-            <adminhtml_controller_action_predispatch_start>
-                <observers>
-                    <wsu_mediacontroll_admin_predispatch>
-                        <class>Wsu_Mediacontroll_Model_Adminhtml_Observer</class>
-                        <method>setTheme</method>
-                    </wsu_mediacontroll_admin_predispatch>
-                </observers>
-            </adminhtml_controller_action_predispatch_start>
-        </events>-->
+      <wsu_mediacontroll_resource>
+        <class>Wsu_Mediacontroll_Model_Resource</class>
+        <entities>
+          <imgclean>
+            <table>wsu_mediacontroll_imgcleaner</table>
+          </imgclean>
+        </entities>
+      </wsu_mediacontroll_resource>
+		<catalog>
+			<rewrite>
+				<product_image>Wsu_Mediacontroll_Model_Product_Image</product_image>
+			</rewrite>
+		</catalog>
+	</models>
+    <resources>
+      <wsu_mediacontroll_setup>
+        <setup>
+          <module>Wsu_Mediacontroll</module>
+        </setup>
+      </wsu_mediacontroll_setup>
+    </resources>
   </global>
-  <admin>
+  <!--<admin>
     <routers>
       <adminhtml>
         <args>
           <modules>
-            <wsu_mediacontroll before="Mage_Adminhtml">Wsu_Mediacontroll_Adminhtml</wsu_mediacontroll>
+            <wsu_mediacontroll before="Mage_Adminhtml">Wsu_Mediacontroll</wsu_mediacontroll>
           </modules>
         </args>
       </adminhtml>
-      <imgclean>
+      <mediacontroll>
         <use>admin</use>
         <args>
-          <module>Wsu_Mediacontroll</module>
-          <frontName>imgclean</frontName>
+		  <module>Wsu_Mediacontroll</module>
+		  <frontName>mediacontroll</frontName>
+          <modules>
+            <wsu_mediacontroll before="Mage_Adminhtml">Wsu_Mediacontroll</wsu_mediacontroll>
+          </modules>
         </args>
-      </imgclean>
+      </mediacontroll>
     </routers>
-  </admin>
+  </admin>-->
   <adminhtml>
     <layout>
       <updates>
@@ -86,21 +105,21 @@
         </Wsu_Mediacontroll>
       </modules>
     </translate>
-    <menu>
-	<system>
-		<children>
-			<tools>
-				<children>
-					<items module="wsu_mediacontroll">
-						<title>Rouge Img Cleaner</title>
-						<sort_order>0</sort_order>
-						<action>mediacontroll/imgclean</action>
-					</items>
-				</children>
-			</tools>	  
-	  </children>
-	  </system>
-    </menu>
+	<menu>
+		<system>
+			<children>
+				<tools>
+					<children>
+						<imgclean translate="title" module="wsu_mediacontroll">
+							<title>Rouge Img Cleaner</title>
+							<action>mediacontroll/imgclean</action>
+							<sort_order>0</sort_order>
+						</imgclean>
+					</children>
+				</tools>	  
+			</children>
+		</system>
+	</menu>
     <acl>
       <resources>
         <all>
@@ -117,24 +136,6 @@
       </resources>
     </acl>
   </adminhtml>
-  <frontend>
-    <routers>
-      <imgclean>
-        <use>standard</use>
-        <args>
-          <module>Wsu_Mediacontroll</module>
-          <frontName>imgclean</frontName>
-        </args>
-      </imgclean>
-    </routers>
-    <layout>
-      <updates>
-        <mediacontroll>
-          <file>wsu/mediacontroll.xml</file>
-        </mediacontroll>
-      </updates>
-    </layout>
-  </frontend>
   <default>
     <wsu_mediacontroll>
       <config>

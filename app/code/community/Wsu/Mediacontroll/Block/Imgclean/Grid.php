@@ -1,10 +1,6 @@
 <?php
-
-class Wsu_Mediacontroll_Block_Adminhtml_Imgclean_Grid extends Mage_Adminhtml_Block_Widget_Grid
-{
-    
-  public function __construct()
-  {
+class Wsu_Mediacontroll_Block_Adminhtml_Imgclean_Grid extends Mage_Adminhtml_Block_Widget_Grid {
+  public function __construct() {
       parent::__construct();
       $this->setId('mediacontrollGrid');
       $this->setDefaultSort('mediacontroll_id');
@@ -12,21 +8,13 @@ class Wsu_Mediacontroll_Block_Adminhtml_Imgclean_Grid extends Mage_Adminhtml_Blo
       $this->setSaveParametersInSession(true);
 	 	  
   }
-
-  
-	// **** // trae las imagenes que no estan en base de datos...
-  protected function _prepareCollection()
-  {
-	$collection = Mage::getModel('mediacontroll/imgclean')->getCollection();
-	
+  protected function _prepareCollection() {
+	$collection = Mage::getModel('wsu_mediacontroll/imgclean')->getCollection();
 	$this->setCollection($collection);
-
 	return parent::_prepareCollection();
-	
   }
 
-  protected function _prepareColumns()
-  {
+  protected function _prepareColumns(){
     
 	    $this->addColumn('filename', array(
           'header'    => Mage::helper('wsu_mediacontroll')->__('Filename'),

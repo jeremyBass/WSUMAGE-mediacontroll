@@ -1,17 +1,10 @@
 <?php
-
-class Wsu_Mediacontroll_Model_Mysql4_Imgclean_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
-{
-	protected $total;
-    public function _construct()
-    {
-        parent::_construct();
-        $this->_init('mediacontroll/imgclean');
-        
+class Wsu_Mediacontroll_Model_Resource_Imgclean_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract {
+    protected function _construct() {
+        $this->_init('wsu_mediacontroll/imgclean');
     }
-
-	// trae imagenes que estan guardadas en la base de datos...
 	
+	protected $total;
 	public function getImages(){
 		try {
 			$this->setConnection($this->getResource()->getReadConnection());
@@ -26,10 +19,7 @@ class Wsu_Mediacontroll_Model_Mysql4_Imgclean_Collection extends Mage_Core_Model
 		}catch(Exception $e){
 			Mage::log($e->getMessage());
 		}
-				
 		return $array;
 	}
-	
-	
 	
 }

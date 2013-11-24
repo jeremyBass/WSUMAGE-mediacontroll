@@ -1,24 +1,25 @@
 <?php
 
-class Wsu_Mediacontroll_Adminhtml_ImgcleanController extends Mage_Adminhtml_Controller_action
-{
+class Wsu_Mediacontroll_ImgcleanController extends Mage_Adminhtml_Controller_action {
+
+    public function indexAction() {
+        $this->_initAction()->_addContent($this->getLayout()->createBlock('mediacontroll/imgclean'))->renderLayout();
+    }
 
 	protected function _initAction() {
 		$this->loadLayout()
-			->_setActiveMenu('mediacontroll/items')
-			->_addBreadcrumb(Mage::helper('adminhtml')->__('Items Manager'), Mage::helper('adminhtml')->__('Item Manager'));
+			->_setActiveMenu('mediacontroll/imgclean')
+			->_addBreadcrumb(Mage::helper('wsu_mediacontroll')->__('Items Manager'), Mage::helper('wsu_mediacontroll')->__('Item Manager'));
 		
 		return $this;
 	}   
 
-	public function indexAction() {
-		
+/*	public function indexAction() {
 		$this->_initAction()
 			->renderLayout();
 	}
-	
+	*/
 	public function newAction(){
-	
 		Mage::helper('wsu_mediacontroll')->compareList();
 		$this->_redirect('*/*/');
 	}
@@ -31,7 +32,7 @@ class Wsu_Mediacontroll_Adminhtml_ImgcleanController extends Mage_Adminhtml_Cont
 				unlink('media/catalog/product'. $model->getFilename());
 				$model->setId($this->getRequest()->getParam('id'))->delete();
 
-				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Item was successfully deleted'));
+				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('wsu_mediacontroll')->__('Image was successfully deleted'));
 				$this->_redirect('*/*/');
 			} catch (Exception $e) {
 				Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
