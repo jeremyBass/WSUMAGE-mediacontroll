@@ -9,11 +9,11 @@ class Wsu_Mediacontroll_Model_Source_Image_Adapter {
         return array(
             array(
                 'value' => Varien_Image_Adapter::ADAPTER_GD2,
-                'label' => Mage::helper('wsu_mediacontroll')->__('GD2 Adapter')
+                'label' => Mage::helper('mediacontroll')->__('GD2 Adapter')
             ),
             array(
                 'value' => Varien_Image_Adapter::ADAPTER_IM,
-                'label' => Mage::helper('wsu_mediacontroll')->__('Imagemagick Adapter')
+                'label' => Mage::helper('mediacontroll')->__('Imagemagick Adapter')
             )
         );
     }

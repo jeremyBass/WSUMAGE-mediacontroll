@@ -5,7 +5,7 @@ class Wsu_Mediacontroll_Test_Helper_Data extends EcomDev_PHPUnit_Test_Case_Confi
      */
     protected $_helper;
     public function setUp() {
-        $this->_helper = Mage::helper('wsu_mediacontroll');
+        $this->_helper = Mage::helper('mediacontroll');
     }
     public function testGetImageAdapter() {
         $this->assertInstanceOf('Varien_Image_Adapter_Gd2', $this->_helper->getImageAdapter(Varien_Image_Adapter::ADAPTER_GD2));

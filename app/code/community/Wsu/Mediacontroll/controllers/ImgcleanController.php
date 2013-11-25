@@ -2,17 +2,21 @@
 
 class Wsu_Mediacontroll_ImgcleanController extends Mage_Adminhtml_Controller_action {
 
+
+	protected function _initAction() {
+		$this->loadLayout()->_setActiveMenu('system/tools')
+			->_addBreadcrumb(Mage::helper('adminhtml')->__('System'), Mage::helper('adminhtml')->__('System'))
+			->_addBreadcrumb(Mage::helper('adminhtml')->__('Tools'), Mage::helper('adminhtml')->__('Tools'))
+			->_addBreadcrumb(Mage::helper('mediacontroll')->__('Image cleaner'), Mage::helper('mediacontroll')->__('Image cleaner'));
+		
+		return $this;
+	}   
+
+
     public function indexAction() {
         $this->_initAction()->_addContent($this->getLayout()->createBlock('mediacontroll/imgclean'))->renderLayout();
     }
 
-	protected function _initAction() {
-		$this->loadLayout()
-			->_setActiveMenu('mediacontroll/imgclean')
-			->_addBreadcrumb(Mage::helper('wsu_mediacontroll')->__('Items Manager'), Mage::helper('wsu_mediacontroll')->__('Item Manager'));
-		
-		return $this;
-	}   
 
 /*	public function indexAction() {
 		$this->_initAction()
@@ -20,26 +24,29 @@ class Wsu_Mediacontroll_ImgcleanController extends Mage_Adminhtml_Controller_act
 	}
 	*/
 	public function newAction(){
-		Mage::helper('wsu_mediacontroll')->compareList();
+		Mage::helper('mediacontroll')->compareList();
 		$this->_redirect('*/*/');
 	}
 	
-	public function deleteAction() {
-		if( $this->getRequest()->getParam('id') > 0 ) {
+	public function deleteAction($id=0) {
+		$requestId = $this->getRequest()->getParam('id');
+		$imgcleanId = ($id > 0) ? $id : $requestId;
+		if( $imgcleanId > 0 ) {
 			try {
-				$model = Mage::getModel('mediacontroll/imgclean');
-				$model->load($this->getRequest()->getParam('id'));
+				$model = Mage::getModel('wsu_mediacontroll/imgclean');
+				$model->load($imgcleanId);
 				unlink('media/catalog/product'. $model->getFilename());
-				$model->setId($this->getRequest()->getParam('id'))->delete();
-
-				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('wsu_mediacontroll')->__('Image was successfully deleted'));
-				$this->_redirect('*/*/');
+				$model->setId($imgcleanId)->delete();
+				if($requestId>0){
+					Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('mediacontroll')->__('Image was successfully deleted'));
+					$this->_redirect('*/*/');
+				}
 			} catch (Exception $e) {
 				Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-				$this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
+				if($requestId>0)$this->_redirect( '*/*/edit', array('id' => $imgcleanId) );
 			}
 		}
-		$this->_redirect('*/*/');
+		if($requestId>0)$this->_redirect('*/*/');
 	}
 
     public function massDeleteAction() {
@@ -48,11 +55,8 @@ class Wsu_Mediacontroll_ImgcleanController extends Mage_Adminhtml_Controller_act
 			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select item(s)'));
         } else {
             try {
-				$model = Mage::getModel('mediacontroll/imgclean');
                 foreach ($mediacontrollIds as $mediacontrollId) {
-					$model->load($mediacontrollId);
-					unlink('media/catalog/product'. $model->getFilename());
-					$model->setId($mediacontrollId)->delete();
+					$this-deleteAction($mediacontrollId);
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     Mage::helper('adminhtml')->__(

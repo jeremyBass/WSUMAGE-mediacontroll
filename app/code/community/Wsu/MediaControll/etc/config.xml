@@ -25,9 +25,9 @@
   </frontend>
   <global>
     <helpers>
-      <wsu_mediacontroll>
+      <mediacontroll>
         <class>Wsu_Mediacontroll_Helper</class>
-      </wsu_mediacontroll>
+      </mediacontroll>
     </helpers>
     <blocks>
       <mediacontroll>
@@ -40,7 +40,6 @@
       </adminhtml>
     </blocks>
 	<models>
-
       <wsu_mediacontroll>
         <class>Wsu_Mediacontroll_Model</class>
         <resourceModel>wsu_mediacontroll_resource</resourceModel>
@@ -110,7 +109,7 @@
 			<children>
 				<tools>
 					<children>
-						<imgclean translate="title" module="wsu_mediacontroll">
+						<imgclean translate="title" module="mediacontroll">
 							<title>Rouge Img Cleaner</title>
 							<action>mediacontroll/imgclean</action>
 							<sort_order>0</sort_order>
@@ -135,6 +134,15 @@
         </admin>
       </resources>
     </acl>
+    <translate>
+      <modules>
+        <Wsu_Mediacontroll>
+          <files>
+            <default>Wsu_Mediacontroll.csv</default>
+          </files>
+        </Wsu_Mediacontroll>
+      </modules>
+    </translate>
   </adminhtml>
   <default>
     <wsu_mediacontroll>

@@ -8,7 +8,7 @@ class Wsu_Mediacontroll_Model_Source_FilePickerServices {
 		foreach ($services as $service) {
 			$options[] = array(
 				'value'=> 'filepicker.SERVICES.'.$service,
-				'label' => Mage::helper('wsu_mediacontroll')->__($service)
+				'label' => Mage::helper('mediacontroll')->__($service)
 			);
 		}
 		return $options;

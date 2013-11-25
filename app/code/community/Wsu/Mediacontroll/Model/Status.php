@@ -5,8 +5,8 @@ class Wsu_Mediacontroll_Model_Status extends Varien_Object {
 
     static public function getOptionArray() {
         return array(
-            self::STATUS_ENABLED    => Mage::helper('wsu_mediacontroll')->__('Enabled'),
-            self::STATUS_DISABLED   => Mage::helper('wsu_mediacontroll')->__('Disabled')
+            self::STATUS_ENABLED    => Mage::helper('mediacontroll')->__('Enabled'),
+            self::STATUS_DISABLED   => Mage::helper('mediacontroll')->__('Disabled')
         );
     }
 }

@@ -3,8 +3,8 @@ class Wsu_Mediacontroll_Block_Imgclean extends Mage_Adminhtml_Block_Widget_Grid_
 	public function __construct() {
 		$this->_blockGroup = 'mediacontroll';
 		$this->_controller = 'imgclean';
-		$this->_headerText = Mage::helper('wsu_mediacontroll')->__('Items Manager. These files are not in database.');
-		$this->_addButtonLabel = Mage::helper('wsu_mediacontroll')->__('Refresh');
+		$this->_headerText = Mage::helper('mediacontroll')->__('Items Manager. These files are not in database.');
+		$this->_addButtonLabel = Mage::helper('mediacontroll')->__('Refresh');
 		parent::__construct();
 	}
 /*	
