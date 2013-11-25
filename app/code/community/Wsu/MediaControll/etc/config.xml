@@ -28,6 +28,11 @@
       <mediacontroll>
         <class>Wsu_Mediacontroll_Helper</class>
       </mediacontroll>
+      <catalog>
+        <rewrite>
+          <image>Wsu_Mediacontroll_Helper_Image</image>
+        </rewrite>
+      </catalog>
     </helpers>
     <blocks>
       <mediacontroll>
@@ -38,8 +43,9 @@
           <media_uploader>Wsu_Mediacontroll_Block_FilePicker</media_uploader>
         </rewrite>
       </adminhtml>
+      <!---->
     </blocks>
-	<models>
+    <models>
       <wsu_mediacontroll>
         <class>Wsu_Mediacontroll_Model</class>
         <resourceModel>wsu_mediacontroll_resource</resourceModel>
@@ -52,12 +58,12 @@
           </imgclean>
         </entities>
       </wsu_mediacontroll_resource>
-		<catalog>
-			<rewrite>
-				<product_image>Wsu_Mediacontroll_Model_Product_Image</product_image>
-			</rewrite>
-		</catalog>
-	</models>
+      <catalog>
+        <rewrite>
+          <product_image>Wsu_Mediacontroll_Model_Product_Image</product_image>
+        </rewrite>
+      </catalog>
+    </models>
     <resources>
       <wsu_mediacontroll_setup>
         <setup>
@@ -88,6 +94,37 @@
     </routers>
   </admin>-->
   <adminhtml>
+    <cms>
+      <browser>
+        <extensions>
+          <allowed>
+            <jpg>1</jpg>
+            <jpeg>1</jpeg>
+            <png>1</png>
+            <gif>1</gif>
+            <pdf>1</pdf>
+            <svg>1</svg>
+          </allowed>
+          <image_allowed>
+            <jpg>1</jpg>
+            <jpeg>1</jpeg>
+            <png>1</png>
+            <gif>1</gif>
+            <tiff>1</tiff>
+            <tif>1</tif>
+            <svg>1</svg>
+          </image_allowed>
+          <media_allowed>
+            <flv>1</flv>
+            <swf>1</swf>
+            <avi>1</avi>
+            <mov>1</mov>
+            <rm>1</rm>
+            <wmv>1</wmv>
+          </media_allowed>
+        </extensions>
+      </browser>
+    </cms>
     <layout>
       <updates>
         <wsu_mediacontroll>
@@ -104,21 +141,21 @@
         </Wsu_Mediacontroll>
       </modules>
     </translate>
-	<menu>
-		<system>
-			<children>
-				<tools>
-					<children>
-						<imgclean translate="title" module="mediacontroll">
-							<title>Rouge Img Cleaner</title>
-							<action>mediacontroll/imgclean</action>
-							<sort_order>0</sort_order>
-						</imgclean>
-					</children>
-				</tools>	  
-			</children>
-		</system>
-	</menu>
+    <menu>
+      <system>
+        <children>
+          <tools>
+            <children>
+              <imgclean translate="title" module="mediacontroll">
+                <title>Rouge Img Cleaner</title>
+                <action>mediacontroll/imgclean</action>
+                <sort_order>0</sort_order>
+              </imgclean>
+            </children>
+          </tools>
+        </children>
+      </system>
+    </menu>
     <acl>
       <resources>
         <all>
@@ -161,5 +198,16 @@
         <thumbnail_adapter>GD2</thumbnail_adapter>
       </watermark>
     </design>
+    <catalog>
+      <nicerimagenames>
+        <disable_ext>0</disable_ext>
+        <map>%requestHost-%manufacturer-%sku</map>
+        <unique>1</unique>
+        <lowercase>0</lowercase>
+        <generate_labels>0</generate_labels>
+        <use_filename_map_for_labels>1</use_filename_map_for_labels>
+        <label_map>%name %sku</label_map>
+      </nicerimagenames>
+    </catalog>
   </default>
 </config>

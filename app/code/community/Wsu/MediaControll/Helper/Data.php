@@ -7,7 +7,6 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
     public function getImageAdapter($value){
         return Varien_Image_Adapter::factory($value);
     }
-	
 
 	protected $result = array();
 	protected $_mainTable;

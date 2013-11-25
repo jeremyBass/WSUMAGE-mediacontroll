@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <config>
   <sections>
+  
+  <!--@todo move this -->
 	<design>
 		<groups>
 			<watermark>
@@ -19,8 +21,112 @@
 			</watermark>
 		</groups>
 	</design>
-    <wsu_mediacontroll translate="label comment" module="wsu_mediacontroll">
-      <label>Wsu Mediacontroll</label>
+	
+	<!--@todo move this -->
+        <catalog> 
+			<show_in_store>1</show_in_store>
+            <groups>
+                <nicerimagenames translate="label" module="mediacontroll">
+                    <label>Nicer Image Names [Netzarbeiter Extension]</label>
+                    <sort_order>565</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <disable_ext translate="label" module="mediacontroll">
+                            <label>Disable NicerImageNames Extension</label>
+                            <frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </disable_ext>
+                        <map translate="label comment" module="mediacontroll">
+                            <label>Image Name Map</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Use %attribute to include an attribute value in the image name, e.g. %sku.</comment>
+                            <depends>
+                                <disable_ext>0</disable_ext>
+                            </depends>
+                        </map>
+                        <unique translate="label" module="mediacontroll">
+                            <label>Make Images Unique by appending a Number</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <disable_ext>0</disable_ext>
+                            </depends>
+                        </unique>
+                        <lowercase translate="label" module="mediacontroll">
+                            <label>Lowercase Image Names</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <disable_ext>0</disable_ext>
+                            </depends>
+                        </lowercase>
+                        <generate_labels translate="label comment" module="mediacontroll">
+                            <label>Generate ALT Attributes if Emtpy</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Select "Yes" to configure.</comment>
+                            <depends>
+                                <disable_ext>0</disable_ext>
+                            </depends>
+                        </generate_labels>
+                        <use_filename_map_for_labels translate="label comment" module="mediacontroll">
+                            <label>Use the same Map for ALT as for the File Names</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Select "No" to configure.</comment>
+                            <depends>
+                                <disable_ext>0</disable_ext>
+                                <generate_labels>1</generate_labels>
+                            </depends>
+                        </use_filename_map_for_labels>
+                        <label_map translate="label" module="mediacontroll">
+                            <label>ALT Name Map</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Use %attribute to include an attribute value in the image name, e.g. %sku.</comment>
+                            <depends>
+                                <disable_ext>0</disable_ext>
+                                <generate_labels>1</generate_labels>
+                                <use_filename_map_for_labels>0</use_filename_map_for_labels>
+                            </depends>
+                        </label_map>
+                    </fields>
+                </nicerimagenames>				
+            </groups>
+        </catalog>
+	
+	
+    <wsu_mediacontroll translate="label comment" module="mediacontroll">
+      <label>Media Controll</label>
       <tab>utilitiestab</tab>
       <sort_order>1000</sort_order>
       <show_in_default>1</show_in_default>
@@ -28,7 +134,7 @@
       <show_in_store>1</show_in_store>
       <groups>
         <hint>
-          <frontend_model>wsu_mediacontroll/adminhtml_system_config_fieldset_hint</frontend_model>
+          <frontend_model>mediacontroll/adminhtml_system_config_fieldset_hint</frontend_model>
           <sort_order>0</sort_order>
           <show_in_default>1</show_in_default>
           <show_in_website>1</show_in_website>
@@ -54,12 +160,43 @@
 			<services translate="label comment">
 				<label>Services</label>
 				<frontend_type>multiselect</frontend_type>
-				<source_model>aoe_filepicker/source_filePickerServices</source_model>
+				<source_model>wsu_mediacontroll/source_filePickerServices</source_model>
 				<sort_order>20</sort_order>
 				<show_in_default>1</show_in_default>
 				<show_in_website>0</show_in_website>
 				<show_in_store>0</show_in_store>
 			</services>
+			<aviaryapikey translate="label comment"><!-- 4fe4c30e27e98731 6f5739478b08ddaf -->
+				<label>Aviary Editor's  API Key</label>
+				<frontend_type>text</frontend_type>
+				<comment><![CDATA[Sign up to <a href="https://www.aviary.com/">aviary</a> and get an API key from there.]]></comment>
+				<sort_order>30</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>0</show_in_website>
+				<show_in_store>0</show_in_store>
+			</aviaryapikey>
+			<editoralltools translate="label comment">
+				<label>Show All editor Tools</label>
+				<comment></comment>
+				<frontend_type>select</frontend_type>
+				<source_model>adminhtml/system_config_source_yesno</source_model>
+				<sort_order>40</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>1</show_in_website>
+				<show_in_store>1</show_in_store>
+			</editoralltools>
+				<editortools translate="label comment">
+					<label>Choose Editor tools</label>
+					<frontend_type>multiselect</frontend_type>
+					<source_model>wsu_mediacontroll/source_editorTools</source_model>
+					<sort_order>50</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>0</show_in_store>
+					<depends>
+						<editoralltools>0</editoralltools>
+					</depends>
+				</editortools>
             <!--
 			<theme translate="label">
               <label>Current Admin Theme</label>

@@ -2,16 +2,20 @@
 /**
  * @var $this Wsu_AdminTheme_Block_Adminhtml_System_Config_Fieldset_Hint
  */
+
+
+ $adapter =  Mage::getStoreConfig('design/watermark/image_adapter');
 ?>
 <div class="box">
-    <div style="background:url('#') no-repeat left center;padding-left:55px;min-height:42px;">
+    <div style="background:url('<?=Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)?>wsu-brand/bug-logotype.svg') no-repeat left top;padding-left:59px;min-height:59px;">
         <a href="https://github.com/washingtonstateuniversity/WSUMAGE-mediacontroll" target="_blank" style="float:right;">
-            <img src="#" alt="Fork me on GitHub" title="Fork me on GitHub" />
+            <img src="<?=Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)?>wsu-brand/Github-fork-icon.svg" alt="Fork me on GitHub" title="Fork me on GitHub" />
         </a>
-        <h4><?php echo $this->helper('mediacontroll')->__('Wsu Mediacontroll is a shell prime for growth.'); ?></h4>
+        
+        <h4><?php echo $this->helper('mediacontroll')->__('Media controll'); ?></h4>
         <p style="margin-bottom:0;"><?php echo $this->helper('mediacontroll')->__('Full overview available'); ?> <a href="<?php echo $this->escapeHtml($this->helper('mediacontroll')->__('#')); ?>" target="_blank"><?php echo $this->helper('mediacontroll')->__('here'); ?></a>.</p>
     </div>
 </div>
-<h2>Mediacontroll life</h2>
-<p>This is a module that is just a Mediacontroll.  It doesn't do anything but waste a minor amount of resources to be loaded up in the path of all the other extensions.  The goal is that you will take this mediacontroll and turn it into something useful.  Simply put, with a case sensitive sreach for `Mediacontroll`, `mediacontroll` and doing the same on the file and fold names as well, you will have forked your own extention and are ready to create your moddule.  Read more on this that and more <a href="#" target="_blank">here</a>.</p>
+<h2>you are useing image adapter <?php echo $adapter;?></h2>
+<p></p>
 <!-- note we will want to place a quick image of the structure here -->

@@ -18,10 +18,15 @@ class Wsu_Mediacontroll_Catalog_Product_GalleryController extends Mage_Adminhtml
 					'fileId' => 'image',
 					'fpResponse' => $fpImage
 				));
-
-				$uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
-				$uploader->addValidateCallback('catalog_product_image',
-					Mage::helper('catalog/image'), 'validateUploadFile');
+				$allowedImageTypes = array('jpg','jpeg','gif','png');
+				$adapter =  Mage::getStoreConfig('design/watermark/image_adapter');
+				if(strpos(strtolower($adapter),'imagemagic')>-1){
+					$expandedTypes = array('tiff', 'tif', 'svg');
+					$allowedImageTypes = array_merge($allowedImageTypes, $expandedTypes);
+				}
+				
+				$uploader->setAllowedExtensions($allowedImageTypes);
+				$uploader->addValidateCallback('catalog_product_image', Mage::helper('catalog/image'), 'validateUploadFile');
 				$uploader->setAllowRenameFiles(true);
 				$uploader->setFilesDispersion(true);
 				$result = $uploader->save(
