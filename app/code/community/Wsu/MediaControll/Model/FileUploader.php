@@ -7,7 +7,6 @@ class Wsu_Mediacontroll_Model_FileUploader extends Mage_Core_Model_File_Uploader
 	 * @param $fileId
 	 */
 	public function __construct(array $data) {
-
 		// parse filepicker.io's response
 		$fpResponse = $data['fpResponse'];
 		$fileName = $fpResponse['data']['filename'];

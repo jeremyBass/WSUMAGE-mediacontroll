@@ -2,8 +2,6 @@
 /**
  * @var $this Wsu_AdminTheme_Block_Adminhtml_System_Config_Fieldset_Hint
  */
-
-
  $adapter =  Mage::getStoreConfig('design/watermark/image_adapter');
 ?>
 <div class="box">
@@ -16,6 +14,6 @@
         <p style="margin-bottom:0;"><?php echo $this->helper('mediacontroll')->__('Full overview available'); ?> <a href="<?php echo $this->escapeHtml($this->helper('mediacontroll')->__('#')); ?>" target="_blank"><?php echo $this->helper('mediacontroll')->__('here'); ?></a>.</p>
     </div>
 </div>
-<h2>you are useing image adapter <?php echo $adapter;?></h2>
+<h2><?php echo $this->helper('adminhtml')->__('You are currently using the %s image adapter', $adapter); ?> <a href="<?php Mage::helper("adminhtml")->getUrl("admin/system_config/edit/section/design");?>">To switch Go to General/Design</a></h2>
 <p></p>
 <!-- note we will want to place a quick image of the structure here -->

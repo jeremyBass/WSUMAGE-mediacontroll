@@ -2,7 +2,7 @@
 <config>
   <sections>
   
-  <!--@todo move this -->
+  <!--@todo move this-->
 	<design>
 		<groups>
 			<watermark>
@@ -21,20 +21,20 @@
 			</watermark>
 		</groups>
 	</design>
-	
+	 
 	<!--@todo move this -->
         <catalog> 
 			<show_in_store>1</show_in_store>
             <groups>
-                <nicerimagenames translate="label" module="mediacontroll">
-                    <label>Nicer Image Names [Netzarbeiter Extension]</label>
+                <seoimagenames translate="label" module="mediacontroll">
+                    <label>Seo Image Names</label>
                     <sort_order>565</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
                         <disable_ext translate="label" module="mediacontroll">
-                            <label>Disable NicerImageNames Extension</label>
+                            <label>Disable Seo Image Names</label>
                             <frontend_type>select</frontend_type>
 							<source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>10</sort_order>
@@ -120,7 +120,7 @@
                             </depends>
                         </label_map>
                     </fields>
-                </nicerimagenames>				
+                </seoimagenames>				
             </groups>
         </catalog>
 	

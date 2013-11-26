@@ -6,15 +6,18 @@ class Wsu_Mediacontroll_Model_Source_Image_Adapter {
      * @return array
      */
     public function toOptionArray() {
-        return array(
+		$options = array(
             array(
                 'value' => Varien_Image_Adapter::ADAPTER_GD2,
                 'label' => Mage::helper('mediacontroll')->__('GD2 Adapter')
-            ),
-            array(
-                'value' => Varien_Image_Adapter::ADAPTER_IM,
-                'label' => Mage::helper('mediacontroll')->__('Imagemagick Adapter')
             )
         );
+		if(extension_loaded('imagick')){
+			$options[] = array(
+					'value' => Varien_Image_Adapter::ADAPTER_IM,
+					'label' => Mage::helper('mediacontroll')->__('Imagemagick Adapter')
+				);
+		}
+        return $options;
     }
 }

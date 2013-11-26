@@ -10,11 +10,11 @@ class Wsu_Mediacontroll_Helper_Image extends Mage_Catalog_Helper_Image {
      */
     public function init(Mage_Catalog_Model_Product $product, $attributeName, $imageFile = null) {
         parent::init($product, $attributeName, $imageFile);
-        if (!Mage::getStoreConfig("catalog/nicerimagenames/disable_ext")) {
+        if (!Mage::getStoreConfig("catalog/seoimagenames/disable_ext")) {
             $this->_getModel()->setNiceCacheName($this->_getGeneratedNameForImageAttribute($attributeName));
         }
-        if (Mage::getStoreConfig("catalog/nicerimagenames/generate_labels")) {
-            $this->_setNicerImageLabels($attributeName);
+        if (Mage::getStoreConfig("catalog/seoimagenames/generate_labels")) {
+            $this->_setSeoImageLabels($attributeName);
         }
         return $this;
     }
@@ -23,7 +23,7 @@ class Wsu_Mediacontroll_Helper_Image extends Mage_Catalog_Helper_Image {
      * 
      * @param string $attributeName One of 'image' or 'thumbnail' or 'small_image'
      */
-    protected function _setNicerImageLabels($attributeName) {
+    protected function _setSeoImageLabels($attributeName) {
         $map   = $this->_getNiceLabelMap();
         $label = $this->_getGeneratedNameForImageAttribute($attributeName, $map, false);
         // Set it on the product (used for the main product image in the view media template)
@@ -49,10 +49,10 @@ class Wsu_Mediacontroll_Helper_Image extends Mage_Catalog_Helper_Image {
      * @return string
      */
     protected function _getNiceLabelMap() {
-        if (Mage::getStoreConfig("catalog/nicerimagenames/use_filename_map_for_labels")) {
-            $map = Mage::getStoreConfig("catalog/nicerimagenames/map");
+        if (Mage::getStoreConfig("catalog/seoimagenames/use_filename_map_for_labels")) {
+            $map = Mage::getStoreConfig("catalog/seoimagenames/map");
         } else {
-            $map = Mage::getStoreConfig("catalog/nicerimagenames/label_map");
+            $map = Mage::getStoreConfig("catalog/seoimagenames/label_map");
         }
         return $map;
     }
@@ -66,7 +66,7 @@ class Wsu_Mediacontroll_Helper_Image extends Mage_Catalog_Helper_Image {
      */
     protected function _getGeneratedNameForImageAttribute($attributeName, $map = null, $forFiles = true) {
         if (!isset($map)) {
-            $map = Mage::getStoreConfig("catalog/nicerimagenames/map");
+            $map = Mage::getStoreConfig("catalog/seoimagenames/map");
         }
         if (preg_match_all('/(%([a-z0-9]+))/i', $map, $match, PREG_PATTERN_ORDER)) {
             for ($i = 0; $i < count($match[1]); $i++) {
@@ -79,7 +79,7 @@ class Wsu_Mediacontroll_Helper_Image extends Mage_Catalog_Helper_Image {
                 $map   = str_replace($match[1][$i], $value, $map);
             }
         }
-        if (Mage::getStoreConfig("catalog/nicerimagenames/unique")) {
+        if (Mage::getStoreConfig("catalog/seoimagenames/unique")) {
             $map .= '-' . $this->_imageAttributeNameToNum($attributeName);
             $map .= $this->_getMediaGalleryId();
         }
@@ -120,15 +120,6 @@ class Wsu_Mediacontroll_Helper_Image extends Mage_Catalog_Helper_Image {
      * @return string
      */
     protected function _getProductAttributeValue($attributeName, $_sentry = false) {
-        /*
-        if (! $product->getData('media_gallery'))
-        {
-        if ($backend = $this->_getMediaBackend($product))
-        {
-        $backend->afterLoad($product);
-        }
-        }
-        */
         /*
          * Transform camelCase to underscore (e.g. productName => product_name)
          */

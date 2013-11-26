@@ -76,11 +76,11 @@ class Wsu_Mediacontroll_Model_Product_Image extends Mage_Catalog_Model_Product_I
      */
     public function setBaseFile($file) {
         parent::setBaseFile($file);
-        if (!Mage::getStoreConfig("catalog/nicerimagenames/disable_ext")) {
+        if (!Mage::getStoreConfig("catalog/seoimagenames/disable_ext")) {
             // The $_newFile property is set during parent::setBaseFile()
             list($path, $file) = $this->_getFilePathAndName($this->_newFile);
             $file = $this->_getNiceFileName($file);
-            if (Mage::getStoreConfig("catalog/nicerimagenames/lowercase")) {
+            if (Mage::getStoreConfig("catalog/seoimagenames/lowercase")) {
                 $file = strtolower($file);
             }
             $this->_newFile = $path . $file; // the $file contains heading slash
