@@ -1,19 +1,36 @@
 // JavaScript Document
 (function($){
 	
+    var camAccess = {
+		extern		: null, // external select token to support jQuery dialogs
+		append		: true, // append object instead of overwriting
+		mode		: "stream", // callback | snap | save | stream
+		
+		width		: 320,
+		height		: 240,
+		swffile		: "jscam.swf",
+		quality		: 85,
+		append		: false,
+	
+		debug		: function(){},
+		onCapture	: function(){},
+		onTick		: function(){},
+		onSave		: function(){},
+		onLoad		: function(){},
+		
+		video		: true,
+		audio		: false,
+		success		: function(){},
+		fail		: function(){},
+		onStop		: function(){},
+		prePlay		: function(){},
+		console		: false
+    };
+
+    window.camAccess = camAccess;
 	
     $.fn.camAccess = function(options) {
-		
-        var settings = $.extend({
-			video		 : true,
-			audio		 : false,
-			mode		 : null,
-            success      : function(){},
-            fail         : function(video,error){},
-			onStop       : function(video){},
-			prePlay		 : function(video){},
-            console      : false
-        }, options);
+        $.extend(window.camAccess, options);
 		var audioSource	= null;
 		var videoSource	= null;
 		var ctx 		= null;
@@ -32,8 +49,6 @@
 			//set data
             navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
             window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
-
-
             // Call the getUserMedia method with our callback functions
             if (navigator.getUserMedia) {
 				buildPlayer();
@@ -42,6 +57,52 @@
             }
 
         }
+		
+		function iniFallback(){
+			var source = '<object id="XwebcamXobjectX" type="application/x-shockwave-flash" data="'+camAccess.swffile+'" width="'+camAccess.width+'" height="'+camAccess.height+'"><param name="movie" value="'+camAccess.swffile+'" /><param name="FlashVars" value="mode='+camAccess.mode+'&amp;quality='+camAccess.quality+'" /><param name="allowScriptAccess" value="always" /></object>';
+		
+			if (null !== camAccess.extern) {
+				$(camAccess.extern)[camAccess.append ? "append" : "html"](source);
+			} else {
+				this[camAccess.append ? "append" : "html"](source);
+			}
+		
+			(_register = function(run) {
+				var cam = document.getElementById('XwebcamXobjectX');
+				if (cam.capture !== undefined) {
+					/* Simple callback methods are not allowed :-/ */
+					camAccess.capture = function(x) {
+						try {
+							return cam.capture(x);
+						} catch(e) {}
+					}
+					camAccess.save = function(x) {
+						try {
+							return cam.save(x);
+						} catch(e) {}
+					}
+					camAccess.setCamera = function(x) {
+						try {
+							return cam.setCamera(x);
+						} catch(e) {}
+					}
+					camAccess.getCameraList = function() {
+						try {
+							return cam.getCameraList();
+						} catch(e) {}
+					}
+					camAccess.onLoad();
+				} else if (0 == run) {
+					camAccess.debug("error", "Flash movie not yet registered!");
+				} else {
+					/* Flash interface not ready yet */
+					window.setTimeout(_register, 1000 * (4 - run), run - 1);
+				}
+			})(3);	
+			
+		}
+		
+		
 		function buildPlayer(){
 				//do wrapers
 				if(video.closest('.cam_warpper').length<=0){
@@ -76,11 +137,8 @@
 
 				play_btn.on("click",function(e){
 					e.preventDefault();
-					//if (!!window.stream) {
-						//stop();
-					//}
-					
-					camOps = $.extend({video:settings.video},{audio:settings.audio},{});
+					//if (!!window.stream) { stop(); }
+					camOps = $.extend({video:camAccess.video},{audio:camAccess.audio},{});
 					navigator.getUserMedia({video: true}, onStream, function(error) { 
 						sendError(video,'Unable to get webcam stream.');
 					});
@@ -123,21 +181,18 @@
 			MediaStreamTrack.getSources(gotSources);
 		}
 
-		
-
-			
         // Define our error message
         function sendError(video,message) {
             var e = new Error();
-			if(settings.console) { console.error(message); }
-			if ( $.isFunction( settings.fail ) ) {
-				settings.fail.call( video, message );	
+			if(camAccess.console) { console.error(message); }
+			if ( $.isFunction( camAccess.fail ) ) {
+				camAccess.fail.call( video, message );	
 			}
         }
 
 		function onStream(stream) {
-			if ( $.isFunction( settings.prePlay ) ) {
-				settings.prePlay.call(video);	
+			if ( $.isFunction( camAccess.prePlay ) ) { //if default is a function then don't check
+				camAccess.prePlay.call(video);	
 			}
 			playStream(stream);
 		}
@@ -145,15 +200,15 @@
 		function stopStream(){
 			video.attr('src',null);
 			window.stream.stop();	
-			if ( $.isFunction( settings.onStop ) ) {
-				settings.onStop.call(video);	
+			if ( $.isFunction( camAccess.onStop ) ) {
+				camAccess.onStop.call(video);	
 			}
 		}
 
 		function playStream(stream){
 			localstream = null;
 
-			if(settings.mode=="snap"){
+			if(camAccess.mode=="snap"){
 				action = function () {
 					canvas 		= video.next('canvas');
 					preview 	= video.next('.cam_snap_canvas');
@@ -170,9 +225,7 @@
 				e.preventDefault();
 				action();
 			});
-	
 
-			
 			// Set the source of the video element with the stream from the camera
 			if (video.attr("mozSrcObject") !== undefined) {
 				video.attr("mozSrcObject",stream);
@@ -186,8 +239,6 @@
 					settings.success.call($(video),video);	
 				}
 		 	});
-
-
 		}
 
 
