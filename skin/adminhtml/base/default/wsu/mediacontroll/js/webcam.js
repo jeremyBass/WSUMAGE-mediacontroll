@@ -140,7 +140,8 @@
 					//if (!!window.stream) { stop(); }
 					camOps = $.extend({video:camAccess.video},{audio:camAccess.audio},{});
 					navigator.getUserMedia({video: true}, onStream, function(error) { 
-						sendError(video,'Unable to get webcam stream.');
+						iniFallback();
+						//sendError(video,'Unable to get webcam stream.');
 					});
 				});	
 			
