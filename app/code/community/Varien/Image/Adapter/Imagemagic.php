@@ -52,14 +52,12 @@ class Varien_Image_Adapter_Imagemagic extends Varien_Image_Adapter_Abstract {
             }
         }
         //set compression quality
-        $this->getImageMagick()->setImageCompressionQuality($this->getQuality());
-        //remove all underlying information
-        $this->getImageMagick()->stripImage();
-        //write to file system
-        $this->getImageMagick()->writeImage($fileName);
-        //clear data and free resources
-        $this->getImageMagick()->clear();
-        $this->getImageMagick()->destroy();
+		$IM = $this->getImageMagick();
+        $IM->setImageCompressionQuality($this->getQuality());
+        $IM->stripImage(); //remove all underlying information
+        $IM->writeImage($fileName);
+        $IM->clear();
+        $IM->destroy();
     }
     /**
      * Just display the image
@@ -77,10 +75,10 @@ class Varien_Image_Adapter_Imagemagic extends Varien_Image_Adapter_Abstract {
         if (empty($frameWidth) && empty($frameHeight)) {
             throw new Exception('Invalid image dimensions.');
         }
-        $imagick    = $this->getImageMagick();
+        $IM    = $this->getImageMagick();
         // calculate lacking dimension
-        $origWidth  = $imagick->getImageWidth();
-        $origHeight = $imagick->getImageHeight();
+        $origWidth  = $IM->getImageWidth();
+        $origHeight = $IM->getImageHeight();
         if ($this->keepFrame() === TRUE) {
             if (null === $frameWidth) {
                 $frameWidth = $frameHeight;
@@ -101,8 +99,8 @@ class Varien_Image_Adapter_Imagemagic extends Varien_Image_Adapter_Abstract {
             }
         }
         // Resize
-        $imagick->setimageinterpolatemethod(imagick::INTERPOLATE_BICUBIC);
-        $imagick->scaleimage($frameWidth, $frameHeight, true);
+        $IM->setimageinterpolatemethod(imagick::INTERPOLATE_BICUBIC);
+        $IM->scaleimage($frameWidth, $frameHeight, true);
         // Fill desired canvas
         if ($this->keepFrame() === TRUE && $frameWidth != $origWidth && $frameHeight != $origHeight) {
             $composite = new Imagick();
@@ -113,11 +111,11 @@ class Varien_Image_Adapter_Imagemagic extends Varien_Image_Adapter_Abstract {
                 $bgColor = new ImagickPixel('white');
             }
             $composite->newimage($frameWidth, $frameHeight, $bgColor);
-            $composite->setimageformat($imagick->getimageformat());
-            $composite->setimagecolorspace($imagick->getimagecolorspace());
-            $dstX = floor(($frameWidth - $imagick->getimagewidth()) / 2);
-            $dstY = floor(($frameHeight - $imagick->getimageheight()) / 2);
-            $composite->compositeimage($imagick, Imagick::COMPOSITE_OVER, $dstX, $dstY);
+            $composite->setimageformat($IM->getimageformat());
+            $composite->setimagecolorspace($IM->getimagecolorspace());
+            $dstX = floor(($frameWidth - $IM->getimagewidth()) / 2);
+            $dstY = floor(($frameHeight - $IM->getimageheight()) / 2);
+            $composite->compositeimage($IM, Imagick::COMPOSITE_OVER, $dstX, $dstY);
             $this->_imageHandler = $composite;
             $imagick->clear();
             $imagick->destroy();
@@ -217,6 +215,7 @@ class Varien_Image_Adapter_Imagemagic extends Varien_Image_Adapter_Abstract {
         }
         return true;
     }
+	
     public function __destruct() {
         @$this->getImageMagick()->clear();
         @$this->getImageMagick()->destroy();
