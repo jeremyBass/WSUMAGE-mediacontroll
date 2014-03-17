@@ -31,22 +31,28 @@ class Wsu_Mediacontroll_ImgcleanController extends Mage_Adminhtml_Controller_act
 	public function deleteAction($id=0) {
 		$requestId = $this->getRequest()->getParam('id');
 		$imgcleanId = ($id > 0) ? $id : $requestId;
+		$affected = array();
 		if( $imgcleanId > 0 ) {
 			try {
 				$model = Mage::getModel('wsu_mediacontroll/imgclean');
 				$model->load($imgcleanId);
-				unlink('media/catalog/product'. $model->getFilename());
+				$file = 'media/catalog/product'. $model->getFilename();
+				unlink($file);
 				$model->setId($imgcleanId)->delete();
+				Mage::log('Deleted media file: '.$file, Zend_Log::WARN);
 				if($requestId>0){
 					Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('mediacontroll')->__('Image was successfully deleted'));
 					$this->_redirect('*/*/');
 				}
+
 			} catch (Exception $e) {
 				Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
 				if($requestId>0)$this->_redirect( '*/*/edit', array('id' => $imgcleanId) );
 			}
 		}
-		if($requestId>0)$this->_redirect('*/*/');
+		if($requestId>0){
+			$this->_redirect('*/*/');
+		}
 	}
 
     public function massDeleteAction() {
