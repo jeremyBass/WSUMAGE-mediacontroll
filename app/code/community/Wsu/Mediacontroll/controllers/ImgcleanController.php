@@ -56,7 +56,7 @@ class Wsu_Mediacontroll_ImgcleanController extends Mage_Adminhtml_Controller_act
         } else {
             try {
                 foreach ($mediacontrollIds as $mediacontrollId) {
-					$this-deleteAction($mediacontrollId);
+					$this->deleteAction($mediacontrollId);
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     Mage::helper('adminhtml')->__(
