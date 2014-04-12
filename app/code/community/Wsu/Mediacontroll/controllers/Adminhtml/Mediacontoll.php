@@ -15,6 +15,11 @@ class Wsu_Mediacontroll_Adminhtml_MediacontrollController extends Mage_Adminhtml
         $this->renderLayout();
     }
 
+    public function deleteActionAction(){
+
+        return $this->_redirect('*/*/');
+    }
+
 
 
 
