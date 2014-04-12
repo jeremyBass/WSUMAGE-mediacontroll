@@ -25,6 +25,14 @@ class Wsu_Mediacontroll_Block_Adminhtml_Tabs extends Mage_Adminhtml_Block_Widget
 					})
 				), PHP_EOL;
 		*/
+        $this->addTab('orphaned_section', array(
+            'label'     => Mage::helper('mediacontroll')->__('Orphaned Images'),
+            'title'     => Mage::helper('mediacontroll')->__('Orphaned Images'),
+            'url'       => $this->getUrl('*/*/orphaned', array('_current' => true)),
+            'class'     => 'ajax',
+            'active'    => $activeSection === 'orphaned',
+        ));
+		
         $this->addTab('missingSorted_section', array(
             'label'     => Mage::helper('mediacontroll')->__('Missing Sorted'),
             'title'     => Mage::helper('mediacontroll')->__('Missing Sorted'),
@@ -51,8 +59,7 @@ class Wsu_Mediacontroll_Block_Adminhtml_Tabs extends Mage_Adminhtml_Block_Widget
 
         return parent::_beforeToHtml();
     }
-	
-	
+
 	
 }
 
