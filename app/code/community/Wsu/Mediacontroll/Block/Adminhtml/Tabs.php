@@ -59,7 +59,15 @@ class Wsu_Mediacontroll_Block_Adminhtml_Tabs extends Mage_Adminhtml_Block_Widget
 
         return parent::_beforeToHtml();
     }
+	
+    protected function _getActiveSection($default = 'orphaned'){
+        $activeSection = Mage::getSingleton('adminhtml/session')->getActiveSection();
+        if (!$activeSection) {
+            $activeSection = $default;
+        }
 
+        return $activeSection;
+    }
 	
 }
 
