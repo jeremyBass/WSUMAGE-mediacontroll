@@ -9,6 +9,19 @@ class Wsu_Mediacontroll_Adminhtml_MediacontrollController extends Mage_Adminhtml
     }
 
 
+    public function orphanedAction(){
+        $this->_getSession()->setActiveSection('orphaned');
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+
+
+
+
+
+
+
 
 
 
