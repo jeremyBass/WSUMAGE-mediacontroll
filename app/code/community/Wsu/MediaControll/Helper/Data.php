@@ -67,21 +67,6 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
     /**
      * Get a collection of products that have images that are unassigned
      *	//@return array
-     *	$tmp = array(
-     *		$prodId => array(
-     *			"hasAssigned"=>True/False, //were there any images for this product assigned
-     *			"missingAssigned"=>True/False, //where there any images for this product unassigned
-     *			"hasSorted"=>True/False, //where there any images for this product sorted
-     *			"missingSorted"=>True/False, //where there any images for this product unsorted
-     *			"images"=> array(
-     *				$imgID => array(
-     *					"isSorted" => True/False, //does this image have a sort value of > 1
-     *					"isAssgined" => True/False //does this image have an assignment like "Base Image"
-	 * 					"object" => Mage_Catalog_Model_Product_Image
-     *				)
-     *			)
-     *		)
-     *	);
      */
 	public function get_ProductImages(){
 		$collection = Mage::getModel('catalog/product')
@@ -89,6 +74,8 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 						->addAttributeToSelect('image')
 						->addAttributeToSelect('media_gallery');
 		$totalProducts = 1000;
+		$sortIndex=0;
+		
 
 		$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
 			//->joinField('category_id','catalog/category_product','category_id','product_id=entity_id',null,'left')
@@ -101,20 +88,19 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		$productBasedImgCollection->setPage(1,$totalProducts);	
 		
 		
-		
+		$productImgCollection=array();
 		foreach($productBasedImgCollection as $product){
-			$imgObj = array();
+			
+			$productArray=array();
 			$_prod = Mage::getModel('catalog/product')->load($product->getId());
+			$productArray['id']= (int)$product->getId();
+			$productArray['name']= $_prod->getName();
+			
 			$types=array();
 			foreach ($_prod->getMediaAttributes() as $attribute) {
 				$types[] = $attribute->getAttributeCode();
 			}
-			
-			echo "PROD", PHP_EOL;
-			echo  "id=>",$product->getId(), PHP_EOL;
-			echo  "imageTypes=>",$product->getId(), PHP_EOL;
 
-			//var_dump($imageTypes);
 			$attrImgs=array();
 			foreach ($types as $type){
 				$imgHelper = Mage::helper('catalog/image');
@@ -122,110 +108,131 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 				try{
 					$filename = Mage::helper('catalog/image')->init($_prod, $type);
 				}catch(Exception $e){}
-				echo " ==>",$type, PHP_EOL;
+
 				if ($filename=="") {
-					echo " 	==>","NULL", PHP_EOL;
+
 				} else {
 					$attrImgs[$type] = $filename."";
-					echo " 	==>",$filename, PHP_EOL;
 				}	
 			}
+			$productArray['types']=$attrImgs;
+				
 							
-			$_images = $_prod->getMediaGalleryImages();
+			$_images = $_prod->getMediaGallery('images');
 			$_assignCount = 0;
 			$_sortedCount = 0;
 
+			$_prodImgObj = array();
+			$_sortedArray=array();
 			if(count($_images)){
-				echo "  IMG_GAL=>",PHP_EOL;
+				//echo "  IMG_GAL=>",PHP_EOL;
 				foreach ($_images as $_image){
-
-					echo "    {",PHP_EOL;
-					echo "       ID==>",$_image->getId(), PHP_EOL;
+					$_imgObj=array();
+					$IMGID=$_image['value_id'];
 					
-					$filenameTest = basename($_image->getFile(), ".jpg").'/';
+					$_imgObj['id']=(int)$IMGID;
+
+					$typed_as=array();
+					$filenameTest = basename($_image['file'], ".jpg").'/';
 					foreach ($attrImgs as $code=>$setFile){	
 						if(strpos($setFile,$filenameTest)>-1){
-							echo "       ${code}==>","ture", PHP_EOL;
+
+							$typed_as[]=$code;
 							$_assignCount++;
 						}
 					}
-					echo "       File==>",$_image->getFile(), PHP_EOL;
-					echo "       getGalleryUrl==>",$_image->getGalleryUrl(), PHP_EOL;
-					echo "       LABLE==>",$_image->getImageLabel(), PHP_EOL;
-					echo "       POSITION==>",$_image->getPosition(), PHP_EOL;
 					
-					if($_image->getPosition()>-1){
+					$position=$_image['position'];
+					
+						$_imgObj['position']=$position;
+						$_imgObj['lable']=$_image['label'];
+						$_imgObj['file']=$_image['file'];
+						$_imgObj['typed_as']=$typed_as;
+					
+					if($position>-1){
+						$_sortedArray[$IMGID]=$position;
 						$_sortedCount++;
 					}
-
-					//var_dump($_image);
-					echo "    }",PHP_EOL;
+					$_prodImgObj[]=$_imgObj;
+				}
+				
+			}
+			
+			$_sortIndexes=array();
+			$_sortConflict=array();
+			foreach($_sortedArray as $k=>$v){
+				if(isset($_sortIndexes[$v])){
+					unset($_sortedArray[$k]);
+					$_sortConflict[$k]=$v;
+				}else{
+					$_sortIndexes[$v]=$k;	
 				}
 			}
-			$imgObj['missingSorted'] = $_sortedCount>0 && $_sortedCount!=count($_images);
+			
+			$missingSort = $_sortedCount>0 && ( count($_sortConflict)>0 || count($_sortedArray)!=count($_images) || $_sortedCount!=count($_images) );
+
+			$imgObj = array();
+			$imgObj['missingSorted'] = $missingSort;
 			$imgObj['hasSorted'] = $_sortedCount>0;
-			$imgObj['missingAssigned'] = $_assignCount>0 && $_sortedCount!=count($attrImgs);
-			$imgObj['hasAssigned'] = $_assignCount>0;	
-			var_dump($imgObj);//die();
-						
-			//$img = Mage::helper('catalog/image')->init($product, 'image');
-			//var_dump($img);die();
+			$imgObj['hasSortIndexStart'] = isset($_sortIndexes[$sortIndex]);
+			$imgObj['missingAssigned'] = $_assignCount>0 && $_assignCount!=count($attrImgs);
+			$imgObj['hasAssigned'] = $_assignCount>0;
+			$imgObj['imgs'] =$_prodImgObj;
 			
-			//echo "IMG=>",$img->getLable(), PHP_EOL;
+			$productArray['productImageProfile'] = $imgObj;
+
+			$productImgCollection[]=$productArray;
 			
-			
-		}die();
-		return $productBasedImgCollection;
+		}
+		/*
+		echo 'total products with images',' ',count($productImgCollection), PHP_EOL;
+		
+		echo 'total products missing starting sort idexes',' ',count(array_filter($productImgCollection, function($val){
+						return $val['productImageProfile']['hasSortIndexStart'];
+					})
+				), PHP_EOL;
+		echo 'total products missing sorted',' ',count(array_filter($productImgCollection, function($val){
+						return $val['productImageProfile']['missingSorted'];
+					})
+				), PHP_EOL;
+		echo 'total products missing assigned',' ',count(array_filter($productImgCollection, function($val){
+						return $val['productImageProfile']['missingAssigned'];
+					})
+				), PHP_EOL;
+		*/
+		return $productImgCollection;
 	}
+	
 	/*
 	* @return array of products that have images that are unassigned
 	*/	
 	public function get_ProductUnassignedImages(){
 		
 		$data = $this->get_ProductImages();
-		
-		var_dump($data);die();
-		
-		
-		$_array = array_filter($data, function ($item) use ($data) {
-			$prodImgs = $item["images"];
-			$_prop_array = array_filter($prodImgs, function ($prop) use ($prodImgs) {
-				return strlen($prop["object"]->getLable())>1;
-			});
-			return !empty($_prop_array);
-		});
+		echo 'total products with images',' ',count($data), PHP_EOL;
+		$_array = array_filter($data, function($val){
+						return $val['productImageProfile']['missingAssigned'];
+					});
+		echo 'total products missing assigned',' ',count($_array), PHP_EOL;			
+		var_dump($_array);die();
+					
 		return $_array;
 	}
+	
 	/*
 	* @return array of products that have images that are unsorted
 	*/	
 	public function get_ProductUnsortedImages(){
 		$data = $this->get_ProductImages();
-		$_array = array_filter($data, function ($item) use ($data) {
-			$prodImgs = $item["images"];
-			$_prop_array = array_filter($prodImgs, function ($prop) use ($prodImgs) {
-				return strlen($prop["object"]->getLable())>1;
-			});
-			return !empty($_prop_array);
-		});
+		echo 'total products with images',' ',count($data), PHP_EOL;
+		$_array = array_filter($data, function($val){
+						return $val['productImageProfile']['missingSorted'];
+					});
+		echo 'total products missing sorted',' ',count($_array), PHP_EOL;			
+		var_dump($_array);die();
+		
 		return $_array;
 	}
-	/*
-	* @return array of products that have images that are missing a lable
-	*/
-	public function get_ProductUnlabledImages(){
-		$data = $this->get_ProductImages();
-		$_array = array_filter($data, function ($item) use ($data) {
-			$prodImgs = $item["images"];
-			$_prop_array = array_filter($prodImgs, function ($prop) use ($prodImgs) {
-				return strlen($prop["object"]->getLable())>1;
-			});
-			return !empty($_prop_array);
-		});
-		return $_array;
-	}
-	
-	
-	
+
 	
 }
