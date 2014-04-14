@@ -15,12 +15,26 @@ class Wsu_Mediacontroll_ImgcleanController extends Mage_Adminhtml_Controller_act
 
     public function indexAction() {
 		
-		Mage::helper('mediacontroll')->get_ProductUnsortedImages();
-        $this->_initAction()->_addContent($this->getLayout()->createBlock('mediacontroll/imgclean'))->renderLayout();
+		
+        $this->_initAction()->_addContent($this->getLayout()->createBlock('mediacontroll/imgclean'));
+		
+		$this->renderLayout();
     }
+/*	
+	public function idUnsortedAction() {
+		Mage::helper('mediacontroll')->get_ProductUnsortedImages();
+		
+		$this->_initAction()->_addContent($this->getLayout()->createBlock('mediacontroll/imgclean'));
+		
+		$this->renderLayout();
+	}
 
 
-/*	public function indexAction() {
+
+
+
+
+public function indexAction() {
 		$this->_initAction()
 			->renderLayout();
 	}

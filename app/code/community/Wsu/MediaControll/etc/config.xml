@@ -151,6 +151,11 @@
                 <action>mediacontroll/imgclean</action>
                 <sort_order>0</sort_order>
               </imgclean>
+              <media translate="title" module="mediacontroll">
+                <title>Media Controll</title>
+                <action>mediacontroll/media</action>
+                <sort_order>0</sort_order>
+              </media>
             </children>
           </tools>
         </children>

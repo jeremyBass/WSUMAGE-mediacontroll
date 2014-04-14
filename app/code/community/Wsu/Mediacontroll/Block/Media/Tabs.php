@@ -1,12 +1,10 @@
 <?php
-
-class Wsu_Mediacontroll_Block_Adminhtml_Tabs extends Mage_Adminhtml_Block_Widget_Tabs {
+class Wsu_Mediacontroll_Block_Medial_Tabs extends Mage_Adminhtml_Block_Widget_Tabs {
     public function __construct(){
         parent::__construct();
-        $this->setId('mc_img_tabs');
-        $this->setTitle(Mage::helper('mediacontroll')->__('Image controls'));
+        $this->setId('mediacontroll_tabs');
+        $this->setTitle(Mage::helper('mediacontroll')->__('media controll'));
     }
-	
     protected function _beforeToHtml(){
         $activeSection = $this->_getActiveSection();
 		/*
@@ -32,30 +30,7 @@ class Wsu_Mediacontroll_Block_Adminhtml_Tabs extends Mage_Adminhtml_Block_Widget
             'class'     => 'ajax',
             'active'    => $activeSection === 'orphaned',
         ));
-		
-        $this->addTab('missingSorted_section', array(
-            'label'     => Mage::helper('mediacontroll')->__('Missing Sorted'),
-            'title'     => Mage::helper('mediacontroll')->__('Missing Sorted'),
-            'url'       => $this->getUrl('*/*/missingSorted', array('_current' => true)),
-            'class'     => 'ajax',
-            'active'    => $activeSection === 'missingSorted',
-        ));
 
-        $this->addTab('missingAssigned_section', array(
-            'label'     => Mage::helper('mediacontroll')->__('Missing Assigned'),
-            'title'     => Mage::helper('mediacontroll')->__('Missing Assigned'),
-            'url'       => $this->getUrl('*/*/missingAssigned', array('_current' => true)),
-            'class'     => 'ajax',
-            'active'    => $activeSection === 'missingAssigned',
-        ));
-
-        $this->addTab('missSorted_section', array(
-            'label'     => Mage::helper('mediacontroll')->__('Miss Sorted'),
-            'title'     => Mage::helper('mediacontroll')->__('Miss Sorted'),
-            'url'       => $this->getUrl('*/*/missSorted', array('_current' => true)),
-            'class'     => 'ajax',
-            'active'    => $activeSection === 'missSorted',
-        ));
 
         return parent::_beforeToHtml();
     }
@@ -68,7 +43,4 @@ class Wsu_Mediacontroll_Block_Adminhtml_Tabs extends Mage_Adminhtml_Block_Widget
 
         return $activeSection;
     }
-	
 }
-
-

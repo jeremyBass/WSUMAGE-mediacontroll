@@ -1,6 +1,6 @@
 <?php
 
-class Wsu_Mediacontroll_Block_Adminhtml_Orphaned_Grid extends Mage_Adminhtml_Block_Widget_Grid {
+class Wsu_Mediacontroll_Block_Media_Orphaned_Grid extends Mage_Adminhtml_Block_Widget_Grid {
     public function __construct()
     {
         parent::__construct();
