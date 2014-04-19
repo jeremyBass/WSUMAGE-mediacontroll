@@ -54,7 +54,25 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 	
 	
 	
+
+	/**
+	 * Creating new varien collection  
+	 * for given array or object 
+	 * 
+	 * @param array|object $items   Any array or object 
+	 * @return Varien_Data_Collection $collection 
+	 */ 
 	
+	public function getVarienDataCollection($items) { 
+		$collection = new Varien_Data_Collection();              
+		foreach ($items as $item) { 
+			$varienObject = new Varien_Object(); 
+			$varienObject->setData($item); 
+			$collection->addItem($varienObject); 
+		} 
+		return $collection; 
+	} 
+
 	
 	
 	
