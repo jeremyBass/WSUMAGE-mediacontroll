@@ -111,7 +111,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			
 			$productArray=array();
 			$_prod = Mage::getModel('catalog/product')->load($product->getId());
-			$productArray['id']= (int)$product->getId();
+			$productArray['prod_id']= (int)$product->getId();
 			$productArray['name']= $_prod->getName();
 			
 			$types=array();
