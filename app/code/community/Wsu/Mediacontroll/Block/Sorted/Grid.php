@@ -8,8 +8,9 @@ class Wsu_Mediacontroll_Block_Sorted_Grid extends Mage_Adminhtml_Block_Widget_Gr
 		$this->setSaveParametersInSession(true);	  
 	}
 	protected function _prepareCollection() {
-		$collection = Mage::getModel('wsu_mediacontroll/Sorted')->getCollection();
-		$this->setCollection($collection);
+		$prod_array = Mage::helper('mediacontroll')->get_ProductUnsortedImages();
+		$prod_collection = Mage::helper('mediacontroll')->getVarienDataCollection($prod_array);
+		$this->setCollection($prod_collection);
 		return parent::_prepareCollection();
 	}
 
