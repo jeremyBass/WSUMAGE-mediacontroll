@@ -151,6 +151,25 @@
                 <action>mediacontroll/imgclean</action>
                 <sort_order>0</sort_order>
               </imgclean>
+			  
+              <orphaned translate="title" module="mediacontroll">
+                <title>Orphaned Images</title>
+                <action>mediacontroll/orphaned</action>
+                <sort_order>0</sort_order>
+              </orphaned>
+			  
+              <assignment translate="title" module="mediacontroll">
+                <title>Image Assignment assessment</title>
+                <action>mediacontroll/assignment</action>
+                <sort_order>0</sort_order>
+              </assignment>			  
+			  
+              <sorted translate="title" module="mediacontroll">
+                <title>Image Sorting assessment</title>
+                <action>mediacontroll/sorted</action>
+                <sort_order>0</sort_order>
+              </sorted>		
+			  
               <media translate="title" module="mediacontroll">
                 <title>Media Controll</title>
                 <action>mediacontroll/media</action>
