@@ -79,11 +79,15 @@ public function indexAction() {
 				if($i>1){
 					$product->getResource()->saveAttribute($product, 'media_gallery');
 					$product->save();
-					Mage::getSingleton('adminhtml/session')->addSuccess(
-						Mage::helper('mediacontroll')->__('Product Images were successfully reSorted from 0-'.$i)
-						);
+					if($requestId>0){
+						Mage::getSingleton('adminhtml/session')->addSuccess(
+							Mage::helper('mediacontroll')->__('Product Images were successfully reSorted from 0-'.$i)
+							);
+					}
 				}else{
-					Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('mediacontroll')->__('Product Image wasn\'t able to be done.'));	
+					if($requestId>0){
+						Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('mediacontroll')->__('Product Image wasn\'t able to be done.'));
+					}
 				}
 				$this->_redirect('*/*/');
 			} catch (Exception $e) {
@@ -106,7 +110,7 @@ public function indexAction() {
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     Mage::helper('adminhtml')->__(
-                        'Total of %d record(s) were successfully deleted', count($mediacontrollIds)
+                        'Total of %d record(s) were successfully resorted', count($mediacontrollIds)
                     )
                 );
             } catch (Exception $e) {
