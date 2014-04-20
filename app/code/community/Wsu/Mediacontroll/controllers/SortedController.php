@@ -49,27 +49,35 @@ public function indexAction() {
 
 	public function resortAction($id=0) {
 		$requestId = $this->getRequest()->getParam('id');
-		$imgcleanId = ($id > 0) ? $id : $requestId;
+		$prod_id = ($id > 0) ? $id : $requestId;
 		$affected = array();
-		if( $imgcleanId > 0 ) {
+		if( $prod_id > 0 ) {
 			try {
-				$model = Mage::getModel('wsu_mediacontroll/imgclean');
-				$model->load($imgcleanId);
-				$file = 'media/catalog/product'. $model->getFilename();
-				unlink($file);
-				$model->setId($imgcleanId)->delete();
-				Mage::log('Deleted media file: '.$file, Zend_Log::WARN);
-				if($requestId>0){
-					Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('mediacontroll')->__('Image was successfully deleted'));
-					$this->_redirect('*/*/');
-				}
 
+				$product = mage::getModel('catalog/product')->load($prod_id);
+				$attributes = $product->getTypeInstance(true)->getSetAttributes($product);
+				$gallery = $attributes['media_gallery'];
+				$images = $product->getMediaGalleryImages();
+				$i=0;
+				foreach ($images as $image) {
+					$backend = $gallery->getBackend();
+					$backend->updateImage(
+						$product,
+						$image->getFile(),
+						array('position' => $i)
+					);
+					$i++;
+				}
+				$product->getResource()->saveAttribute($product, 'media_gallery');
+				
+				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('mediacontroll')->__('Product Images were successfully re Sorted'));
+				$this->_redirect('*/*/');
 			} catch (Exception $e) {
 				Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
 				if($requestId>0)$this->_redirect( '*/*/edit', array('id' => $imgcleanId) );
 			}
-		}
-		if($requestId>0){
+		}else{
+			Mage::getSingleton('adminhtml/session')->addError("failed to get key");
 			$this->_redirect('*/*/');
 		}
 	}
