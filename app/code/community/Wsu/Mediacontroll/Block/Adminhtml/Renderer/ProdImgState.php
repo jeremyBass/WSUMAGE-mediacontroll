@@ -23,12 +23,16 @@ class Wsu_Mediacontroll_Block_Adminhtml_Renderer_ProdImgState extends Mage_Admin
 		foreach($prodImgProf["imgs"] as $img){
 			$imgfile = $img['file'];
 			$imgposition = $img['position'];
+			$disabled = $img['disabled']?"Excluded":"available"; 
 			$html .= "<li>
 					<a style='width:50px; height:75px; display:inline-block;'>
 						<img src='${location}media/catalog/product{$imgfile}' tile='img_a.jgp' style='width:100%;'/>
 					</a>
 					<ul style='display:inline-block;'>
 						<li>Sort: ${imgposition}</li>";
+						
+					$html .= "<li>${disabled}</li>";
+						
 			if(count($img['typed_as'])>0){
 				$html .= "<li>Assigned as:
 								<ul>";
