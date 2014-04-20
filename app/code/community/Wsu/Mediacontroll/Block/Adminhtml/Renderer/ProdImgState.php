@@ -43,7 +43,20 @@ class Wsu_Mediacontroll_Block_Adminhtml_Renderer_ProdImgState extends Mage_Admin
         }
 		
 		$location = Mage::getStoreConfig('web/secure/base_url');
-		return "<img src='". $location ."media/catalog/product{$url}' alt='{$url}' title='{$url}' width='150' height='150' />";
+		return "<ul>
+			<li>
+				<a style='width:50px; height:75px; display:inline-block;'>
+					<img src='${location}media/catalog/product{$url}' tile='img_a.jgp' />
+				</a>
+				<ul style='display:inline-block;'>
+					<li>Sort: </li>
+					<li>Assigned as:
+						<ul>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>";
 	
 	}
 }
