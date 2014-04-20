@@ -60,17 +60,22 @@ public function indexAction() {
 				$images = $product->getMediaGalleryImages();
 				$i=0;
 				foreach ($images as $image) {
-					$backend = $gallery->getBackend();
-					$backend->updateImage(
-						$product,
-						$image->getFile(),
-						array('position' => $i)
-					);
-					$i++;
+					if($image->getDisabled()!='1'){
+						$backend = $gallery->getBackend();
+						$backend->updateImage(
+							$product,
+							$image->getFile(),
+							array('position' => $i)
+						);
+						$i++;
+					}
 				}
-				$product->getResource()->saveAttribute($product, 'media_gallery');
-				
-				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('mediacontroll')->__('Product Images were successfully re Sorted'));
+				if($i>0){
+					$product->getResource()->saveAttribute($product, 'media_gallery');
+					Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('mediacontroll')->__('Product Images were successfully reSorted from 0-'.$i));
+				}else{
+					Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('mediacontroll')->__('Product Image wasn\'t able to be done.'));	
+				}
 				$this->_redirect('*/*/');
 			} catch (Exception $e) {
 				Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
