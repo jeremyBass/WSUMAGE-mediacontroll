@@ -17,11 +17,15 @@ class Wsu_Mediacontroll_Block_Adminhtml_Renderer_ProdState extends Mage_Adminhtm
     public function _getValue(Varien_Object $row) {
 		
 		$data = parent::_getValue($row);
-		var_dump($row->getData("prod_id"));
-		var_dump($data);
-		var_dump($row);
-		die();
+		$prodImgProf = $row->getData("productImageProfile");
+		//var_dump($prodImgProf);
 		
+		$missingSorted = $prodImgProf['missingSorted']?"true":"false";
+		$hasSorted = $prodImgProf['hasSorted']?"true":"false";
+		$hasSortIndexStart = $prodImgProf['hasSortIndexStart']?"true":"false";
+		
+		/*
+
 		
 		$format = ( $this->getColumn()->getFormat() ) ? $this->getColumn()->getFormat() : null;
         $defaultValue = $this->getColumn()->getDefault();
@@ -42,13 +46,16 @@ class Wsu_Mediacontroll_Block_Adminhtml_Renderer_ProdState extends Mage_Adminhtm
         } else {
             $url	= htmlspecialchars($format);
         }
-		
+		*/
 		$location = Mage::getStoreConfig('web/secure/base_url');
-		return "<ul>
-			<li>Missing Sorted: </li>
-			<li>Has Sorted: </li>
-			<li>Sort Index Start @: </li>
+		
+		$html = "<ul>
+			<li>Missing Sorted: ${missingSorted}</li>
+			<li>Has Sorted: ${hasSorted}</li>
+			<li>Sort Index Start @: ${hasSortIndexStart}</li>
 		</ul>";
+
+		return $html;
 	
 	}
 }
