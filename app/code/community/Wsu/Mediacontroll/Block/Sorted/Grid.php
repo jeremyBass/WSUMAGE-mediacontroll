@@ -45,7 +45,7 @@ class Wsu_Mediacontroll_Block_Sorted_Grid extends Mage_Adminhtml_Block_Widget_Gr
                 'header'	=>  Mage::helper('mediacontroll')->__('Action'),
                 'width'     => '100',
                 'type'      => 'action',
-                'getter'    => 'getId',
+                'getter'    => 'getProd_id',
                 'actions'   => array(
                     array(
                         'caption'   => Mage::helper('mediacontroll')->__('delete'),
