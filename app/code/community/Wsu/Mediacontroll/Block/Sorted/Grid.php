@@ -23,7 +23,7 @@ class Wsu_Mediacontroll_Block_Sorted_Grid extends Mage_Adminhtml_Block_Widget_Gr
 
         $this->addColumn('name', array(
             'header'		=> Mage::helper('mediacontroll')->__('Name'),
-            'index'		=> 'code',
+            'index'		=> 'name',
             'type'		=> 'text',
         ));
 		

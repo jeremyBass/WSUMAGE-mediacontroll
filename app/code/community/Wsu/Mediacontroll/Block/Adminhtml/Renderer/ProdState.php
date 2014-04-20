@@ -17,6 +17,7 @@ class Wsu_Mediacontroll_Block_Adminhtml_Renderer_ProdState extends Mage_Adminhtm
     public function _getValue(Varien_Object $row) {
 		
 		$data = parent::_getValue($row);
+		var_dump($row->getData("prod_id"));
 		var_dump($data);
 		var_dump($row);
 		die();
