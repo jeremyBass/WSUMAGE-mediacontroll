@@ -16,25 +16,25 @@ class Wsu_Mediacontroll_Block_Sorted_Grid extends Mage_Adminhtml_Block_Widget_Gr
 
 	protected function _prepareColumns(){
         $this->addColumn('id', array(
-            'header'         => Mage::helper('mediacontroll')->__('Product Id'),
-            'index'          => 'prod_id',
-            'type'           => 'number',
+            'header'	=> Mage::helper('mediacontroll')->__('Product Id'),
+            'index'		=> 'prod_id',
+            'type'		=> 'number',
         ));
 
         $this->addColumn('name', array(
-            'header'         => Mage::helper('mediacontroll')->__('Name'),
-            'index'          => 'code',
-            'type'           => 'text',
+            'header'		=> Mage::helper('mediacontroll')->__('Name'),
+            'index'		=> 'code',
+            'type'		=> 'text',
         ));
 	    $this->addColumn('state', array(
-          'header'    => Mage::helper('mediacontroll')->__('State'),
-          'renderer'     =>'Wsu_Mediacontroll_Block_Adminhtml_Renderer_ProdImgState',
-          'align'     =>'left',
-          'index'     => 'state'
+          'header'		=> Mage::helper('mediacontroll')->__('State'),
+          'renderer'	=>'Wsu_Mediacontroll_Block_Adminhtml_Renderer_ProdImgState',
+          'align'		=>'left',
+          'index'		=> 'state'
 		));
         $this->addColumn('action',
             array(
-                'header'    =>  Mage::helper('mediacontroll')->__('Action'),
+                'header'	=>  Mage::helper('mediacontroll')->__('Action'),
                 'width'     => '100',
                 'type'      => 'action',
                 'getter'    => 'getId',
