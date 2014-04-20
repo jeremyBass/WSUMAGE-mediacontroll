@@ -46,19 +46,21 @@ public function indexAction() {
 
 
 
-
+//look to http://stackoverflow.com/a/4353686/746758
+//http://stackoverflow.com/a/19159776/746758
 	public function resortAction($id=0) {
 		$requestId = $this->getRequest()->getParam('id');
 		$prod_id = ($id > 0) ? $id : $requestId;
 		$affected = array();
+		$starting = 1;
 		if( $prod_id > 0 ) {
-			try {
+			
 
 				$product = mage::getModel('catalog/product')->load($prod_id);
 				$attributes = $product->getTypeInstance(true)->getSetAttributes($product);
 				$gallery = $attributes['media_gallery'];
 				$images = $product->getMediaGalleryImages();
-				$i=0;
+				$i=$starting;
 				foreach ($images as $image) {
 					if($image->getDisabled()!='1'){
 						$backend = $gallery->getBackend();
@@ -67,19 +69,26 @@ public function indexAction() {
 							$image->getFile(),
 							array('position' => $i)
 						);
+						Mage::getSingleton('adminhtml/session')->addSuccess(
+							Mage::helper('mediacontroll')->__('Setting sort to '.$i.' for '.$image->getFile())
+						);
 						$i++;
 					}
 				}
-				if($i>0){
+			try {
+				if($i>1){
 					$product->getResource()->saveAttribute($product, 'media_gallery');
-					Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('mediacontroll')->__('Product Images were successfully reSorted from 0-'.$i));
+					$product->save();
+					Mage::getSingleton('adminhtml/session')->addSuccess(
+						Mage::helper('mediacontroll')->__('Product Images were successfully reSorted from 0-'.$i)
+						);
 				}else{
 					Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('mediacontroll')->__('Product Image wasn\'t able to be done.'));	
 				}
 				$this->_redirect('*/*/');
 			} catch (Exception $e) {
 				Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-				if($requestId>0)$this->_redirect( '*/*/edit', array('id' => $imgcleanId) );
+				$this->_redirect('*/*/');
 			}
 		}else{
 			Mage::getSingleton('adminhtml/session')->addError("failed to get key");

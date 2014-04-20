@@ -139,6 +139,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			$_images = $_prod->getMediaGallery('images');
 			$_assignCount = 0;
 			$_sortedCount = 0;
+			$_excluded = 0;
 
 			$_prodImgObj = array();
 			$_sortedArray=array();
@@ -161,13 +162,15 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 					}
 					
 					$position=$_image['position'];
-					
-						$_imgObj['disabled']=$_image['disabled'];
+					$disabled=$_image['disabled'];
+						$_imgObj['disabled']=$disabled;
 						$_imgObj['position']=$position;
 						$_imgObj['lable']=$_image['label'];
 						$_imgObj['file']=$_image['file'];
 						$_imgObj['typed_as']=$typed_as;
-
+					if($disabled>0){
+						$_excluded++;
+					}
 					if($position>-1){
 						$_sortedArray[$IMGID]=$position;
 						$_sortedCount++;
@@ -187,8 +190,19 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 					$_sortIndexes[$v]=$k;	
 				}
 			}
-			
-			$missingSort = $_sortedCount>0 && ( count($_sortConflict)>0 || count($_sortedArray)!=count($_images) || $_sortedCount!=count($_images) );
+
+			$missingSort = $_sortedCount>0 
+							&& ( $_excluded>0 && $_excluded != count($_images) && $_excluded != $_assignCount )
+							&& ( 
+									count($_sortConflict) > 0 
+								||	$_sortedCount != count($_images)
+								||	count($_sortedArray) != count($_images) 
+								||	!(
+										count($_sortedArray) == count($_images) 
+										&& $_sortedCount == count($_images)
+										&& count($_sortedArray) == $_sortedCount
+									)
+								);
 
 			$imgObj = array();
 			$imgObj['missingSorted'] = $missingSort;
