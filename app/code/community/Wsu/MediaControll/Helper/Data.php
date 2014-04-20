@@ -162,11 +162,12 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 					
 					$position=$_image['position'];
 					
+						$_imgObj['disabled']=$_image['disabled'];
 						$_imgObj['position']=$position;
 						$_imgObj['lable']=$_image['label'];
 						$_imgObj['file']=$_image['file'];
 						$_imgObj['typed_as']=$typed_as;
-					
+
 					if($position>-1){
 						$_sortedArray[$IMGID]=$position;
 						$_sortedCount++;
