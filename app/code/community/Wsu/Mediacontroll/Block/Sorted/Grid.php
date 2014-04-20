@@ -15,11 +15,22 @@ class Wsu_Mediacontroll_Block_Sorted_Grid extends Mage_Adminhtml_Block_Widget_Gr
 	}
 
 	protected function _prepareColumns(){
-	    $this->addColumn('filename', array(
-          'header'    => Mage::helper('mediacontroll')->__('Filename'),
-          'renderer'     =>'Wsu_Mediacontroll_Block_Adminhtml_Renderer_Image',
+        $this->addColumn('id', array(
+            'header'         => Mage::helper('mediacontroll')->__('Product Id'),
+            'index'          => 'prod_id',
+            'type'           => 'number',
+        ));
+
+        $this->addColumn('name', array(
+            'header'         => Mage::helper('mediacontroll')->__('Name'),
+            'index'          => 'code',
+            'type'           => 'text',
+        ));
+	    $this->addColumn('state', array(
+          'header'    => Mage::helper('mediacontroll')->__('State'),
+          'renderer'     =>'Wsu_Mediacontroll_Block_Adminhtml_Renderer_ProdImgState',
           'align'     =>'left',
-          'index'     => 'filename'
+          'index'     => 'state'
 		));
         $this->addColumn('action',
             array(
@@ -31,23 +42,33 @@ class Wsu_Mediacontroll_Block_Sorted_Grid extends Mage_Adminhtml_Block_Widget_Gr
                     array(
                         'caption'   => Mage::helper('mediacontroll')->__('delete'),
                         'url'       => array('base'=> '*/*/delete'),
-                       'field'     => 'id'
+						'field'     => 'id'
+                    ),
+                    array(
+                        'caption'   => Mage::helper('mediacontroll')->__('Resort'),
+                        'url'       => array('base'=> '*/*/resort'),
+						'field'     => 'id'
                     )
                 ),
                 'filter'    => false,
                 'sortable'  => false,
-                'index'     => 'stores',
+                'index'     => 'prod_id',
                 'is_system' => true,
         ));
       return parent::_prepareColumns();
 	} 
 
 	protected function _prepareMassaction(){
-        $this->setMassactionIdField('imgclean_id');
+        $this->setMassactionIdField('prod_id');
         $this->getMassactionBlock()->setFormFieldName('mediacontroll');
         $this->getMassactionBlock()->addItem('delete', array(
              'label'    => Mage::helper('mediacontroll')->__('Delete'),
              'url'      => $this->getUrl('*/*/massDelete'),
+             'confirm'  => Mage::helper('mediacontroll')->__('Are you sure?')
+        ));
+        $this->getMassactionBlock()->addItem('resort', array(
+             'label'    => Mage::helper('mediacontroll')->__('Resort'),
+             'url'      => $this->getUrl('*/*/massResort'),
              'confirm'  => Mage::helper('mediacontroll')->__('Are you sure?')
         ));
         return $this;
