@@ -26,11 +26,19 @@ class Wsu_Mediacontroll_Block_Sorted_Grid extends Mage_Adminhtml_Block_Widget_Gr
             'index'		=> 'code',
             'type'		=> 'text',
         ));
-	    $this->addColumn('state', array(
-          'header'		=> Mage::helper('mediacontroll')->__('State'),
+		
+		
+	    $this->addColumn('prod_state', array(
+          'header'		=> Mage::helper('mediacontroll')->__('Product image state'),
+          'renderer'	=>'Wsu_Mediacontroll_Block_Adminhtml_Renderer_ProdState',
+          'align'		=>'left',
+          'index'		=> 'prod_state'
+		));		
+	    $this->addColumn('imgs_state', array(
+          'header'		=> Mage::helper('mediacontroll')->__('Image States'),
           'renderer'	=>'Wsu_Mediacontroll_Block_Adminhtml_Renderer_ProdImgState',
           'align'		=>'left',
-          'index'		=> 'state'
+          'index'		=> 'imgs_state'
 		));
         $this->addColumn('action',
             array(
