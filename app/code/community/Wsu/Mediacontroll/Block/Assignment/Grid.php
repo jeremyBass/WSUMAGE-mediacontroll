@@ -48,11 +48,6 @@ class Wsu_Mediacontroll_Block_Assignment_Grid extends Mage_Adminhtml_Block_Widge
                 'getter'    => 'getProd_id',
                 'actions'   => array(
                     array(
-                        'caption'   => Mage::helper('mediacontroll')->__('delete'),
-                        'url'       => array('base'=> '*/*/delete'),
-						'field'     => 'id'
-                    ),
-                    array(
                         'caption'   => Mage::helper('mediacontroll')->__('Assignment'),
                         'url'       => array('base'=> '*/*/assignment'),
 						'field'     => 'id'
@@ -69,11 +64,7 @@ class Wsu_Mediacontroll_Block_Assignment_Grid extends Mage_Adminhtml_Block_Widge
 	protected function _prepareMassaction(){
         $this->setMassactionIdField('prod_id');
         $this->getMassactionBlock()->setFormFieldName('mediacontroll');
-        $this->getMassactionBlock()->addItem('delete', array(
-             'label'    => Mage::helper('mediacontroll')->__('Delete'),
-             'url'      => $this->getUrl('*/*/massDelete'),
-             'confirm'  => Mage::helper('mediacontroll')->__('Are you sure?')
-        ));
+
         $this->getMassactionBlock()->addItem('reassignment', array(
              'label'    => Mage::helper('mediacontroll')->__('Resort'),
              'url'      => $this->getUrl('*/*/massAssignment'),
