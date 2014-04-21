@@ -16,7 +16,7 @@ class Wsu_Mediacontroll_AssignmentController extends Mage_Adminhtml_Controller_a
     public function indexAction() {
 		
 		
-        $this->_initAction()->_addContent($this->getLayout()->createBlock('mediacontroll/sorted'));
+        $this->_initAction()->_addContent($this->getLayout()->createBlock('mediacontroll/assignment'));
 		
 		$this->renderLayout();
     }
