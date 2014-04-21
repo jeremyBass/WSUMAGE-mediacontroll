@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/jeremyBass/WSUMAGE-mediacontroll.svg)](https://travis-ci.org/jeremyBass/WSUMAGE-mediacontroll)
 WSUMAGE-mediacontroll
 =====================
 
