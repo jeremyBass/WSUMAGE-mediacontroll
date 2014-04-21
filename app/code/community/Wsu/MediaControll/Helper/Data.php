@@ -111,6 +111,9 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			
 			$productArray=array();
 			$_prod = Mage::getModel('catalog/product')->load($product->getId());
+			$_images = $_prod->getMediaGallery('images');
+			
+			
 			$productArray['prod_id']= (int)$product->getId();
 			$productArray['name']= $_prod->getName();
 			
@@ -136,7 +139,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			$productArray['types']=$attrImgs;
 				
 							
-			$_images = $_prod->getMediaGallery('images');
+			
 			$_assignCount = 0;
 			$_sortedCount = 0;
 			$_excluded = 0;
@@ -208,7 +211,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			$imgObj['missingSorted'] = $missingSort;
 			$imgObj['hasSorted'] = $_sortedCount>0;
 			$imgObj['hasSortIndexStart'] = isset($_sortIndexes[$sortIndex]);
-			$imgObj['missingAssigned'] = !($_assignCount>0 && $_assignCount!=count($attrImgs));
+			$imgObj['missingAssigned'] = !($_assignCount>0) || $_assignCount!=count($attrImgs);
 			$imgObj['hasAssigned'] = $_assignCount>0;
 			$imgObj['imgs'] =$_prodImgObj;
 			
@@ -244,7 +247,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		$data = $this->get_ProductImages();
 
 		$_array = array_filter($data, function($val){
-						return $val['productImageProfile']['missingAssigned'];
+						return $val['productImageProfile']['missingAssigned'] && count($imgObj['imgs'])>0;
 					});
 		return $_array;
 	}
@@ -256,7 +259,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		$data = $this->get_ProductImages();
 
 		$_array = array_filter($data, function($val){
-						return $val['productImageProfile']['missingSorted'];
+						return $val['productImageProfile']['missingSorted'] && count($imgObj['imgs'])>0;
 					});
 
 		return $_array;
