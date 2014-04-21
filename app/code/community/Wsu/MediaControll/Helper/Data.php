@@ -98,8 +98,8 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
 			//->joinField('category_id','catalog/category_product','category_id','product_id=entity_id',null,'left')
 			//->addAttributeToFilter('category_id', array('in' => $cats))
-			->addAttributeToFilter('small_image', array('neq' => ''))
-			->addAttributeToFilter('small_image', array('neq' => 'no_selection'))
+			//->addAttributeToFilter('small_image', array('neq' => ''))
+			//->addAttributeToFilter('small_image', array('neq' => 'no_selection'))
 			->addAttributeToSelect('image')
 			->addAttributeToSelect('media_gallery'); 
 		//$productBasedImgCollection->getSelect()->order(new Zend_Db_Expr('RAND()'));
