@@ -57,8 +57,6 @@ public function indexAction() {
 			
 
 				$product = mage::getModel('catalog/product')->load($prod_id);
-				$attributes = $product->getTypeInstance(true)->getSetAttributes($product);
-				$gallery = $attributes['media_gallery'];
 				$images = $product->getMediaGalleryImages();
 
 			try {
