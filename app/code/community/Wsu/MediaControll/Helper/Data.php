@@ -242,13 +242,10 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 	public function get_ProductUnassignedImages(){
 		
 		$data = $this->get_ProductImages();
-		//echo 'total products with images',' ',count($data), PHP_EOL;
+
 		$_array = array_filter($data, function($val){
 						return $val['productImageProfile']['missingAssigned'];
 					});
-		//echo 'total products missing assigned',' ',count($_array), PHP_EOL;			
-		//var_dump($_array);die();
-					
 		return $_array;
 	}
 	
@@ -257,13 +254,11 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 	*/	
 	public function get_ProductUnsortedImages(){
 		$data = $this->get_ProductImages();
-		//echo 'total products with images',' ',count($data), PHP_EOL;
+
 		$_array = array_filter($data, function($val){
 						return $val['productImageProfile']['missingSorted'];
 					});
-		//echo 'total products missing sorted',' ',count($_array), PHP_EOL;			
-		//var_dump($_array);die();
-		
+
 		return $_array;
 	}
 
