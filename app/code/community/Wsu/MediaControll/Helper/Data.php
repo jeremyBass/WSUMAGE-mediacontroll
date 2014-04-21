@@ -265,5 +265,20 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		return $_array;
 	}
 
+
+	/*
+	* @return array of products that have images that are unsorted
+	*/	
+	public function get_ProductNoImages(){
+		$data = $this->get_ProductImages();
+
+		$_array = array_filter($data, function($val){
+						return count($imgObj['imgs'])<=0;
+					});
+
+		return $_array;
+	}
+
+
 	
 }
