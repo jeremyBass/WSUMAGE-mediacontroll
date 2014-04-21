@@ -275,7 +275,6 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		$_array = array_filter($data, function($val){
 						return count($val['productImageProfile']['imgs'])<=0;
 					});
-
 		return $_array;
 	}
 

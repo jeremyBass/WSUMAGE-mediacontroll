@@ -8,7 +8,7 @@ class Wsu_Mediacontroll_Block_Missing_Grid extends Mage_Adminhtml_Block_Widget_G
 		$this->setSaveParametersInSession(true);	  
 	}
 	protected function _prepareCollection() {
-		$prod_array = Mage::helper('mediacontroll')->get_ProductUnsortedImages();
+		$prod_array = Mage::helper('mediacontroll')->get_ProductNoImages();
 		$prod_collection = Mage::helper('mediacontroll')->getVarienDataCollection($prod_array);
 		$this->setCollection($prod_collection);
 		return parent::_prepareCollection();
