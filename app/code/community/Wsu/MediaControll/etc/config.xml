@@ -168,7 +168,12 @@
                 <title>Image Sorting assessment</title>
                 <action>mediacontroll/sorted</action>
                 <sort_order>0</sort_order>
-              </sorted>		
+              </sorted>
+			<missing translate="title" module="mediacontroll">
+                <title>Products Missing Images</title>
+                <action>mediacontroll/missing</action>
+                <sort_order>0</sort_order>
+			</missing>	
 			  
               <media translate="title" module="mediacontroll">
                 <title>Media Controll</title>
