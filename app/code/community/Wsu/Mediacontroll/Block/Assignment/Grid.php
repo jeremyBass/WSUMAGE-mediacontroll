@@ -30,13 +30,13 @@ class Wsu_Mediacontroll_Block_Assignment_Grid extends Mage_Adminhtml_Block_Widge
 		
 	    $this->addColumn('prod_state', array(
           'header'		=> Mage::helper('mediacontroll')->__('Product image state'),
-          'renderer'	=>'Wsu_Mediacontroll_Block_Adminhtml_Renderer_ProdState',
+          'renderer'	=>'Wsu_Mediacontroll_Block_Adminhtml_Renderer_Assignment_ProdState',
           'align'		=>'left',
           'index'		=> 'prod_state'
 		));		
 	    $this->addColumn('imgs_state', array(
           'header'		=> Mage::helper('mediacontroll')->__('Image States'),
-          'renderer'	=>'Wsu_Mediacontroll_Block_Adminhtml_Renderer_ProdImgState',
+          'renderer'	=>'Wsu_Mediacontroll_Block_Adminhtml_Renderer_Assignment_ProdImgState',
           'align'		=>'left',
           'index'		=> 'imgs_state'
 		));
