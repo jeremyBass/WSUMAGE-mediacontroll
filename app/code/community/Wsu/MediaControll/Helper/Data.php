@@ -208,14 +208,14 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			$imgObj['missingSorted'] = $missingSort;
 			$imgObj['hasSorted'] = $_sortedCount>0;
 			$imgObj['hasSortIndexStart'] = isset($_sortIndexes[$sortIndex]);
-			$imgObj['missingAssigned'] = $_assignCount>0 && $_assignCount!=count($attrImgs);
+			$imgObj['missingAssigned'] = !($_assignCount>0 && $_assignCount!=count($attrImgs));
 			$imgObj['hasAssigned'] = $_assignCount>0;
 			$imgObj['imgs'] =$_prodImgObj;
 			
 			$productArray['productImageProfile'] = $imgObj;
 
 			$productImgCollection[]=$productArray;
-			
+			//var_dump($productArray);die();
 		}
 		/*
 		echo 'total products with images',' ',count($productImgCollection), PHP_EOL;
