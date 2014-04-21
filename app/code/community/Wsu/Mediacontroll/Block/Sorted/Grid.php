@@ -30,13 +30,13 @@ class Wsu_Mediacontroll_Block_Sorted_Grid extends Mage_Adminhtml_Block_Widget_Gr
 		
 	    $this->addColumn('prod_state', array(
           'header'		=> Mage::helper('mediacontroll')->__('Product image state'),
-          'renderer'	=>'Wsu_Mediacontroll_Block_Adminhtml_Renderer_ProdState',
+          'renderer'	=>'Wsu_Mediacontroll_Block_Adminhtml_Renderer_Sorted_ProdState',
           'align'		=>'left',
           'index'		=> 'prod_state'
 		));		
 	    $this->addColumn('imgs_state', array(
           'header'		=> Mage::helper('mediacontroll')->__('Image States'),
-          'renderer'	=>'Wsu_Mediacontroll_Block_Adminhtml_Renderer_ProdImgState',
+          'renderer'	=>'Wsu_Mediacontroll_Block_Adminhtml_Renderer_Sorted_ProdImgState',
           'align'		=>'left',
           'index'		=> 'imgs_state'
 		));

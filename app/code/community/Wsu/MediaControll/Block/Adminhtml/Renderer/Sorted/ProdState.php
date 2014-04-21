@@ -1,6 +1,6 @@
 <?php
 
-class Wsu_Mediacontroll_Block_Adminhtml_Renderer_ProdState extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract {
+class Wsu_Mediacontroll_Block_Adminhtml_Renderer_Sorted_ProdState extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract {
     /**
      * Format variables pattern
      *
