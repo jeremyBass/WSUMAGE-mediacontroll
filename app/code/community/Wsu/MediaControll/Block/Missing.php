@@ -1,5 +1,5 @@
 <?php
-class Wsu_Mediacontroll_Block_Sorted extends Mage_Adminhtml_Block_Widget_Grid_Container {
+class Wsu_Mediacontroll_Block_Missing extends Mage_Adminhtml_Block_Widget_Grid_Container {
 	public function __construct() {
 		$this->_blockGroup = 'mediacontroll';
 		$this->_controller = 'missing';
