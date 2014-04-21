@@ -8,7 +8,7 @@ class Wsu_Mediacontroll_Block_Assignment_Grid extends Mage_Adminhtml_Block_Widge
 		$this->setSaveParametersInSession(true);	  
 	}
 	protected function _prepareCollection() {
-		$prod_array = Mage::helper('mediacontroll')->get_ProductUnsortedImages();
+		$prod_array = Mage::helper('mediacontroll')->get_ProductUnassignedImages();
 		$prod_collection = Mage::helper('mediacontroll')->getVarienDataCollection($prod_array);
 		$this->setCollection($prod_collection);
 		return parent::_prepareCollection();
