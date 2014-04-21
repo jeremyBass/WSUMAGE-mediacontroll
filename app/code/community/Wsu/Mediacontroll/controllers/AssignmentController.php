@@ -61,7 +61,8 @@ public function indexAction() {
 
 			try {
 				if(count($images)>0){
-						$image = $images[0];
+						
+						$image = $images->getFirstItem();
 						if (!$product->hasImage()) $product->setSmallImage($image->getFile());
 						if (!$product->hasSmallImage()) $product->setSmallImage($image->getFile());
 						if (!$product->hasThumbnail()) $product->setThumbnail($image->getFile());
