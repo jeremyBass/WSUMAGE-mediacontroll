@@ -247,7 +247,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		$data = $this->get_ProductImages();
 
 		$_array = array_filter($data, function($val){
-						return $val['productImageProfile']['missingAssigned'] && count($imgObj['imgs'])>0;
+						return $val['productImageProfile']['missingAssigned'] && count($val['productImageProfile']['imgs'])>0;
 					});
 		return $_array;
 	}
@@ -259,7 +259,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		$data = $this->get_ProductImages();
 
 		$_array = array_filter($data, function($val){
-						return $val['productImageProfile']['missingSorted'] && count($imgObj['imgs'])>0;
+						return $val['productImageProfile']['missingSorted'] && count($val['productImageProfile']['imgs'])>0;
 					});
 
 		return $_array;
@@ -273,7 +273,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		$data = $this->get_ProductImages();
 
 		$_array = array_filter($data, function($val){
-						return count($imgObj['imgs'])<=0;
+						return count($val['productImageProfile']['imgs'])<=0;
 					});
 
 		return $_array;
