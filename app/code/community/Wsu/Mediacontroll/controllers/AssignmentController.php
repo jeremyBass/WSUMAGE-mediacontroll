@@ -60,30 +60,20 @@ public function indexAction() {
 				$attributes = $product->getTypeInstance(true)->getSetAttributes($product);
 				$gallery = $attributes['media_gallery'];
 				$images = $product->getMediaGalleryImages();
-				$i=$starting;
-				foreach ($images as $image) {
-					if($image->getDisabled()!='1'){
-						$backend = $gallery->getBackend();
-						$backend->updateImage(
-							$product,
-							$image->getFile(),
-							array('position' => $i)
-						);
-						Mage::getSingleton('adminhtml/session')->addSuccess(
-							Mage::helper('mediacontroll')->__('Setting sort to '.$i.' for '.$image->getFile())
-						);
-						$i++;
-					}
-				}
+
 			try {
-				if($i>1){
-					$product->getResource()->saveAttribute($product, 'media_gallery');
-					$product->save();
-					if($requestId>0){
-						Mage::getSingleton('adminhtml/session')->addSuccess(
-							Mage::helper('mediacontroll')->__('Product Images were successfully reSorted from 0-'.$i)
-							);
-					}
+				if(count($images)>0){
+						$image = $images[0];
+						if (!$product->hasImage()) $product->setSmallImage($image->getFile());
+						if (!$product->hasSmallImage()) $product->setSmallImage($image->getFile());
+						if (!$product->hasThumbnail()) $product->setThumbnail($image->getFile());
+	
+						$product->save();
+						if($requestId>0){
+							Mage::getSingleton('adminhtml/session')->addSuccess(
+								Mage::helper('mediacontroll')->__('Product Images were successfully reSorted from 0-'.$i)
+								);
+						}
 				}else{
 					if($requestId>0){
 						Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('mediacontroll')->__('Product Image wasn\'t able to be done.'));
