@@ -63,14 +63,22 @@ public function indexAction() {
 				if(count($images)>0){
 						
 						$image = $images->getFirstItem();
-						if (!$product->hasImage()) $product->setSmallImage($image->getFile());
-						if (!$product->hasSmallImage()) $product->setSmallImage($image->getFile());
-						if (!$product->hasThumbnail()) $product->setThumbnail($image->getFile());
-	
+						$path = $image->getFile();
+						//this needs to be looped over on the type.. not hard coded
+						$product->setImage($path);
+						$product->getResource()->saveAttribute($product, 'image');
+						
+						$product->setSmallImage($path);
+						$product->getResource()->saveAttribute($product, 'small_image');
+						
+						$product->setThumbnail($path);
+						$product->getResource()->saveAttribute($product, 'thumbnail');
+						//
+						
 						$product->save();
 						if($requestId>0){
 							Mage::getSingleton('adminhtml/session')->addSuccess(
-								Mage::helper('mediacontroll')->__('Product Images were successfully reSorted from 0-'.$i)
+								Mage::helper('mediacontroll')->__('Product Images were successfully assigned to '.$path)
 								);
 						}
 				}else{
