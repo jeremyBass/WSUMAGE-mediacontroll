@@ -48,7 +48,7 @@ class Wsu_Mediacontroll_Block_Assignment_Grid extends Mage_Adminhtml_Block_Widge
                 'getter'    => 'getProd_id',
                 'actions'   => array(
                     array(
-                        'caption'   => Mage::helper('mediacontroll')->__('Assignment'),
+                        'caption'   => Mage::helper('mediacontroll')->__('re Assignment'),
                         'url'       => array('base'=> '*/*/assignment'),
 						'field'     => 'id'
                     )
@@ -66,7 +66,7 @@ class Wsu_Mediacontroll_Block_Assignment_Grid extends Mage_Adminhtml_Block_Widge
         $this->getMassactionBlock()->setFormFieldName('mediacontroll');
 
         $this->getMassactionBlock()->addItem('reassignment', array(
-             'label'    => Mage::helper('mediacontroll')->__('Resort'),
+             'label'    => Mage::helper('mediacontroll')->__('re Assignment'),
              'url'      => $this->getUrl('*/*/massAssignment'),
              'confirm'  => Mage::helper('mediacontroll')->__('Are you sure?')
         ));
