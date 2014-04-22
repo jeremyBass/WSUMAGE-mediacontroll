@@ -206,12 +206,17 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 										&& count($_sortedArray) == $_sortedCount
 									)
 								);
+			$missingAssigned=true;
+			if($_assignCount>0){
+				if($_assignCount==count($types))$missingAssigned=false;
+			}
+
 
 			$imgObj = array();
 			$imgObj['missingSorted'] = $missingSort;
 			$imgObj['hasSorted'] = $_sortedCount>0;
 			$imgObj['hasSortIndexStart'] = isset($_sortIndexes[$sortIndex]);
-			$imgObj['missingAssigned'] = !($_assignCount>0) || $_assignCount!=count($attrImgs);
+			$imgObj['missingAssigned'] = $missingAssigned;
 			$imgObj['hasAssigned'] = $_assignCount>0;
 			$imgObj['imgs'] =$_prodImgObj;
 			
