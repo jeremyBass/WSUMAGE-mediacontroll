@@ -91,7 +91,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 						->getCollection()
 						->addAttributeToSelect('image')
 						->addAttributeToSelect('media_gallery');
-		$totalProducts = 1000;
+		$totalProducts = 100;
 		$sortIndex=0;
 		
 
