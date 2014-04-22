@@ -103,7 +103,7 @@ public function indexAction() {
         } else {
             try {
                 foreach ($mediacontrollIds as $mediacontrollId) {
-					$this->resortAction($mediacontrollId);
+					$this->assignmentAction($mediacontrollId);
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     Mage::helper('adminhtml')->__(
