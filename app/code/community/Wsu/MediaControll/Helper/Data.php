@@ -87,10 +87,10 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
      *	//@return array
      */
 	public function get_ProductImages($type=""){
-		$collection = Mage::getModel('catalog/product')
+		/*$collection = Mage::getModel('catalog/product')
 						->getCollection()
 						->addAttributeToSelect('image')
-						->addAttributeToSelect('media_gallery');
+						->addAttributeToSelect('media_gallery');*/
 		$totalProducts = 100;
 		$sortIndex=0;
 		
@@ -98,18 +98,24 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
 				//->joinField('category_id','catalog/category_product','category_id','product_id=entity_id',null,'left')
 				//->addAttributeToFilter('category_id', array('in' => $cats))
+				//->addAttributeToFilter('image', array('eq' =>''))
+				/*->addAttributeToFilter('small_image', array('in' => array('','no_selection')))
+				->addAttributeToFilter('thumbnail', array('in' => array('','no_selection')))*/
 				->addAttributeToFilter(array(
+						array('attribute'=>'image', 'null'),
+						array('attribute'=>'small_image', 'null'),
 						array('attribute'=>'small_image', 'eq'=>''),
 						array('attribute'=>'small_image', 'eq'=>'no_selection'),
 						array('attribute'=>'image', 'eq'=>''),
 						array('attribute'=>'image', 'eq'=>'no_selection'),
+						array('attribute'=>'thumbnail', 'null'),
 						array('attribute'=>'thumbnail', 'eq'=>''),
 						array('attribute'=>'thumbnail', 'eq'=>'no_selection'),
 					))
-				->addAttributeToSelect('image')
-				->addAttributeToSelect('media_gallery'); 
+				->addAttributeToSelect(array('image', 'thumbnail','small_image','media_gallery')); 
 			//$productBasedImgCollection->getSelect()->order(new Zend_Db_Expr('RAND()'));
 			$productBasedImgCollection->setPage(1,$totalProducts);	
+			print( $productBasedImgCollection->getSelect() );
 		}else{
 			$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
 				//->joinField('category_id','catalog/category_product','category_id','product_id=entity_id',null,'left')
