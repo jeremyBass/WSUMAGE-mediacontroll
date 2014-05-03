@@ -86,7 +86,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
      * Get a collection of products that have images that are unassigned
      *	//@return array
      */
-	public function get_ProductImages(){
+	public function get_ProductImages($type=""){
 		$collection = Mage::getModel('catalog/product')
 						->getCollection()
 						->addAttributeToSelect('image')
@@ -94,17 +94,33 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		$totalProducts = 100;
 		$sortIndex=0;
 		
-
-		$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
-			//->joinField('category_id','catalog/category_product','category_id','product_id=entity_id',null,'left')
-			//->addAttributeToFilter('category_id', array('in' => $cats))
-			//->addAttributeToFilter('small_image', array('neq' => ''))
-			//->addAttributeToFilter('small_image', array('neq' => 'no_selection'))
-			->addAttributeToSelect('image')
-			->addAttributeToSelect('media_gallery'); 
-		//$productBasedImgCollection->getSelect()->order(new Zend_Db_Expr('RAND()'));
-		$productBasedImgCollection->setPage(1,$totalProducts);	
-		
+		if($type=='unassigned'){
+			$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
+				//->joinField('category_id','catalog/category_product','category_id','product_id=entity_id',null,'left')
+				//->addAttributeToFilter('category_id', array('in' => $cats))
+				->addAttributeToFilter(array(
+						array('attribute'=>'small_image', 'eq'=>''),
+						array('attribute'=>'small_image', 'eq'=>'no_selection'),
+						array('attribute'=>'image', 'eq'=>''),
+						array('attribute'=>'image', 'eq'=>'no_selection'),
+						array('attribute'=>'thumbnail', 'eq'=>''),
+						array('attribute'=>'thumbnail', 'eq'=>'no_selection'),
+					))
+				->addAttributeToSelect('image')
+				->addAttributeToSelect('media_gallery'); 
+			//$productBasedImgCollection->getSelect()->order(new Zend_Db_Expr('RAND()'));
+			$productBasedImgCollection->setPage(1,$totalProducts);	
+		}else{
+			$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
+				//->joinField('category_id','catalog/category_product','category_id','product_id=entity_id',null,'left')
+				//->addAttributeToFilter('category_id', array('in' => $cats))
+				//->addAttributeToFilter('small_image', array('neq' => ''))
+				//->addAttributeToFilter('small_image', array('neq' => 'no_selection'))
+				->addAttributeToSelect('image')
+				->addAttributeToSelect('media_gallery'); 
+			//$productBasedImgCollection->getSelect()->order(new Zend_Db_Expr('RAND()'));
+			$productBasedImgCollection->setPage(1,$totalProducts);	
+		}
 		
 		$productImgCollection=array();
 		foreach($productBasedImgCollection as $product){
@@ -249,7 +265,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 	*/	
 	public function get_ProductUnassignedImages(){
 		
-		$data = $this->get_ProductImages();
+		$data = $this->get_ProductImages('unassigned');
 
 		$_array = array_filter($data, function($val){
 						return $val['productImageProfile']['missingAssigned'] && count($val['productImageProfile']['imgs'])>0;
