@@ -25,8 +25,8 @@ class Wsu_Mediacontroll_Block_Adminhtml_Renderer_Assignment_ProdImgState extends
 			$imgposition = $img['position'];
 			$disabled = $img['disabled']?"Excluded":"available"; 
 			$html .= "<li>
-					<a style='width:50px; height:75px; display:inline-block;'>
-						<img src='${location}media/catalog/product{$imgfile}' title='' style='width:100%;'/>
+					<a style='width:25px; height:25px; display:inline-block;'>
+						<b style='font-size:15px' data-img='${location}media/catalog/product{$imgfile}'>[=]</b>
 					</a>
 					<ul style='display:inline-block;'>
 						<li>Sort: ${imgposition}</li>";
