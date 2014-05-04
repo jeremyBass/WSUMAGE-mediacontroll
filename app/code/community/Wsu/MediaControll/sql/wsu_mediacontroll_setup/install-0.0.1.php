@@ -14,4 +14,17 @@ $installer->run("
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
     ");
 
+$table_missassignments = $installer->getTable('wsu_mediacontroll/missassignments');
+$installer->run("
+    DROP TABLE IF EXISTS `{$table_missassignments}`;
+    CREATE TABLE `{$table_imgclean}` (
+			`missassignments_id` int(11) unsigned NOT NULL auto_increment,
+			`prod_id` int(11) NOT NULL,
+			`imgprofile` text NOT NULL default '',
+			PRIMARY KEY  (`missassignments_id`),
+			UNIQUE KEY `prod_id` (`prod_id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+    ");
+
+
 $installer->endSetup(); 
