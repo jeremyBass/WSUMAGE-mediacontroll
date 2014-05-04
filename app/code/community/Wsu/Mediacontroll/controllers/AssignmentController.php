@@ -102,9 +102,14 @@ public function indexAction() {
 			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Please select item(s)'));
         } else {
             try {
+				//Mage::helper('mediacontroll')->halt_indexing();
                 foreach ($mediacontrollIds as $mediacontrollId) {
 					$this->assignmentAction($mediacontrollId);
                 }
+				
+				//Mage::helper('mediacontroll')->run_indexer();
+				//Mage::helper('mediacontroll')->restore_indexing();
+				
                 Mage::getSingleton('adminhtml/session')->addSuccess(
                     Mage::helper('adminhtml')->__(
                         'Total of %d record(s) were successfully resorted', count($mediacontrollIds)

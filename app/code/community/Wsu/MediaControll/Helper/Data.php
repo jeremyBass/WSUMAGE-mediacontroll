@@ -12,6 +12,24 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 	protected $_mainTable;
 	public $valdir = array();
 
+
+	public function halt_indexing(){
+		$this->processes = Mage::getSingleton('index/indexer')->getProcessesCollection(); 
+		$this->processes->walk('setMode', array(Mage_Index_Model_Process::MODE_MANUAL)); 
+		$this->processes->walk('save'); 
+	}
+	public function run_indexer(){
+		exec("php shell/indexer.php -reindexall");
+	}	
+	public function restore_indexing(){
+		$this->run_indexer();
+		$this->processes->walk('setMode', array(Mage_Index_Model_Process::MODE_REAL_TIME)); 
+		$this->processes->walk('save'); 
+	}
+
+
+
+
 	public function listDirectories($path){
 		if(is_dir($path)){
 			if ($dir = opendir($path)) {
@@ -91,16 +109,18 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 						->getCollection()
 						->addAttributeToSelect('image')
 						->addAttributeToSelect('media_gallery');*/
-		$totalProducts = 100;
+		$totalProducts = 750;
+		$page = 1;
 		$sortIndex=0;
 		
 		if($type=='unassigned'){
 			$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
+			->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
 				//->joinField('category_id','catalog/category_product','category_id','product_id=entity_id',null,'left')
 				//->addAttributeToFilter('category_id', array('in' => $cats))
 				//->addAttributeToFilter('image', array('eq' =>''))
 				/*->addAttributeToFilter('small_image', array('in' => array('','no_selection')))
-				->addAttributeToFilter('thumbnail', array('in' => array('','no_selection')))*/
+				->addAttributeToFilter('thumbnail', array('in' => array('','no_selection')))
 				->addAttributeToFilter(array(
 						array('attribute'=>'image', 'null'),
 						array('attribute'=>'small_image', 'null'),
@@ -112,20 +132,24 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 						array('attribute'=>'thumbnail', 'eq'=>''),
 						array('attribute'=>'thumbnail', 'eq'=>'no_selection'),
 					))
-				->addAttributeToSelect(array('image', 'thumbnail','small_image','media_gallery')); 
-			//$productBasedImgCollection->getSelect()->order(new Zend_Db_Expr('RAND()'));
-			$productBasedImgCollection->setPage(1,$totalProducts);	
+				->addAttributeToSelect(array('image', 'thumbnail','small_image','media_gallery') );*/
+			$productBasedImgCollection->getSelect()->order('updated_at','DESC');
+			$productBasedImgCollection->getSelect()->limit($totalProducts,$page);
+			
+			//$productBasedImgCollection->setPage(1,$totalProducts);	
 			print( $productBasedImgCollection->getSelect() );
 		}else{
 			$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
+				->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
 				//->joinField('category_id','catalog/category_product','category_id','product_id=entity_id',null,'left')
 				//->addAttributeToFilter('category_id', array('in' => $cats))
 				//->addAttributeToFilter('small_image', array('neq' => ''))
 				//->addAttributeToFilter('small_image', array('neq' => 'no_selection'))
-				->addAttributeToSelect('image')
-				->addAttributeToSelect('media_gallery'); 
+				//->addAttributeToSelect('image')
+				//->addAttributeToSelect('media_gallery'); 
 			//$productBasedImgCollection->getSelect()->order(new Zend_Db_Expr('RAND()'));
-			$productBasedImgCollection->setPage(1,$totalProducts);	
+			$productBasedImgCollection->getSelect()->order('updated_at','DESC');
+			$productBasedImgCollection->getSelect()->limit($totalProducts,$page);
 		}
 		
 		$productImgCollection=array();
