@@ -15,8 +15,9 @@ class Wsu_Mediacontroll_Block_Adminhtml_Renderer_Assignment_ProdImgState extends
      * @return mixed
      */
     public function _getValue(Varien_Object $row) {
-		
-		$prodImgProf = (array)$row->getData("productImageProfile");
+		$Imgprofile = $row->getData("imgprofile");
+		$profile = (array)json_decode($Imgprofile);
+		$prodImgProf = (array)$profile["productImageProfile"];
 		$location = Mage::getStoreConfig('web/unsecure/base_url');
 		//var_dump($prodImgProf);
 		$html = "<ul>";

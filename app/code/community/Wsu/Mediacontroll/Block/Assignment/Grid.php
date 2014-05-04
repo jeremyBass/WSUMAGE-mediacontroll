@@ -10,17 +10,25 @@ class Wsu_Mediacontroll_Block_Assignment_Grid extends Mage_Adminhtml_Block_Widge
 	}
 	protected function _prepareCollection() {
 		$collection = Mage::getModel('wsu_mediacontroll/missassignments')->getCollection();
-		foreach($collection as $item){
+		/*foreach($collection as $item){
 			//var_dump(json_decode($item->getImgprofile()));die();
 			$prod_array[]= (array)json_decode($item->getImgprofile());
 		}
+		unset($collection);
 		$prod_collection = Mage::helper('mediacontroll')->getVarienDataCollection($prod_array);
-		$this->setCollection($prod_collection);
+		$this->setCollection($prod_collection);*/
+		$this->setCollection($collection);
 		return parent::_prepareCollection();
 	}
 
 	protected function _prepareColumns(){
-        $this->addColumn('id', array(
+/*        $this->addColumn('id', array(
+            'header'	=> Mage::helper('mediacontroll')->__('Product Id'),
+            'index'		=> 'missassignments_id',
+            'type'		=> 'number',
+        ));*/
+		
+        $this->addColumn('prod_id', array(
             'header'	=> Mage::helper('mediacontroll')->__('Product Id'),
             'index'		=> 'prod_id',
             'type'		=> 'number',
@@ -28,6 +36,7 @@ class Wsu_Mediacontroll_Block_Assignment_Grid extends Mage_Adminhtml_Block_Widge
 
         $this->addColumn('name', array(
             'header'		=> Mage::helper('mediacontroll')->__('Name'),
+			'renderer'	=>'Wsu_Mediacontroll_Block_Adminhtml_Renderer_Assignment_Name',
             'index'		=> 'name',
             'type'		=> 'text',
         ));
@@ -50,7 +59,7 @@ class Wsu_Mediacontroll_Block_Assignment_Grid extends Mage_Adminhtml_Block_Widge
                 'header'	=>  Mage::helper('mediacontroll')->__('Action'),
                 'width'     => '100',
                 'type'      => 'action',
-                'getter'    => 'getProd_id',
+                'getter'    => 'getMissassignments_id',
                 'actions'   => array(
                     array(
                         'caption'   => Mage::helper('mediacontroll')->__('re Assignment'),
@@ -60,14 +69,14 @@ class Wsu_Mediacontroll_Block_Assignment_Grid extends Mage_Adminhtml_Block_Widge
                 ),
                 'filter'    => false,
                 'sortable'  => false,
-                'index'     => 'prod_id',
+                'index'     => 'missassignments_id',
                 'is_system' => true,
         ));
       return parent::_prepareColumns();
 	} 
 
 	protected function _prepareMassaction(){
-        $this->setMassactionIdField('prod_id');
+        $this->setMassactionIdField('missassignments_id');
         $this->getMassactionBlock()->setFormFieldName('mediacontroll');
 
         $this->getMassactionBlock()->addItem('reassignment', array(

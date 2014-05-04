@@ -149,7 +149,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 					))
 				->addAttributeToSelect(array('image', 'thumbnail','small_image','media_gallery') );*/
 			$productBasedImgCollection->getSelect()->order('updated_at','DESC');
-			$productBasedImgCollection->getSelect()->limit($totalProducts,$page);
+			//$productBasedImgCollection->getSelect()->limit($totalProducts,$page);
 			
 			//$productBasedImgCollection->setPage(1,$totalProducts);	
 			print( $productBasedImgCollection->getSelect() );
