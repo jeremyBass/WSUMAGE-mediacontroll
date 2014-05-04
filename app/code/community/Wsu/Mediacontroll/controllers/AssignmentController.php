@@ -14,32 +14,11 @@ class Wsu_Mediacontroll_AssignmentController extends Mage_Adminhtml_Controller_a
 
 
     public function indexAction() {
-		
-		
         $this->_initAction()->_addContent($this->getLayout()->createBlock('mediacontroll/assignment'));
-		
 		$this->renderLayout();
     }
-/*	
-	public function idUnsortedAction() {
-		Mage::helper('mediacontroll')->get_ProductUnsortedImages();
-		
-		$this->_initAction()->_addContent($this->getLayout()->createBlock('mediacontroll/imgclean'));
-		
-		$this->renderLayout();
-	}
 
-
-
-
-
-
-public function indexAction() {
-		$this->_initAction()
-			->renderLayout();
-	}
-	*/
-	public function newAction(){
+	public function searchAction(){
 		Mage::helper('mediacontroll')->compareList();
 		$this->_redirect('*/*/');
 	}
