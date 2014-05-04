@@ -39,7 +39,7 @@ public function indexAction() {
 			->renderLayout();
 	}
 	*/
-	public function newAction(){
+	public function searchAction(){
 		Mage::helper('mediacontroll')->compareList();
 		$this->_redirect('*/*/');
 	}
