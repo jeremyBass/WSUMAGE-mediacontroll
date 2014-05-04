@@ -6,7 +6,7 @@ class Wsu_Mediacontroll_Block_Imgclean_Grid extends Mage_Adminhtml_Block_Widget_
 		$this->setDefaultSort('imgclean_id');
 		$this->setDefaultDir('ASC');
 		$this->setSaveParametersInSession(true);
-		$this->_emptyText = Mage::helper('adminhtml')->__('No img found, try to refresh.');	  
+		$this->_emptyText = Mage::helper('adminhtml')->__('No img found, try to refresh.<button title="Refresh" class="scalable refresh" onclick="setLocation(\''.$this->getUrl('*/*/new').'\')" type="button"><span><span><span>Refresh</span></span></span></button>');	  
 	}
 	protected function _prepareCollection() {
 		$collection = Mage::getModel('wsu_mediacontroll/imgclean')->getCollection();
