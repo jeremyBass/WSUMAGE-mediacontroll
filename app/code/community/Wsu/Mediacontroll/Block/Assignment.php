@@ -4,8 +4,12 @@ class Wsu_Mediacontroll_Block_Assignment extends Mage_Adminhtml_Block_Widget_Gri
 		$this->_blockGroup = 'mediacontroll';
 		$this->_controller = 'assignment';
 		$this->_headerText = Mage::helper('mediacontroll')->__('Image Assignment Assessment');
-		$this->_addButtonLabel = Mage::helper('mediacontroll')->__('Refresh');
 		parent::__construct();
+		$this->_addButton('add', array(
+			'label' => Mage::helper('mediacontroll')->__('Refresh'),
+			'onclick' => "setLocation('" . $this->getUrl('*/*/search', array('page_key' => 'collection')) . "')",
+			'class' => 'add'
+		));
 	}
 
 }
