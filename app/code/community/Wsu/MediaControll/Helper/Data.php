@@ -69,7 +69,22 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		}
 	}
 	
-	
+	public function indexMissassignment() {
+		$model = Mage::getModel('wsu_mediacontroll/missassignments');	
+		$foundItems = $model->getCollection()->getProductImageAssessment();
+		$val	= $model->getCollection()->getCache();
+		foreach ($foundItems as $key=>$item){
+			try{
+				if(!array_key_exists($key, $val)){
+					$model->setData(array('prod_id'=>$key,'imgprofile'=>json_encode($item)))->setId(null);
+					$model->save();
+				}
+			} catch(Zend_Db_Exception $e){
+			} catch(Exception $e){
+				Mage::log($e->getMessage());
+			}
+		}
+	}	
 	
 	
 

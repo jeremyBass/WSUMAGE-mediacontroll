@@ -16,11 +16,13 @@ class Wsu_Mediacontroll_Block_Adminhtml_Renderer_Assignment_ProdImgState extends
      */
     public function _getValue(Varien_Object $row) {
 		
-		$prodImgProf = $row->getData("productImageProfile");
+		$prodImgProf = (array)$row->getData("productImageProfile");
 		$location = Mage::getStoreConfig('web/unsecure/base_url');
 		//var_dump($prodImgProf);
 		$html = "<ul>";
-		foreach($prodImgProf["imgs"] as $img){
+		$prodImgProf_array=(array)$prodImgProf["imgs"];
+		foreach($prodImgProf_array as $imgItem){
+			$img=(array)$imgItem;
 			$imgfile = $img['file'];
 			$imgposition = $img['position'];
 			$disabled = $img['disabled']?"Excluded":"available"; 

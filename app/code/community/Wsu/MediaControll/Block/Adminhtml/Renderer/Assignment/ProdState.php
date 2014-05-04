@@ -17,7 +17,7 @@ class Wsu_Mediacontroll_Block_Adminhtml_Renderer_Assignment_ProdState extends Ma
     public function _getValue(Varien_Object $row) {
 		
 		$data = parent::_getValue($row);
-		$prodImgProf = $row->getData("productImageProfile");
+		$prodImgProf = (array)$row->getData("productImageProfile");
 		//var_dump($prodImgProf);
 		
 		$missingAssigned = $prodImgProf['missingAssigned']?"true":"false";

@@ -19,7 +19,7 @@ class Wsu_Mediacontroll_AssignmentController extends Mage_Adminhtml_Controller_a
     }
 
 	public function searchAction(){
-		Mage::helper('mediacontroll')->compareList();
+		Mage::helper('mediacontroll')->indexMissassignment();
 		$this->_redirect('*/*/');
 	}
 
