@@ -56,6 +56,9 @@
           <imgclean>
             <table>wsu_mediacontroll_imgcleaner</table>
           </imgclean>
+          <missassignments>
+            <table>wsu_mediacontroll_missassignments</table>
+          </missassignments>
         </entities>
       </wsu_mediacontroll_resource>
       <catalog>
