@@ -17,7 +17,7 @@ $installer->run("
 $table_missassignments = $installer->getTable('wsu_mediacontroll/missassignments');
 $installer->run("
     DROP TABLE IF EXISTS `{$table_missassignments}`;
-    CREATE TABLE `{$table_imgclean}` (
+    CREATE TABLE `{$table_missassignments}` (
 			`missassignments_id` int(11) unsigned NOT NULL auto_increment,
 			`prod_id` int(11) NOT NULL,
 			`imgprofile` text NOT NULL default '',
