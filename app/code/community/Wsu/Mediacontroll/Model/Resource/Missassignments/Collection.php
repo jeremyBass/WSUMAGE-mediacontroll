@@ -5,18 +5,7 @@ class Wsu_Mediacontroll_Model_Resource_Missassignments_Collection extends Mage_C
     }
 	
 	protected $total;
-	public function getProductImageAssessment(){
-		try {
-			$data = Mage::helper('mediacontroll')->get_ProductImages('unassigned');
-			$_array = array_filter($data, function($val){
-							return $val['productImageProfile']['missingAssigned'] && count($val['productImageProfile']['imgs'])>0;
-						});
-			$_array;
-		}catch(Exception $e){
-			Mage::log($e->getMessage());
-		}
-		return $_array;
-	}
+
 	public function getCache(){
 		try {
 			$this->setConnection($this->getResource()->getReadConnection());
