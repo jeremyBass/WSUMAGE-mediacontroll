@@ -65,14 +65,18 @@ public function indexAction() {
 						$image = $images->getFirstItem();
 						$path = $image->getFile();
 						//this needs to be looped over on the type.. not hard coded
-						$product->setImage($path);
-						$product->getResource()->saveAttribute($product, 'image');
-						
-						$product->setSmallImage($path);
-						$product->getResource()->saveAttribute($product, 'small_image');
-						
-						$product->setThumbnail($path);
-						$product->getResource()->saveAttribute($product, 'thumbnail');
+						if(!$product->hasImage()){
+							$product->setImage($path);
+							$product->getResource()->saveAttribute($product, 'image');
+						}
+						if(!$product->hasSmallImage()){
+							$product->setSmallImage($path);
+							$product->getResource()->saveAttribute($product, 'small_image');
+						}
+						if(!$product->hasThumbnail()){
+							$product->setThumbnail($path);
+							$product->getResource()->saveAttribute($product, 'thumbnail');
+						}
 						//
 						
 						$product->save();
