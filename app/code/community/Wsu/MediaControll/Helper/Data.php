@@ -87,6 +87,14 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		}
 	}
 
+	public function indexImgless() {
+		try{
+			$this->get_ProductImages('imgless');
+		} catch(Zend_Db_Exception $e){
+		} catch(Exception $e){
+			Mage::log($e->getMessage());
+		}
+	}
 	/**
 	 * Creating new varien collection  
 	 * for given array or object 
