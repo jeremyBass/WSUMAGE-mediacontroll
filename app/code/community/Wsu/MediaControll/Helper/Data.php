@@ -279,7 +279,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 					$imgObj['imgs'] =$_prodImgObj;
 					
 					$productArray['productImageProfile'] = $imgObj;
-					var_dump(count($_prodImgObj)); print('<br/>');
+					//var_dump(count($_prodImgObj)); print('<br/>');
 					if( 
 						   $type == 'imgless' && count($_prodImgObj)==0
 						|| $type == 'missassignments' && $missingAssigned && count($_prodImgObj)>0
