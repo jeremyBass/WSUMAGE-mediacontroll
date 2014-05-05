@@ -76,9 +76,16 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		} catch(Exception $e){
 			Mage::log($e->getMessage());
 		}
-	}	
-	
-	
+	}
+
+	public function indexUnsorted() {
+		try{
+			$this->get_ProductImages('unsorted');
+		} catch(Zend_Db_Exception $e){
+		} catch(Exception $e){
+			Mage::log($e->getMessage());
+		}
+	}
 
 	/**
 	 * Creating new varien collection  
@@ -128,7 +135,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 				//->addAttributeToSelect('media_gallery'); 
 			//$productBasedImgCollection->getSelect()->order(new Zend_Db_Expr('RAND()'));
 			$productBasedImgCollection->getSelect()->order('updated_at','DESC');
-			$productBasedImgCollection->getSelect()->limit($totalProducts,$page);
+			//$productBasedImgCollection->getSelect()->limit($totalProducts,$page);
 		}
 
 		if($type=='unassigned'){
@@ -258,11 +265,24 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 				
 				$productArray['productImageProfile'] = $imgObj;
 
-				if( $missingAssigned && count($_prodImgObj)>0 ){
-					$newModel = Mage::getModel('wsu_mediacontroll/missassignments');	
-					$newModel->setData(array('prod_id'=>$prodID,'imgprofile'=>json_encode($productArray)))->setId(null);
-					$newModel->save();
+				if($type=='unassigned'){
+					if( $missingAssigned && count($_prodImgObj)>0 ){
+						$newModel = Mage::getModel('wsu_mediacontroll/missassignments');	
+						$newModel->setData(array('prod_id'=>$prodID,'imgprofile'=>json_encode($productArray)))->setId(null);
+						$newModel->save();
+					}
 				}
+				if($type=='unsorted'){
+					if( $missingSort && count($_prodImgObj)>0 ){
+						$newModel = Mage::getModel('wsu_mediacontroll/missassignments');	
+						$newModel->setData(array('prod_id'=>$prodID,'imgprofile'=>json_encode($productArray)))->setId(null);
+						$newModel->save();
+					}
+				}
+				
+				
+				
+				
 			}//die('hit');
 		}
 		/*
