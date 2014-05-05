@@ -83,6 +83,21 @@
         </setup>
       </wsu_mediacontroll_setup>
     </resources>
+	
+	<events>
+        <catalog_product_save_before>
+            <observers>
+                <some_module_detect_product_changes>
+                    <type>singleton</type>
+                    <class>wsu_mediacontroll/observer</class>
+                    <method>checkProductChange</method>
+                </some_module_detect_product_changes>
+            </observers>
+        </catalog_product_save_before>
+	</events>
+	
+	
+	
   </global>
   <!--<admin>
     <routers>
