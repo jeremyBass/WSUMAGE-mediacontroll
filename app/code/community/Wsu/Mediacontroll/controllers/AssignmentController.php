@@ -46,18 +46,18 @@ class Wsu_Mediacontroll_AssignmentController extends Mage_Adminhtml_Controller_a
 						//this needs to be looped over on the type.. not hard coded
 						$image = (array)$images[0];
 						
-						if(!$product->hasImage()){
+						//if(!$product->hasImage()){
 							$product->setImage($image['file']);
 							$product->getResource()->saveAttribute($product, 'image');
-						}
-						if(!$product->hasSmallImage()){
+						//}
+						//if(!$product->hasSmallImage()){
 							$product->setSmallImage($image['file']);
 							$product->getResource()->saveAttribute($product, 'small_image');
-						}
-						if(!$product->hasThumbnail()){
+						//}
+						//if(!$product->hasThumbnail()){
 							$product->setThumbnail($image['file']);
 							$product->getResource()->saveAttribute($product, 'thumbnail');
-						}
+						//}
 						//
 						
 						$product->save();

@@ -115,8 +115,8 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		if($type=='unassigned'){
 			$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
 			->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
-			$productBasedImgCollection->getSelect()->order('updated_at','DESC');
-			//print( $productBasedImgCollection->getSelect() );
+			$productBasedImgCollection->getSelect()->order('updated_at','ASC');
+			//print( $productBasedImgCollection->getSelect() );die();
 		}else{
 			$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
 				->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
@@ -133,13 +133,24 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 
 		if($type=='unassigned'){
 			$model = Mage::getModel('wsu_mediacontroll/missassignments');	
-			$val	= $model->getCollection()->getCache();
+			$collection = Mage::getModel('wsu_mediacontroll/missassignments')->getCollection();
+			$val=array();
+			foreach	($collection->getData() as $itemObj){
+				$item=(array)$itemObj;
+				$prod_id=$item['prod_id'];
+				$val[$prod_id] = json_decode($item['imgprofile']);
+			}
 			$tracked_products = array_keys($val);
 		}
+		//var_dump(count($productBasedImgCollection));print('<br/>');
 		$productImgCollection=array();
 		foreach($productBasedImgCollection as $product){
 			$prodID=(int)$product->getId();
-			if(!array_key_exists($prodID,$tracked_products)){
+			var_dump($prodID);print('<br/>');
+			//var_dump($tracked_products);
+			//print('--------------------');
+			if(empty($tracked_products) || !array_key_exists($prodID,$tracked_products)){
+				
 				$productArray=array();
 				$_prod = Mage::getModel('catalog/product')->load($prodID);
 				$_images = $_prod->getMediaGallery('images');
@@ -147,24 +158,23 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 				
 				$productArray['prod_id']= (int)$product->getId();
 				$productArray['name']= $_prod->getName();
-				
+				//print($productArray['name']);print('<br/>');
+				//print('--------------------');print('<br/>');
 				$types=array();
 				foreach ($_prod->getMediaAttributes() as $attribute) {
 					$types[] = $attribute->getAttributeCode();
 				}
-	
+				$productArray['avialible_types']=$types;
 				$attrImgs=array();
-				foreach ($types as $type){
+				foreach ($types as $typeof){
 					$imgHelper = Mage::helper('catalog/image');
 					$filename = "";
 					try{
-						$filename = Mage::helper('catalog/image')->init($_prod, $type);
+						$filename = Mage::helper('catalog/image')->init($_prod, $typeof);
 					}catch(Exception $e){}
 	
-					if ($filename=="") {
-	
-					} else {
-						$attrImgs[$type] = $filename."";
+					if ($filename!="") {
+						$attrImgs[$typeof] = $filename."";
 					}	
 				}
 				$productArray['types']=$attrImgs;
@@ -176,7 +186,6 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 				$_prodImgObj = array();
 				$_sortedArray=array();
 				if(count($_images)){
-					//echo "  IMG_GAL=>",PHP_EOL;
 					foreach ($_images as $_image){
 						$_imgObj=array();
 						$IMGID=$_image['value_id'];
@@ -187,7 +196,6 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 						$filenameTest = basename($_image['file'], ".jpg").'/';
 						foreach ($attrImgs as $code=>$setFile){	
 							if(strpos($setFile,$filenameTest)>-1){
-	
 								$typed_as[]=$code;
 								$_assignCount++;
 							}
@@ -209,7 +217,6 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 						}
 						$_prodImgObj[]=$_imgObj;
 					}
-					
 				}
 				
 				$_sortIndexes=array();
@@ -239,8 +246,8 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 				if($_assignCount>0){
 					if($_assignCount==count($types))$missingAssigned=false;
 				}
-	
-	
+
+
 				$imgObj = array();
 				$imgObj['missingSorted'] = $missingSort;
 				$imgObj['hasSorted'] = $_sortedCount>0;
@@ -250,12 +257,13 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 				$imgObj['imgs'] =$_prodImgObj;
 				
 				$productArray['productImageProfile'] = $imgObj;
-				if($productArray['productImageProfile']['missingAssigned'] && count($productArray['productImageProfile']['imgs'])>0){
-					$model->setData(array('prod_id'=>$prodID,'imgprofile'=>json_encode($productArray)))->setId(null);
-					$model->save();
+
+				if( $missingAssigned && count($_prodImgObj)>0 ){
+					$newModel = Mage::getModel('wsu_mediacontroll/missassignments');	
+					$newModel->setData(array('prod_id'=>$prodID,'imgprofile'=>json_encode($productArray)))->setId(null);
+					$newModel->save();
 				}
-			}
-			//var_dump($productArray);die();
+			}//die('hit');
 		}
 		/*
 		echo 'total products with images',' ',count($productImgCollection), PHP_EOL;

@@ -7,18 +7,14 @@ class Wsu_Mediacontroll_Model_Resource_Missassignments_Collection extends Mage_C
 	protected $total;
 
 	public function getCache(){
-		try {
-			$this->setConnection($this->getResource()->getReadConnection());
-			$this->getSelect();
-
-			$array=array();
-			foreach	($this->getData() as $item){
-				$prod_id=$item['prod_id'];
-				$array[$prod_id] = json_decode($item['imgprofile']);
-			}
-		}catch(Exception $e){
-			Mage::log($e->getMessage());
+		$collection = Mage::getModel('wsu_mediacontroll/missassignments')->getCollection();
+		$array=array();
+		foreach	($collection as $itemObj){
+			$item=(array)$itemObj;
+			$prod_id=$item['prod_id'];
+			$array[$prod_id] = json_decode($item['imgprofile']);
 		}
+
 		return $array;
 	}
 }
