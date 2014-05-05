@@ -130,7 +130,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
      *	//@return array
      */
 	public function get_ProductImages($type=""){
-		$sortIndex=0;
+		
 		/*$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
 			->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
 			//->joinField('category_id','catalog/category_product','category_id','product_id=entity_id',null,'left')
@@ -173,117 +173,16 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			//var_dump('here');var_dump($collection);
 			foreach($prodcollection as $product){
 				$prodID=(int)$product->getId();
-				//var_dump($prodID);
-				$productArray=array();
-				$_prod = Mage::getModel('catalog/product')->load($prodID);
-				$_images = $_prod->getMediaGallery('images');
-				
-				
-				$productArray['prod_id']= (int)$product->getId();
-				$productArray['name']= $_prod->getName();
 
-				$types=array();
-				foreach ($_prod->getMediaAttributes() as $attribute) {
-					$types[] = $attribute->getAttributeCode();
-				}
-				$productArray['avialible_types']=$types;
-				$attrImgs=array();
-				foreach ($types as $typeof){
-					$imgHelper = Mage::helper('catalog/image');
-					$filename = "";
-					try{
-						$filename = Mage::helper('catalog/image')->init($_prod, $typeof);
-					}catch(Exception $e){}
-	
-					if ($filename!="") {
-						$attrImgs[$typeof] = $filename."";
-					}	
-				}
-				$productArray['types']=$attrImgs;
-
-				$_assignCount = 0;
-				$_sortedCount = 0;
-				$_excluded = 0;
-	
-				$_prodImgObj = array();
-				$_sortedArray=array();
-				if(count($_images)){
-					foreach ($_images as $_image){
-						$_imgObj=array();
-						$IMGID=$_image['value_id'];
-						
-						$_imgObj['id']=(int)$IMGID;
-	
-						$typed_as=array();
-						$filenameTest = basename($_image['file'], ".jpg").'/';
-						foreach ($attrImgs as $code=>$setFile){	
-							if(strpos($setFile,$filenameTest)>-1){
-								$typed_as[]=$code;
-								$_assignCount++;
-							}
-						}
-						
-						$position=$_image['position'];
-						$disabled=$_image['disabled'];
-							$_imgObj['disabled']=$disabled;
-							$_imgObj['position']=$position;
-							$_imgObj['lable']=$_image['label'];
-							$_imgObj['file']=$_image['file'];
-							$_imgObj['typed_as']=$typed_as;
-						if($disabled>0){
-							$_excluded++;
-						}
-						if($position>-1){
-							$_sortedArray[$IMGID]=$position;
-							$_sortedCount++;
-						}
-						$_prodImgObj[]=$_imgObj;
-					}
-				}
-				
-				$_sortIndexes=array();
-				$_sortConflict=array();
-				foreach($_sortedArray as $k=>$v){
-					if(isset($_sortIndexes[$v])){
-						unset($_sortedArray[$k]);
-						$_sortConflict[$k]=$v;
-					}else{
-						$_sortIndexes[$v]=$k;	
-					}
-				}
-	
-				$missingSort = $_sortedCount>0 
-								&& ( $_excluded>0 && $_excluded != count($_images) && $_excluded != $_assignCount )
-								&& ( 
-										count($_sortConflict) > 0 
-									||	$_sortedCount != count($_images)
-									||	count($_sortedArray) != count($_images) 
-									||	!(
-											count($_sortedArray) == count($_images) 
-											&& $_sortedCount == count($_images)
-											&& count($_sortedArray) == $_sortedCount
-										)
-									);
-				$missingAssigned=true;
-				if($_assignCount>0){
-					if($_assignCount==count($types))$missingAssigned=false;
-				}
-
-
-				$imgObj = array();
-				$imgObj['missingSorted'] = $missingSort;
-				$imgObj['hasSorted'] = $_sortedCount>0;
-				$imgObj['hasSortIndexStart'] = isset($_sortIndexes[$sortIndex]);
-				$imgObj['missingAssigned'] = $missingAssigned;
-				$imgObj['hasAssigned'] = $_assignCount>0;
-				$imgObj['imgs'] =$_prodImgObj;
-				
-				$productArray['productImageProfile'] = $imgObj;
+				$productArray = $this->checkProductImgs($prodID);				
+				$missingAssigned = $productArray['productImageProfile']['missingAssigned'];
+				$missingSorted = $productArray['productImageProfile']['missingSorted'];
+				$_prodImgObj = $productArray['productImageProfile']['imgs'];
 				//var_dump(count($_prodImgObj)); print('<br/>');
 				if( 
 					   $type == 'imgless' && count($_prodImgObj)==0
 					|| $type == 'missassignments' && $missingAssigned && count($_prodImgObj)>0
-					|| $type == 'unsorted' && $missingSort && count($_prodImgObj)>0
+					|| $type == 'unsorted' && $missingSorted && count($_prodImgObj)>0
 				){
 					$newModel = Mage::getModel('wsu_mediacontroll/'.$type);	
 					$newModel->setData(array('prod_id'=>$prodID,'imgprofile'=>json_encode($productArray)))->setId(null);
@@ -311,5 +210,114 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			}
 		}//die('before final end');
 	}
+	public function checkProductImgs($prodID){
+		$sortIndex=0;
+		//var_dump($prodID);
+		$productArray=array();
+		$_prod = Mage::getModel('catalog/product')->load($prodID);
+		$_images = $_prod->getMediaGallery('images');
+		
+		
+		$productArray['prod_id']= (int)$product->getId();
+		$productArray['name']= $_prod->getName();
 
+		$types=array();
+		foreach ($_prod->getMediaAttributes() as $attribute) {
+			$types[] = $attribute->getAttributeCode();
+		}
+		$productArray['avialible_types']=$types;
+		$attrImgs=array();
+		foreach ($types as $typeof){
+			$imgHelper = Mage::helper('catalog/image');
+			$filename = "";
+			try{
+				$filename = Mage::helper('catalog/image')->init($_prod, $typeof);
+			}catch(Exception $e){}
+
+			if ($filename!="") {
+				$attrImgs[$typeof] = $filename."";
+			}	
+		}
+		$productArray['types']=$attrImgs;
+
+		$_assignCount = 0;
+		$_sortedCount = 0;
+		$_excluded = 0;
+
+		$_prodImgObj = array();
+		$_sortedArray=array();
+		if(count($_images)){
+			foreach ($_images as $_image){
+				$_imgObj=array();
+				$IMGID=$_image['value_id'];
+				
+				$_imgObj['id']=(int)$IMGID;
+
+				$typed_as=array();
+				$filenameTest = basename($_image['file'], ".jpg").'/';
+				foreach ($attrImgs as $code=>$setFile){	
+					if(strpos($setFile,$filenameTest)>-1){
+						$typed_as[]=$code;
+						$_assignCount++;
+					}
+				}
+				
+				$position=$_image['position'];
+				$disabled=$_image['disabled'];
+					$_imgObj['disabled']=$disabled;
+					$_imgObj['position']=$position;
+					$_imgObj['lable']=$_image['label'];
+					$_imgObj['file']=$_image['file'];
+					$_imgObj['typed_as']=$typed_as;
+				if($disabled>0){
+					$_excluded++;
+				}
+				if($position>-1){
+					$_sortedArray[$IMGID]=$position;
+					$_sortedCount++;
+				}
+				$_prodImgObj[]=$_imgObj;
+			}
+		}
+		
+		$_sortIndexes=array();
+		$_sortConflict=array();
+		foreach($_sortedArray as $k=>$v){
+			if(isset($_sortIndexes[$v])){
+				unset($_sortedArray[$k]);
+				$_sortConflict[$k]=$v;
+			}else{
+				$_sortIndexes[$v]=$k;	
+			}
+		}
+
+		$missingSort = $_sortedCount>0 
+						&& ( $_excluded>0 && $_excluded != count($_images) && $_excluded != $_assignCount )
+						&& ( 
+								count($_sortConflict) > 0 
+							||	$_sortedCount != count($_images)
+							||	count($_sortedArray) != count($_images) 
+							||	!(
+									count($_sortedArray) == count($_images) 
+									&& $_sortedCount == count($_images)
+									&& count($_sortedArray) == $_sortedCount
+								)
+							);
+		$missingAssigned=true;
+		if($_assignCount>0){
+			if($_assignCount==count($types))$missingAssigned=false;
+		}
+
+
+		$imgObj = array();
+		$imgObj['missingSorted'] = $missingSort;
+		$imgObj['hasSorted'] = $_sortedCount>0;
+		$imgObj['hasSortIndexStart'] = isset($_sortIndexes[$sortIndex]);
+		$imgObj['missingAssigned'] = $missingAssigned;
+		$imgObj['hasAssigned'] = $_assignCount>0;
+		$imgObj['imgs'] =$_prodImgObj;
+		
+		$productArray['productImageProfile'] = $imgObj;
+		return $productArray;
+	}
 }

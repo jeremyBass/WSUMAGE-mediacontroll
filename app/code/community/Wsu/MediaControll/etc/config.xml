@@ -85,7 +85,7 @@
     </resources>
 	
 	<events>
-        <catalog_product_save_before>
+        <catalog_product_save_after>
             <observers>
                 <some_module_detect_product_changes>
                     <type>singleton</type>
@@ -93,7 +93,7 @@
                     <method>checkProductChange</method>
                 </some_module_detect_product_changes>
             </observers>
-        </catalog_product_save_before>
+        </catalog_product_save_after>
 	</events>
 	
 	
