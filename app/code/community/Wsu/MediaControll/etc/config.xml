@@ -62,6 +62,12 @@
           <unsorted>
             <table>wsu_mediacontroll_unsorted</table>
           </unsorted>
+          <imgless>
+            <table>wsu_mediacontroll_imgless</table>
+          </imgless>
+          <orphaned>
+            <table>wsu_mediacontroll_orphaned</table>
+          </orphaned>
         </entities>
       </wsu_mediacontroll_resource>
       <catalog>
