@@ -10,8 +10,11 @@ class Wsu_Mediacontroll_Model_Resource_Imgless_Collection extends Mage_Core_Mode
 		$collection = Mage::getModel('wsu_mediacontroll/imgless')->getCollection();
 		$array=array();
 		foreach	($collection as $itemObj){
-			$array[] = $itemObj->getFile();
+			$item=(array)$itemObj;
+			$prod_id=$item['prod_id'];
+			$array[$prod_id] = json_decode($item['imgprofile']);
 		}
+
 		return $array;
 	}
 }
