@@ -181,11 +181,12 @@
                 <action>mediacontroll/sorted</action>
                 <sort_order>0</sort_order>
               </sorted>
-			<missing translate="title" module="mediacontroll">
-                <title>Products Missing Images</title>
-                <action>mediacontroll/missing</action>
-                <sort_order>0</sort_order>
-			</missing>	
+			  
+				<imgless translate="title" module="mediacontroll">
+					<title>Products Missing Images</title>
+					<action>mediacontroll/imgless</action>
+					<sort_order>0</sort_order>
+				</imgless>	
 			  
               <media translate="title" module="mediacontroll">
                 <title>Media Controll</title>
