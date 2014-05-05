@@ -11,7 +11,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 	protected $result = array();
 	protected $_mainTable;
 	public $valdir = array();
-
+	protected $prodBasedImgCollection = null;
 
 	public function halt_indexing(){
 		$this->processes = Mage::getSingleton('index/indexer')->getProcessesCollection(); 
@@ -119,13 +119,8 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
      *	//@return array
      */
 	public function get_ProductImages($type=""){
-		if($type=='unassigned' || $type=='unsorted'){
-			$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
-			->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
-			$productBasedImgCollection->getSelect()->order('updated_at','ASC');
-			//print( $productBasedImgCollection->getSelect() );die();
-		}else{
-			$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
+
+			/*$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
 				->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
 				//->joinField('category_id','catalog/category_product','category_id','product_id=entity_id',null,'left')
 				//->addAttributeToFilter('category_id', array('in' => $cats))
@@ -135,8 +130,15 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 				//->addAttributeToSelect('media_gallery'); 
 			//$productBasedImgCollection->getSelect()->order(new Zend_Db_Expr('RAND()'));
 			$productBasedImgCollection->getSelect()->order('updated_at','DESC');
-			//$productBasedImgCollection->getSelect()->limit($totalProducts,$page);
+			//$productBasedImgCollection->getSelect()->limit($totalProducts,$page);*/
+		if(empty($this->prodBasedImgCollection)||$this->prodBasedImgCollection=null){
+			$this->prodBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
+				->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED))
+				->getSelect()->order('updated_at','ASC');
 		}
+		//print( $productBasedImgCollection->getSelect() );die();
+
+
 
 		if($type=='unassigned'){
 			$model = Mage::getModel('wsu_mediacontroll/missassignments');	
@@ -165,7 +167,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		
 		//var_dump(count($productBasedImgCollection));print('<br/>');
 		$productImgCollection=array();
-		foreach($productBasedImgCollection as $product){
+		foreach($this->prodBasedImgCollection as $product){
 			$prodID=(int)$product->getId();
 			var_dump($prodID);print('<br/>');
 			//var_dump($tracked_products);
