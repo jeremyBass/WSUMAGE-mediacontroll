@@ -119,7 +119,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
      *	//@return array
      */
 	public function get_ProductImages($type=""){
-		if($type=='unassigned'){
+		if($type=='unassigned' || $type=='unsorted'){
 			$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
 			->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
 			$productBasedImgCollection->getSelect()->order('updated_at','ASC');
@@ -149,6 +149,20 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			}
 			$tracked_products = array_keys($val);
 		}
+		
+		if($type=='unsorted'){
+			$model = Mage::getModel('wsu_mediacontroll/unsorted');	
+			$collection = Mage::getModel('wsu_mediacontroll/unsorted')->getCollection();
+			$val=array();
+			foreach	($collection->getData() as $itemObj){
+				$item=(array)$itemObj;
+				$prod_id=$item['prod_id'];
+				$val[$prod_id] = json_decode($item['imgprofile']);
+			}
+			$tracked_products = array_keys($val);
+		}
+		
+		
 		//var_dump(count($productBasedImgCollection));print('<br/>');
 		$productImgCollection=array();
 		foreach($productBasedImgCollection as $product){
@@ -274,7 +288,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 				}
 				if($type=='unsorted'){
 					if( $missingSort && count($_prodImgObj)>0 ){
-						$newModel = Mage::getModel('wsu_mediacontroll/missassignments');	
+						$newModel = Mage::getModel('wsu_mediacontroll/unsorted');	
 						$newModel->setData(array('prod_id'=>$prodID,'imgprofile'=>json_encode($productArray)))->setId(null);
 						$newModel->save();
 					}

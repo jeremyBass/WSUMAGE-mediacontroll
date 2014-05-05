@@ -1,32 +1,22 @@
 <?php
 
 class Wsu_Mediacontroll_Block_Adminhtml_Renderer_Sorted_ProdImgState extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract {
-    /**
-     * Format variables pattern
-     *
-     * @var string
-     */
-    protected $_variablePattern = '/\\$([a-z0-9_]+)/i';
-
-    /**
-     * Renders grid column
-     *
-     * @param Varien_Object $row
-     * @return mixed
-     */
     public function _getValue(Varien_Object $row) {
-		
-		$prodImgProf = $row->getData("productImageProfile");
-		$location = Mage::getStoreConfig('web/secure/base_url');
+		$Imgprofile = $row->getData("imgprofile");
+		$profile = (array)json_decode($Imgprofile);
+		$prodImgProf = (array)$profile["productImageProfile"];
+		$location = Mage::getStoreConfig('web/unsecure/base_url');
 		//var_dump($prodImgProf);
 		$html = "<ul>";
-		foreach($prodImgProf["imgs"] as $img){
+		$prodImgProf_array=(array)$prodImgProf["imgs"];
+		foreach($prodImgProf_array as $imgItem){
+			$img=(array)$imgItem;
 			$imgfile = $img['file'];
 			$imgposition = $img['position'];
 			$disabled = $img['disabled']?"Excluded":"available"; 
 			$html .= "<li>
-					<a style='width:50px; height:75px; display:inline-block;'>
-						<img src='${location}media/catalog/product{$imgfile}' tile='img_a.jgp' style='width:100%;'/>
+					<a style='width:25px; height:25px; display:inline-block;'>
+						<b style='font-size:15px' data-img='${location}media/catalog/product{$imgfile}'>[=]</b>
 					</a>
 					<ul style='display:inline-block;'>
 						<li>Sort: ${imgposition}</li>";

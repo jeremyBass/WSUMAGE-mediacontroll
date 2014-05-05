@@ -26,5 +26,16 @@ $installer->run("
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
     ");
 
+$table_unsorted = $installer->getTable('wsu_mediacontroll/unsorted');
+$installer->run("
+    DROP TABLE IF EXISTS `{$table_unsorted}`;
+    CREATE TABLE `{$table_unsorted}` (
+			`unsorted_id` int(11) unsigned NOT NULL auto_increment,
+			`prod_id` int(11) NOT NULL,
+			`imgprofile` text NOT NULL default '',
+			PRIMARY KEY  (`unsorted_id`),
+			UNIQUE KEY `prod_id` (`prod_id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+    ");
 
 $installer->endSetup(); 

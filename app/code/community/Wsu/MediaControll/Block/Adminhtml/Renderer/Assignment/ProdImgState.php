@@ -1,19 +1,6 @@
 <?php
 
 class Wsu_Mediacontroll_Block_Adminhtml_Renderer_Assignment_ProdImgState extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract {
-    /**
-     * Format variables pattern
-     *
-     * @var string
-     */
-    protected $_variablePattern = '/\\$([a-z0-9_]+)/i';
-
-    /**
-     * Renders grid column
-     *
-     * @param Varien_Object $row
-     * @return mixed
-     */
     public function _getValue(Varien_Object $row) {
 		$Imgprofile = $row->getData("imgprofile");
 		$profile = (array)json_decode($Imgprofile);

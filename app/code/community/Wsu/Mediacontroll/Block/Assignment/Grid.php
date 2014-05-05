@@ -10,24 +10,11 @@ class Wsu_Mediacontroll_Block_Assignment_Grid extends Mage_Adminhtml_Block_Widge
 	}
 	protected function _prepareCollection() {
 		$collection = Mage::getModel('wsu_mediacontroll/missassignments')->getCollection();
-		/*foreach($collection as $item){
-			//var_dump(json_decode($item->getImgprofile()));die();
-			$prod_array[]= (array)json_decode($item->getImgprofile());
-		}
-		unset($collection);
-		$prod_collection = Mage::helper('mediacontroll')->getVarienDataCollection($prod_array);
-		$this->setCollection($prod_collection);*/
 		$this->setCollection($collection);
 		return parent::_prepareCollection();
 	}
 
 	protected function _prepareColumns(){
-/*        $this->addColumn('id', array(
-            'header'	=> Mage::helper('mediacontroll')->__('Product Id'),
-            'index'		=> 'missassignments_id',
-            'type'		=> 'number',
-        ));*/
-		
         $this->addColumn('prod_id', array(
             'header'	=> Mage::helper('mediacontroll')->__('Product Id'),
             'index'		=> 'prod_id',

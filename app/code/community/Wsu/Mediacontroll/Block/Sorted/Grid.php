@@ -5,17 +5,17 @@ class Wsu_Mediacontroll_Block_Sorted_Grid extends Mage_Adminhtml_Block_Widget_Gr
 		$this->setId('mediacontrollGrid');
 		$this->setDefaultSort('prod_id');
 		$this->setDefaultDir('ASC');
-		$this->setSaveParametersInSession(true);	  
+		$this->setSaveParametersInSession(true);
+		$this->_emptyText = Mage::helper('adminhtml')->__('Nothing is left outstanding, try to refresh. <button title="Refresh" class="scalable refresh" onclick="setLocation(\''.$this->getUrl('*/*/search').'\')" type="button"><span><span><span>Refresh</span></span></span></button>');
 	}
 	protected function _prepareCollection() {
-		$prod_array = Mage::helper('mediacontroll')->get_ProductUnsortedImages();
-		$prod_collection = Mage::helper('mediacontroll')->getVarienDataCollection($prod_array);
-		$this->setCollection($prod_collection);
+		$collection = Mage::getModel('wsu_mediacontroll/unsorted')->getCollection();
+		$this->setCollection($collection);
 		return parent::_prepareCollection();
 	}
 
 	protected function _prepareColumns(){
-        $this->addColumn('id', array(
+        $this->addColumn('prod_id', array(
             'header'	=> Mage::helper('mediacontroll')->__('Product Id'),
             'index'		=> 'prod_id',
             'type'		=> 'number',
@@ -23,6 +23,7 @@ class Wsu_Mediacontroll_Block_Sorted_Grid extends Mage_Adminhtml_Block_Widget_Gr
 
         $this->addColumn('name', array(
             'header'		=> Mage::helper('mediacontroll')->__('Name'),
+			'renderer'	=>'Wsu_Mediacontroll_Block_Adminhtml_Renderer_Sorted_Name',
             'index'		=> 'name',
             'type'		=> 'text',
         ));
@@ -45,13 +46,8 @@ class Wsu_Mediacontroll_Block_Sorted_Grid extends Mage_Adminhtml_Block_Widget_Gr
                 'header'	=>  Mage::helper('mediacontroll')->__('Action'),
                 'width'     => '100',
                 'type'      => 'action',
-                'getter'    => 'getProd_id',
+                'getter'    => 'getUnsorted_id',
                 'actions'   => array(
-                    array(
-                        'caption'   => Mage::helper('mediacontroll')->__('delete'),
-                        'url'       => array('base'=> '*/*/delete'),
-						'field'     => 'id'
-                    ),
                     array(
                         'caption'   => Mage::helper('mediacontroll')->__('Resort'),
                         'url'       => array('base'=> '*/*/resort'),
@@ -60,20 +56,16 @@ class Wsu_Mediacontroll_Block_Sorted_Grid extends Mage_Adminhtml_Block_Widget_Gr
                 ),
                 'filter'    => false,
                 'sortable'  => false,
-                'index'     => 'prod_id',
+                'index'     => 'unsorted_id',
                 'is_system' => true,
         ));
       return parent::_prepareColumns();
 	} 
 
 	protected function _prepareMassaction(){
-        $this->setMassactionIdField('prod_id');
+        $this->setMassactionIdField('unsorted_id');
         $this->getMassactionBlock()->setFormFieldName('mediacontroll');
-        $this->getMassactionBlock()->addItem('delete', array(
-             'label'    => Mage::helper('mediacontroll')->__('Delete'),
-             'url'      => $this->getUrl('*/*/massDelete'),
-             'confirm'  => Mage::helper('mediacontroll')->__('Are you sure?')
-        ));
+		
         $this->getMassactionBlock()->addItem('resort', array(
              'label'    => Mage::helper('mediacontroll')->__('Resort'),
              'url'      => $this->getUrl('*/*/massResort'),
