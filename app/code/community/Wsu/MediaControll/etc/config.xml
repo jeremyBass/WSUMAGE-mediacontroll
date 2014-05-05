@@ -59,6 +59,9 @@
           <missassignments>
             <table>wsu_mediacontroll_missassignments</table>
           </missassignments>
+          <unsorted>
+            <table>wsu_mediacontroll_unsorted</table>
+          </unsorted>
         </entities>
       </wsu_mediacontroll_resource>
       <catalog>
