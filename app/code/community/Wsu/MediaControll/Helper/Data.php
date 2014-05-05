@@ -88,8 +88,9 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 	}
 
 	public function indexImgless() {
+		$this->get_ProductImages('imgless');
 		try{
-			$this->get_ProductImages('imgless');
+			
 		} catch(Zend_Db_Exception $e){
 		} catch(Exception $e){
 			Mage::log($e->getMessage());
@@ -127,7 +128,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
      *	//@return array
      */
 	public function get_ProductImages($type=""){
-
+			$sortIndex=0;
 			/*$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
 				->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
 				//->joinField('category_id','catalog/category_product','category_id','product_id=entity_id',null,'left')
@@ -139,12 +140,11 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			//$productBasedImgCollection->getSelect()->order(new Zend_Db_Expr('RAND()'));
 			$productBasedImgCollection->getSelect()->order('updated_at','DESC');
 			//$productBasedImgCollection->getSelect()->limit($totalProducts,$page);*/
-		if(empty($this->prodBasedImgCollection)||$this->prodBasedImgCollection=null){
-			$this->prodBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
-				->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED))
-				->getSelect()->order('updated_at','ASC');
-		}
-		//print( $this->prodBasedImgCollection->getSelect() );die();
+		$prodcollection = Mage::getResourceModel('catalog/product_collection')
+			->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
+		$prodcollection->getSelect()->order('updated_at','ASC');
+		
+		//print( $prodcollection->getSelect() );//die();
 
 		$model = Mage::getModel('wsu_mediacontroll/'.$type);	
 		$collection = Mage::getModel('wsu_mediacontroll/'.$type)->getCollection();
@@ -168,9 +168,11 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		if($type!='orphaned'){
 		
 			$productImgCollection=array();
-			foreach($this->prodBasedImgCollection as $product){
+			//$prodcollection = $this->prodBasedImgCollection->getSelect();
+			//var_dump('here');var_dump($collection);
+			foreach($prodcollection as $product){
 				$prodID=(int)$product->getId();
-
+				//var_dump($prodID);
 				if(empty($tracked_products) || !array_key_exists($prodID,$tracked_products)){
 					$productArray=array();
 					$_prod = Mage::getModel('catalog/product')->load($prodID);
@@ -277,9 +279,9 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 					$imgObj['imgs'] =$_prodImgObj;
 					
 					$productArray['productImageProfile'] = $imgObj;
-
+					var_dump(count($_prodImgObj)); print('<br/>');
 					if( 
-						   $type == 'imgless' && count($_prodImgObj)>0
+						   $type == 'imgless' && count($_prodImgObj)==0
 						|| $type == 'missassignments' && $missingAssigned && count($_prodImgObj)>0
 						|| $type == 'unsorted' && $missingSort && count($_prodImgObj)>0
 					){
@@ -290,7 +292,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 				}
 			}
 		}
-		
+		//die('stopped at '.$type);
 		if($type=='orphaned'){
 			$model = Mage::getModel('wsu_mediacontroll/orphaned');	
 			$val	= $model->getCollection()->getImages();
