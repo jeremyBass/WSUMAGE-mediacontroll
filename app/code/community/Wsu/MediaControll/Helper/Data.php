@@ -160,7 +160,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		}
 		$prodcollection = Mage::getResourceModel('catalog/product_collection')
 			->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
-		$prodcollection->addAttributeToFilter('entity_id', array('nin' => $tracked_products));
+		if(!empty($tracked_products))$prodcollection->addAttributeToFilter('entity_id', array('nin' => $tracked_products));
 		$prodcollection->getSelect()->order('updated_at','ASC');
 
 		print( $prodcollection->getSelect() );//die();
@@ -289,11 +289,8 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 					$newModel->setData(array('prod_id'=>$prodID,'imgprofile'=>json_encode($productArray)))->setId(null);
 					$newModel->save();
 				}
-				if($prodID==169)die();
-				
 			}
 		}
-		die('stopped at '.$type);
 		if($type=='orphaned'){
 			$model = Mage::getModel('wsu_mediacontroll/orphaned');	
 			$val	= $model->getCollection()->getImages();
