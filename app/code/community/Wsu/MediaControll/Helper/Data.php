@@ -145,7 +145,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 
 		
 		
-
+		
 		$model = Mage::getModel('wsu_mediacontroll/'.$type);	
 		$collection = Mage::getModel('wsu_mediacontroll/'.$type)->getCollection();
 		$val=array();
@@ -161,10 +161,10 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		$prodcollection = Mage::getResourceModel('catalog/product_collection')
 			->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
 		if(!empty($tracked_products))$prodcollection->addAttributeToFilter('entity_id', array('nin' => $tracked_products));
-		$prodcollection->getSelect()->order('updated_at','ASC');
+		$prodcollection->getSelect()->order('updated_at','DESC');
 
-		print( $prodcollection->getSelect() );//die();
-		var_dump(count($prodcollection));print('<br/>');
+		//print( $prodcollection->getSelect() );//die();
+		//var_dump(count($prodcollection));print('<br/>');
 		
 		if($type!='orphaned'){
 		
@@ -212,13 +212,14 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 	}
 	public function checkProductImgs($prodID){
 		$sortIndex=0;
+		$unsorted=false;
 		//var_dump($prodID);
 		$productArray=array();
 		$_prod = Mage::getModel('catalog/product')->load($prodID);
 		$_images = $_prod->getMediaGallery('images');
 		
 		
-		$productArray['prod_id']= (int)$product->getId();
+		$productArray['prod_id']= $prodID;
 		$productArray['name']= $_prod->getName();
 
 		$types=array();
@@ -275,6 +276,8 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 				if($position>-1){
 					$_sortedArray[$IMGID]=$position;
 					$_sortedCount++;
+				}elseif(empty($position)||$position==""){
+					$unsorted=true;	
 				}
 				$_prodImgObj[]=$_imgObj;
 			}
@@ -310,7 +313,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 
 
 		$imgObj = array();
-		$imgObj['missingSorted'] = $missingSort;
+		$imgObj['missingSorted'] = $unsorted?true:$missingSort;
 		$imgObj['hasSorted'] = $_sortedCount>0;
 		$imgObj['hasSortIndexStart'] = isset($_sortIndexes[$sortIndex]);
 		$imgObj['missingAssigned'] = $missingAssigned;
