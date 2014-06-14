@@ -70,9 +70,9 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 	}
 	
 	public function indexMissassignment() {
-		$this->get_ProductImages('missassignments');
+		
 		try{
-			
+			$this->get_ProductImages('missassignments');
 		} catch(Zend_Db_Exception $e){
 		} catch(Exception $e){
 			Mage::log($e->getMessage());
@@ -80,9 +80,9 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 	}
 
 	public function indexUnsorted() {
-		$this->get_ProductImages('unsorted');
+		
 		try{
-			
+			$this->get_ProductImages('unsorted');
 		} catch(Zend_Db_Exception $e){
 		} catch(Exception $e){
 			Mage::log($e->getMessage());
@@ -90,9 +90,9 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 	}
 
 	public function indexImgless() {
-		$this->get_ProductImages('imgless');
+		
 		try{
-			
+			$this->get_ProductImages('imgless');
 		} catch(Zend_Db_Exception $e){
 		} catch(Exception $e){
 			Mage::log($e->getMessage());
