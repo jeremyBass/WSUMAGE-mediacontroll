@@ -161,7 +161,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		$prodcollection = Mage::getResourceModel('catalog/product_collection')
 			->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
 		if(!empty($tracked_products))$prodcollection->addAttributeToFilter('entity_id', array('nin' => $tracked_products));
-		$prodcollection->getSelect()->order('updated_at','DESC');
+		$prodcollection->getSelect()->order('updated_at','ASC');
 
 		//print( $prodcollection->getSelect() );//die();
 		//var_dump(count($prodcollection));print('<br/>');
