@@ -99,27 +99,6 @@
 	
 	
   </global>
-  <!--<admin>
-    <routers>
-      <adminhtml>
-        <args>
-          <modules>
-            <wsu_mediacontroll before="Mage_Adminhtml">Wsu_Mediacontroll</wsu_mediacontroll>
-          </modules>
-        </args>
-      </adminhtml>
-      <mediacontroll>
-        <use>admin</use>
-        <args>
-		  <module>Wsu_Mediacontroll</module>
-		  <frontName>mediacontroll</frontName>
-          <modules>
-            <wsu_mediacontroll before="Mage_Adminhtml">Wsu_Mediacontroll</wsu_mediacontroll>
-          </modules>
-        </args>
-      </mediacontroll>
-    </routers>
-  </admin>-->
   <adminhtml>
     <cms>
       <browser>
@@ -239,15 +218,6 @@
     </translate>
   </adminhtml>
   <default>
-    <wsu_mediacontroll>
-      <config>
-        <!--
-				Some examples on the config defaults
-				<theme>go</theme>
-				<showmageads>0</showmageads>
-				<logo>logo.gif</logo>-->
-      </config>
-    </wsu_mediacontroll>
     <design>
       <watermark>
         <image_adapter>GD2</image_adapter>
