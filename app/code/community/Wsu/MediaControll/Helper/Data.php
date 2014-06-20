@@ -130,22 +130,6 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
      *	//@return array
      */
 	public function get_ProductImages($type=""){
-		
-		/*$productBasedImgCollection = Mage::getResourceModel('catalog/product_collection')
-			->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
-			//->joinField('category_id','catalog/category_product','category_id','product_id=entity_id',null,'left')
-			//->addAttributeToFilter('category_id', array('in' => $cats))
-			//->addAttributeToFilter('small_image', array('neq' => ''))
-			//->addAttributeToFilter('small_image', array('neq' => 'no_selection'))
-			//->addAttributeToSelect('image')
-			//->addAttributeToSelect('media_gallery'); 
-		//$productBasedImgCollection->getSelect()->order(new Zend_Db_Expr('RAND()'));
-		$productBasedImgCollection->getSelect()->order('updated_at','DESC');
-		//$productBasedImgCollection->getSelect()->limit($totalProducts,$page);*/
-
-		
-		
-		
 		$model = Mage::getModel('wsu_mediacontroll/'.$type);	
 		$collection = Mage::getModel('wsu_mediacontroll/'.$type)->getCollection();
 		$val=array();
