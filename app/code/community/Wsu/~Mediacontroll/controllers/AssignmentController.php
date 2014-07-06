@@ -40,6 +40,10 @@ class Wsu_Mediacontroll_AssignmentController extends Mage_Adminhtml_Controller_a
 			'id'=>0,
 			'store'=>$store
 		));
+		
+		print("Hello");
+		
+		
         $this->loadLayout();
         $this->renderLayout();
     }
