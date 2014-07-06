@@ -8,4 +8,12 @@ class Wsu_Mediacontroll_Block_Adminhtml_Generate extends Mage_Adminhtml_Block_Te
         return $this->getUrl('*/*/generateListItem');
     }
 
+
+    public function getProducts() {
+		$collection = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('entity_id');
+        return (array)$collection;
+    }
+
+
+
 }
