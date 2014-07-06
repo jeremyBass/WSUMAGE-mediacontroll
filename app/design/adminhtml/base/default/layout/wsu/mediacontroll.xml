@@ -6,11 +6,15 @@
         </reference>
     </mediacontroll_adminhtml_mediacontroll_index>-->
 	
-	
-    <adminhtml_mediacontroll_generate>
+    <ajax>
+        <reference name="root">
+            <action method="setTemplate"><template>wsu/mediacontroll/ajax.phtml</template></action>
+        </reference>
+    </ajax>	
+    <adminhtml_mediacontroll_assignment_generate>
         <reference name="content">
             <block type="mediacontroll/adminhtml_generate" name="mediacontroll_generate" template="wsu/mediacontroll/generate.phtml" />
         </reference>
-    </adminhtml_mediacontroll_generate>
+    </adminhtml_mediacontroll_assignment_generate>
 	
 </layout>
