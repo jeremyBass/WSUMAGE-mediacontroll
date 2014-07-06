@@ -72,7 +72,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 	public function indexMissassignment() {
 		
 		try{
-			$this->get_ProductImages('missassignments');
+			$this->get_ProductImages(array('type'=>'missassignments'));
 		} catch(Zend_Db_Exception $e){
 		} catch(Exception $e){
 			Mage::log($e->getMessage());
@@ -82,7 +82,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 	public function indexUnsorted() {
 		
 		try{
-			$this->get_ProductImages('unsorted');
+			$this->get_ProductImages(array('type'=>'unsorted'));
 		} catch(Zend_Db_Exception $e){
 		} catch(Exception $e){
 			Mage::log($e->getMessage());
@@ -92,7 +92,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 	public function indexImgless() {
 		
 		try{
-			$this->get_ProductImages('imgless');
+			$this->get_ProductImages(array('type'=>'imgless'));
 		} catch(Zend_Db_Exception $e){
 		} catch(Exception $e){
 			Mage::log($e->getMessage());
@@ -129,7 +129,27 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
      * Get a collection of products that have images that are unassigned
      *	//@return array
      */
-	public function get_ProductImages($type=""){
+	public function get_ProductImages($params=array()){
+		
+		if(empty($params)){
+			$params = array(
+				'json'=>false,
+				'type'=>"",
+				'limit'=>5,
+				'offset'=>0,
+				'store'=>0
+			);	
+		}
+		$json=isset($params['json'])?$params['json']:false;
+		$type=isset($params['type'])?$params['type']:"";
+		$limit=isset($params['limit'])?$params['limit']:5;
+		$offset=isset($params['offset'])?$params['offset']:0;
+		$store=isset($params['store'])?$params['store']:0;
+		
+		if($store>0){
+			Mage::app()->setCurrentStore($store); 
+		}
+		
 		$model = Mage::getModel('wsu_mediacontroll/'.$type);	
 		$collection = Mage::getModel('wsu_mediacontroll/'.$type)->getCollection();
 		$val=array();
@@ -144,8 +164,15 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		}
 		$prodcollection = Mage::getResourceModel('catalog/product_collection')
 			->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
-		if(!empty($tracked_products))$prodcollection->addAttributeToFilter('entity_id', array('nin' => $tracked_products));
-		$prodcollection->getSelect()->order('updated_at','ASC');
+		if(!empty($tracked_products)){
+			$prodcollection->addAttributeToFilter('entity_id', array('nin' => $tracked_products));
+		}
+		
+		if($limit>0 && $offset>0){
+			$prodcollection->limit($limit, $offset);
+		}
+		$prodcollection->addStoreFilter();
+		$prodcollection->getSelect()->order('entity_id','ASC');
 
 		//print( $prodcollection->getSelect() );//die();
 		//var_dump(count($prodcollection));print('<br/>');
