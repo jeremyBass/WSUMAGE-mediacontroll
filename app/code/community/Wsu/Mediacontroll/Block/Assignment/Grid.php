@@ -6,7 +6,7 @@ class Wsu_Mediacontroll_Block_Assignment_Grid extends Mage_Adminhtml_Block_Widge
 		$this->setDefaultSort('prod_id');
 		$this->setDefaultDir('ASC');
 		$this->setSaveParametersInSession(true);
-		$this->_emptyText = Mage::helper('adminhtml')->__('Nothing is left outstanding, try to refresh. <button title="Refresh" class="scalable refresh" onclick="setLocation(\''.$this->getUrl('*/*/generatelist').'\')" type="button"><span><span><span>Refresh</span></span></span></button>');	
+		$this->_emptyText = Mage::helper('adminhtml')->__('Nothing is left outstanding, try to refresh. <button title="Refresh" class="scalable refresh" onclick="setLocation(\''.$this->getUrl('*/*/generate').'\')" type="button"><span><span><span>Refresh</span></span></span></button>');	
 	}
 	protected function _prepareCollection() {
 		$collection = Mage::getModel('wsu_mediacontroll/missassignments')->getCollection();

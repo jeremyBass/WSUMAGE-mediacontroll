@@ -23,7 +23,7 @@ class Wsu_Mediacontroll_AssignmentController extends Mage_Adminhtml_Controller_a
 		$this->_redirect('*/*/');
 	}
 
-    public function generateListAction() {
+    public function generateAction() {
         $storeId = $this->getRequest()->getParam('store_id');
         $store = Mage::app()->getStore($storeId);
         $session = Mage::getSingleton('adminhtml/session');
