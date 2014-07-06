@@ -44,7 +44,7 @@ $_products = $this->getProducts();
             if (!run) {
                 setTimeout(function() {
                     processUrl(i);
-                }, 500);
+                }, 50);
             } else if (products[i] && products[i].length) {
                 $('generate-progress').show();
                 $('generate-offset').innerHTML = i + 1;
