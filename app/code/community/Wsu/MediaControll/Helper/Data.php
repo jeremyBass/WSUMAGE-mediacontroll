@@ -26,7 +26,12 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		$this->processes->walk('setMode', array(Mage_Index_Model_Process::MODE_REAL_TIME)); 
 		$this->processes->walk('save'); 
 	}
-
+    /**
+     * @return Mage_Core_Controller_Request_Http
+     */
+    public function getRequest(){
+        return Mage::app()->getRequest();
+    }
 
 
 

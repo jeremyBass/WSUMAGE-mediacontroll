@@ -1,0 +1,32 @@
+<?php
+
+$_urls = $this->getUrls();
+?>
+<?php if ($this->isEnabled() && $_urls && count($_urls)): ?>
+<script type="text/javascript">
+//<![CDATA[
+document.observe('dom:loaded', function () {
+    var generateUrl = '<?php echo $this->getGenerateUrl() ?>';
+    var urls = '<?php echo $this->helper('core')->jsonEncode($_urls) ?>'.evalJSON();
+
+    function callUrl(i) {
+        if (urls[i] && urls[i].length) {
+            new Ajax.Request(generateUrl + '?url=' + encodeURIComponent(urls[i]), {
+                loaderArea: false,
+                onComplete: function() {
+                    if (console) {
+                        console.log((i + 1) + '/' + urls.length + ' Generated list item for: ' + urls[i]);
+                    }
+                    setTimeout(function() {
+                        callUrl(++i);
+                    }, 200);
+                }
+            });
+        }
+    }
+
+    callUrl(0);
+});
+//]]>
+</script>
+<?php endif; ?>

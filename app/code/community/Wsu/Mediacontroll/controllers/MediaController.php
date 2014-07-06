@@ -37,6 +37,7 @@ class Wsu_Mediacontroll_MediaController extends Mage_Adminhtml_Controller_Action
 		//would be setting this as option
 		Mage::register('set_params', array(
 			'json'=>true,
+			'type'=>"",
 			'limit'=>5,
 			'offset'=>0,
 			'store'=>$store
@@ -46,11 +47,17 @@ class Wsu_Mediacontroll_MediaController extends Mage_Adminhtml_Controller_Action
     }
 
     public function generateListItemAction() {
-        $url = $this->getRequest()->getParam('last_set_item');
-        $store = $this->getRequest()->getParam('store');
-		$set_params = Mage::registry('set_params');
+		
+		$defaults = Mage::registry('set_params');
+        $params = array(
+			'json'=>$this->getRequest()->getParam('json',$defaults['json']),
+        	'type'=>$this->getRequest()->getParam('type',$defaults['type']),
+        	'limit'=>$this->getRequest()->getParam('limit',$defaults['limit']),
+        	'offset'=>$this->getRequest()->getParam('offset',$defaults['offset']),
+        	'store'=>$this->getRequest()->getParam('store',$defaults['store'])
+		);
 
-        $result = Mage::helper('mediacontroll')->get_ProductImages($set_params);
+        $result = Mage::helper('mediacontroll')->get_ProductImages($params);
 
         return $this->getResponse()
             ->setHeader('Content-type', 'application/json')

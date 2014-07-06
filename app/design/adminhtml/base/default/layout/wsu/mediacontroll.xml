@@ -5,4 +5,12 @@
             <block type="mediacontroll/adminhtml_mediacontroll" name="mediacontroll" />
         </reference>
     </mediacontroll_adminhtml_mediacontroll_index>-->
+	
+	
+    <adminhtml_mediacontroll_generatelist>
+        <reference name="content">
+            <block type="mediacontroll/adminhtml_generate" name="mediacontroll_generate" template="wsu/mediacontroll/generate.phtml" />
+        </reference>
+    </adminhtml_mediacontroll_generatelist>
+	
 </layout>
