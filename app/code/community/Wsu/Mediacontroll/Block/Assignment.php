@@ -7,7 +7,7 @@ class Wsu_Mediacontroll_Block_Assignment extends Mage_Adminhtml_Block_Widget_Gri
 		parent::__construct();
 		$this->_addButton('add', array(
 			'label' => Mage::helper('mediacontroll')->__('Refresh'),
-			'onclick' => "setLocation('" . $this->getUrl('*/*/generateList', array('page_key' => 'collection')) . "')",
+			'onclick' => "setLocation('" . $this->getUrl('*/*/generatelist', array('page_key' => 'collection')) . "')",
 			'class' => 'add'
 		));
 	}
