@@ -37,6 +37,7 @@ class Wsu_Mediacontroll_AssignmentController extends Mage_Adminhtml_Controller_a
 			'type'=>"missassignments",
 			'limit'=>5,
 			'offset'=>0,
+			'id'=>0,
 			'store'=>$store
 		));
         $this->loadLayout();
@@ -51,6 +52,7 @@ class Wsu_Mediacontroll_AssignmentController extends Mage_Adminhtml_Controller_a
         	'type'=>$this->getRequest()->getParam('type',$defaults['type']),
         	'limit'=>$this->getRequest()->getParam('limit',$defaults['limit']),
         	'offset'=>$this->getRequest()->getParam('offset',$defaults['offset']),
+			'id'=>$this->getRequest()->getParam('id',$defaults['id']),
         	'store'=>$this->getRequest()->getParam('store',$defaults['store'])
 		);
 

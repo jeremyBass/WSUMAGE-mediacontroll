@@ -135,13 +135,14 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
      *	//@return array
      */
 	public function get_ProductImages($params=array()){
-		
+		$time_start = microtime(true);
 		if(empty($params)){
 			$params = array(
 				'json'=>false,
 				'type'=>"",
 				'limit'=>5,
 				'offset'=>0,
+				'id'=>0,
 				'store'=>0
 			);	
 		}
@@ -150,35 +151,40 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		$limit=isset($params['limit'])?$params['limit']:5;
 		$offset=isset($params['offset'])?$params['offset']:0;
 		$store=isset($params['store'])?$params['store']:0;
+		$id=isset($params['id'])?$params['id']:0;
 		
-		if($store>0){
-			Mage::app()->setCurrentStore($store); 
-		}
-		
-		$model = Mage::getModel('wsu_mediacontroll/'.$type);	
-		$collection = Mage::getModel('wsu_mediacontroll/'.$type)->getCollection();
-		$val=array();
-		$i=0;
-		$tracked_products=array();
-		foreach	($collection->getData() as $itemObj){
-			$item=(array)$itemObj;
-			$prod_id= $item['prod_id'];
-			if(isset($item['imgprofile'])){
-				$tracked_products[] = $prod_id;
+		$prodcollection = Mage::getResourceModel('catalog/product_collection');
+		if($id>0){
+			$prodcollection->addAttributeToFilter('entity_id', array('eq' => $id));
+		}else{
+			if($store>0){
+				Mage::app()->setCurrentStore($store); 
 			}
-		}
-		$prodcollection = Mage::getResourceModel('catalog/product_collection')
-			->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
-		if(!empty($tracked_products)){
-			$prodcollection->addAttributeToFilter('entity_id', array('nin' => $tracked_products));
-		}
-		
-		if($limit>0 && $offset>0){
-			$prodcollection->limit($limit, $offset);
-		}
-		$prodcollection->addStoreFilter();
-		$prodcollection->getSelect()->order('entity_id','ASC');
 
+			$model = Mage::getModel('wsu_mediacontroll/'.$type);	
+			$collection = Mage::getModel('wsu_mediacontroll/'.$type)->getCollection();
+			$val=array();
+			$i=0;
+			$tracked_products=array();
+			foreach	($collection->getData() as $itemObj){
+				$item=(array)$itemObj;
+				$prod_id= $item['prod_id'];
+				if(isset($item['imgprofile'])){
+					$tracked_products[] = $prod_id;
+				}
+			}
+			$prodcollection->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
+			
+			if(!empty($tracked_products)){
+				$prodcollection->addAttributeToFilter('entity_id', array('nin' => $tracked_products));
+			}
+
+			if($limit>0 && $offset>0){
+				$prodcollection->limit($limit, $offset);
+			}
+			$prodcollection->addStoreFilter();
+		}
+		$prodcollection->getSelect()->order('entity_id','ASC');
 		//print( $prodcollection->getSelect() );//die();
 		//var_dump(count($prodcollection));print('<br/>');
 		
@@ -225,6 +231,22 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 				}
 			}
 		}//die('before final end');
+		
+		
+
+		$time_end = microtime(true);
+		if($json){
+			return (object)array(
+				"error"=>"",
+				"http_code"=>"finished",
+				"total_time"=>$time_end - $time_start
+			
+			);
+			
+		}
+		
+		
+		
 	}
 	public function checkProductImgs($prodID){
 		$sortIndex=0;
