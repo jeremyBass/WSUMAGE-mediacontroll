@@ -11,7 +11,10 @@ class Wsu_Mediacontroll_Block_Assignment_Generate extends Mage_Adminhtml_Block_T
 
     public function getProducts() {
 		$collection = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('entity_id');
-		$collection->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
+		
+		if(Mage::getStoreConfig('wsu_mediacontroll/profilers/filterstatus')){
+			$collection->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
+		}
 		$pros=array();
 		foreach($collection as $_product){
 			$pros[]=$_product->getId();
