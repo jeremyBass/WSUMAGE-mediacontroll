@@ -28,9 +28,9 @@ class Wsu_Mediacontroll_AssignmentController extends Mage_Adminhtml_Controller_a
         $store = Mage::app()->getStore($storeId);
         $session = Mage::getSingleton('adminhtml/session');
 
-        if (!$storeId || !$store->getId() || !$store->getIsActive()) {
+        /*if (!$storeId || !$store->getId() || !$store->getIsActive()) {
             $session->addError('Please specify a valid store for list generation');
-        }
+        }*/
 		//would be setting this as option
 		Mage::register('set_params', array(
 			'json'=>true,
