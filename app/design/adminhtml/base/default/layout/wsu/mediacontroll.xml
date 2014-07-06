@@ -13,7 +13,7 @@
     </ajax>	
     <mediacontroll_assignment_generate>
         <reference name="content">
-            <block type="mediacontroll/adminhtml_generate" name="mediacontroll_generate" template="wsu/mediacontroll/generate.phtml" />
+            <block type="mediacontroll/assignment_generate" name="mediacontroll_assignment_generate" template="wsu/mediacontroll/generate.phtml" />
         </reference>
     </mediacontroll_assignment_generate>
 	

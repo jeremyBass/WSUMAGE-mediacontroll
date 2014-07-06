@@ -1,8 +1,8 @@
 <?php
-class Wsu_Mediacontroll_Block_Adminhtml_Generate_Auto extends Mage_Adminhtml_Block_Template {
+class Wsu_Mediacontroll_Block_Assignment_Generate_Auto extends Mage_Adminhtml_Block_Template {
 
     public function getGenerateUrl() {
-        return $this->getUrl('*/mediacontroll/generateUrl');
+        return $this->getUrl('*/assignment/generateUrl');
     }
 
     public function getUrls() {
