@@ -7,10 +7,10 @@
     </mediacontroll_adminhtml_mediacontroll_index>-->
 	
 	
-    <adminhtml_mediacontroll_generatelist>
+    <adminhtml_mediacontroll_generate>
         <reference name="content">
             <block type="mediacontroll/adminhtml_generate" name="mediacontroll_generate" template="wsu/mediacontroll/generate.phtml" />
         </reference>
-    </adminhtml_mediacontroll_generatelist>
+    </adminhtml_mediacontroll_generate>
 	
 </layout>
