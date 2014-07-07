@@ -49,7 +49,8 @@ $_products = $this->getProducts();
                 $('generate-progress').show();
                 $('generate-offset').innerHTML = i + 1;
                 $('generate-count').innerHTML = products.length;
-                new Ajax.Request(generateUrl + '?json=true&id=' + products[i] , {
+				//note the type needs to be a var when abstracted later
+                new Ajax.Request(generateUrl + '?json=true&type=missassignments&id=' + products[i] , {
                     onCreate: function() {
                         start = new Date().getTime();
                         $('calls').insert({
