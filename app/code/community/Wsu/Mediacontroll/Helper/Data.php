@@ -355,10 +355,9 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 								)
 							);
 		$missingAssigned=true;
-		if($_assignCount>0){
-			if( ( count($productArray['types']) == count($productArray['avialible_types']) ) || $_assignCount==count($types)){
-				$missingAssigned=false;
-			}
+
+		if( ( count($productArray['types']) == count($productArray['avialible_types']) ) || ( $_assignCount>0 && $_assignCount==count($types) ) ){
+			$missingAssigned=false;
 		}
 
 
@@ -367,7 +366,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		$imgObj['hasSorted'] = $_sortedCount>0;
 		$imgObj['hasSortIndexStart'] = isset($_sortIndexes[$sortIndex]);
 		$imgObj['missingAssigned'] = $missingAssigned;
-		$imgObj['hasAssigned'] = $_assignCount>0;
+		$imgObj['hasAssigned'] = count($productArray['types'])>0 || $_assignCount>0;
 		$imgObj['imgs'] =$_prodImgObj;
 		
 		$productArray['productImageProfile'] = $imgObj;
