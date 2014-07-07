@@ -84,15 +84,17 @@ $_products = $this->getProducts();
 						//console.log("ending at :"+ending);
 						var ttook = ( (ending-starting)/1000 ).toFixed(4);
                         if (result.error && result.error !="") {
-							message = '<strong style="color:red;"> ' + result.error + '' + result.status + '</strong> <em>(server:' + took + 's | total:' + ttook + 's)</em>' + "<i class'preDisplay'>+</i><pre class='usedObj'>"+result.object+"</pre>";
+							message = '<strong style="color:red;"> ' + result.error + '' + result.status + '</strong> <em>(server:' + took + 's | total:' + ttook + 's)</em>' + '<i class"preDisplay">+</i><pre class="usedObj">'+result.object+'</pre>';
                         } else {
                             var color = result.status_code > 0 ? 'red' : 'green' ;
-							message = '<strong style="color:'+ color +';"> ' + result.status + '</strong> <em>(server:' + took + 's | total:' + ttook+ 's)</em>' + "<i class'preDisplay'>+</i><pre class='usedObj'>"+result.object+"</pre>";	
+							message = '<strong style="color:'+ color +';"> ' + result.status + '</strong> <em>(server:' + took + 's | total:' + ttook+ 's)</em>' + '<i class"preDisplay">+</i><pre class="usedObj">'+result.object+'</pre>';
                         }
 						$('generate-' + i).insert({
                             bottom: message
                         });
-
+						jQuery('.preDisplay').off().on("click",function(){
+							$(this).next('pre').toggle("slide", { opacity: 100 }, 1000);
+						});
 						
                     },
                     onFailure: function() {
