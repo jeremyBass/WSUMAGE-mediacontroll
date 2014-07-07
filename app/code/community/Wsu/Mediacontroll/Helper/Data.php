@@ -153,6 +153,8 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		$store=isset($params['store'])?$params['store']:0;
 		$id=isset($params['id'])?$params['id']:0;
 		$status = "nothing done";
+		$status_code=0;
+		$obj ="";
 		$prodcollection = Mage::getResourceModel('catalog/product_collection');
 		if($id>0){
 			
@@ -169,18 +171,18 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 					$item=(array)$itemObj;
 					$items_profiles.=json_encode($item['imgprofile']);
 				}
-
-				$status = "Item is already logged".$items_profiles;
-				
+				$status_code=0;
+				$status = "Item is already logged";
+				$obj =$items_profiles;
 				if($json){
 					$time_end = microtime(true);
 					return (object)array(
 						"error"=>"",
-						"http_code"=>$status,
+						"status_code"=>$status_code,
+						"status"=>$status,
+						"object"=>$obj,
 						"total_time"=>$time_end - $time_start
-					
 					);
-					
 				}
 				
 			}
@@ -241,14 +243,18 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 						$newModel = Mage::getModel('wsu_mediacontroll/'.$type);	
 						$newModel->setData(array('prod_id'=>$prodID,'imgprofile'=>json_encode($productArray)))->setId(null);
 						$newModel->save();
-						$status = "logged as having issues";
+						$status .= "logged as having issues";
+						
 					}else{
-						$status = "found with no issues";
+						$status .= "found with no issues";
 					}
-					$status .= " for ${type} <pre class='usedobj'>".json_encode($productArray)."</pre>";
+					$status .= " for ${type}";
+					$obj .= json_encode($productArray);
+					$status_code=1;
 				}
 				
 			}else{
+				$status_code=0;
 				$status .= " Cound not find found items";	
 			}
 		}
@@ -272,19 +278,17 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			}
 		}//die('before final end');
 		
-		
 
-		$time_end = microtime(true);
 		if($json){
+			$time_end = microtime(true);
 			return (object)array(
 				"error"=>"",
-				"http_code"=>$status,
+				"status"=>$status,
+				"status_code"=>$status_code,
+				"object"=>$obj,
 				"total_time"=>$time_end - $time_start
-			
 			);
-			
 		}
-		
 		
 		
 	}
