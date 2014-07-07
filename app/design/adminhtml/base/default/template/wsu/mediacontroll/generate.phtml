@@ -2,9 +2,6 @@
 $_products = $this->getProducts();
 ?>
 	<style>
-		.usedObj{
-			display:none;
-		}
 		.preDisplay{ color:#4B4B4B; font-weight:bold; font-size:14px; padding:2px 3px;border-radius: 18px; background-color:#E5E5E5; cursor:pointer; margin-left:5px;}
 		.preDisplay:hover{ color:#1377FF; font-weight:bold; font-size:14px;background-color:#ADADAD; cursor:pointer;}
 	</style>
@@ -86,10 +83,10 @@ $_products = $this->getProducts();
 						//console.log("ending at :"+ending);
 						var ttook = ( (ending-starting)/1000 ).toFixed(4);
                         if (result.error && result.error !="") {
-							message = '<strong style="color:red;"> ' + result.error + '' + result.status + '</strong> <em>(server:' + took + 's | total:' + ttook + 's)</em>' + '<i class="preDisplay">+</i><pre class="usedObj">'+result.object+'</pre>';
+							message = '<strong style="color:red;"> ' + result.error + '' + result.status + '</strong> <em>(server:' + took + 's | total:' + ttook + 's)</em>' + '<i class="preDisplay">+</i><pre class="usedObj" style="display:none;">'+result.object+'</pre>';
                         } else {
                             var color = result.status_code > 0 ? result.status_code > 1 ? 'blue' : 'red' : 'green' ;
-							message = '<strong style="color:'+ color +';"> ' + result.status + '</strong> <em>(server:' + took + 's | total:' + ttook+ 's)</em>' + '<i class="preDisplay">+ more info</i><pre class="usedObj">'+result.object+'</pre>';
+							message = '<strong style="color:'+ color +';"> ' + result.status + '</strong> <em>(server:' + took + 's | total:' + ttook+ 's)</em>' + '<i class="preDisplay">+ more info</i><pre class="usedObj" style="display:none;">'+result.object+'</pre>';
                         }
 						$('generate-' + i).insert({
                             bottom: message
