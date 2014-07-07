@@ -108,7 +108,7 @@ $_products = $this->getProducts();
                         }, 10);
                     }
                 });
-            } else if (products[i] && products[i].length) {
+            } else if (i > products[i].length) {
 				jQuery('.content-header h3').append('<a href="<?=$this->getUrl('*/*/index')?>" class="button"><?=$this->__('Return to list')?></a>');
 			}
         }
