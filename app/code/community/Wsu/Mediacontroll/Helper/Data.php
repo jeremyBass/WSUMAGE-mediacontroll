@@ -227,6 +227,8 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			//$prodcollection = $this->prodBasedImgCollection->getSelect();
 			//var_dump('here');var_dump($collection);
 			if(!empty($prodcollection)){
+				$status = "";
+
 				foreach($prodcollection as $product){
 					$prodID=(int)$product->getId();
 	
