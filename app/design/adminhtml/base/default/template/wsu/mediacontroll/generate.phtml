@@ -86,7 +86,7 @@ $_products = $this->getProducts();
                         if (result.error && result.error !="") {
 							message = '<strong style="color:red;"> ' + result.error + '' + result.status + '</strong> <em>(server:' + took + 's | total:' + ttook + 's)</em>' + '<i class="preDisplay">+</i><pre class="usedObj">'+result.object+'</pre>';
                         } else {
-                            var color = result.status_code > 0 ? 'red' : 'green' ;
+                            var color = result.status_code > 0 ? result.status_code > 1 ? 'blue' : 'red' : 'green' ;
 							message = '<strong style="color:'+ color +';"> ' + result.status + '</strong> <em>(server:' + took + 's | total:' + ttook+ 's)</em>' + '<i class="preDisplay">+</i><pre class="usedObj">'+result.object+'</pre>';
                         }
 						$('generate-' + i).insert({
