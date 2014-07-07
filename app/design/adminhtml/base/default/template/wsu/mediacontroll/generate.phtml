@@ -74,7 +74,7 @@ $_products = $this->getProducts();
 						var message="";
 						var took = (Math.round(result.total_time * 10000) / 10000).toFixed(4);
 						var end=performance.now();
-						var ttook = (end-start).toFixed(4);
+						var ttook = ( (start-end)/1000 ).toFixed(4);
 						
                         if (result.error && result.error !="") {
 							message = '<strong style="color:red;"> ' + result.error + '' + result.http_code + '</strong> <em>(server:' + took + 's | total:' + ttook + 's)</em>';
