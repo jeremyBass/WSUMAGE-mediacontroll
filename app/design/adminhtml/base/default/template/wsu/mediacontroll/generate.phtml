@@ -71,7 +71,7 @@ $_products = $this->getProducts();
                             var color = result.http_code == 200 ? 'green' : 'red';
                             var took = (Math.round(result.total_time * 10000) / 10000);
 							var end=new Date().getTime();
-							var ttook = (Math.round( (start-end) * 10000) / 10000);
+							var ttook = ( Math.round( (end-start) ) );
                             $('generate-' + i).insert({
                                 bottom: '<strong style="color:'+ color +';"> ' + result.http_code + '</strong> <em>(server:' + took.toFixed(4) + 's | total:' + ttook.toFixed(4) + 's)</em>'
                             });
