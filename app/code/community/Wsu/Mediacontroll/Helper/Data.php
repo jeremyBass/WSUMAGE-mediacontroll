@@ -152,10 +152,21 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		$offset=isset($params['offset'])?$params['offset']:0;
 		$store=isset($params['store'])?$params['store']:0;
 		$id=isset($params['id'])?$params['id']:0;
-		
+		$status = "nothing done";
 		$prodcollection = Mage::getResourceModel('catalog/product_collection');
 		if($id>0){
+			
+			
+			
 			$prodcollection->addAttributeToFilter('entity_id', array('eq' => $id));
+			
+			
+			$typecollection = Mage::getModel('wsu_mediacontroll/'.$type)->getCollection()->addAttributeToFilter('entity_id', array('eq' => $id));
+			if($typecollection->getSize()>0){
+				$status = "Item is already logged";
+			}
+			
+			
 		}else{
 			if($store>0){
 				Mage::app()->setCurrentStore($store); 
@@ -188,7 +199,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		$prodcollection->getSelect()->order('entity_id','ASC');
 		//print( $prodcollection->getSelect() );//die();
 		//var_dump(count($prodcollection));print('<br/>');
-		$status = "nothing done";
+		
 		if($type!='orphaned'){
 		
 			$productImgCollection=array();
