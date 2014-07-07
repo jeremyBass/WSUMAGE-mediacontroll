@@ -47,7 +47,7 @@ $_products = $this->getProducts();
                 $('btn-pause').title = label;
             });
         }
-
+		var start=0;
         function processUrl(i) {
             if (!run) {
                 setTimeout(function() {
@@ -58,7 +58,7 @@ $_products = $this->getProducts();
                 $('generate-offset').innerHTML = i + 1;
                 $('generate-count').innerHTML = products.length;
 				//note the type needs to be a var when abstracted later
-				var start= performance.now();
+				start= performance.now();
                 new Ajax.Request(generateUrl + '?json=true&type=missassignments&id=' + products[i] , {
                     onCreate: function() {
                         start = new Date().getTime();
@@ -74,7 +74,7 @@ $_products = $this->getProducts();
 						var message="";
 						var took = (Math.round(result.total_time * 10000) / 10000).toFixed(4);
 						var end=performance.now();
-						var ttook = ( (start-end)/1000 );
+						var ttook = ( (start-end)/1000 ).toFixed(4);
 						
                         if (result.error && result.error !="") {
 							message = '<strong style="color:red;"> ' + result.error + '' + result.http_code + '</strong> <em>(server:' + took + 's | total:' + ttook + 's)</em>';
