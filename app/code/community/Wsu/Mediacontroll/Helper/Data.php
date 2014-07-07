@@ -163,8 +163,14 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			
 			$typecollection = Mage::getModel('wsu_mediacontroll/'.$type)->getCollection()->addFieldToFilter('prod_id', array('eq' => $id));
 			if($typecollection->getSize()>0){
-				$status = "Item is already logged";
 				
+				$items_profiles="";
+				foreach	($typecollection->getData() as $itemObj){
+					$item=(array)$itemObj;
+					$items_profiles.=json_encode($item['imgprofile']);
+				}
+
+				$status = "Item is already logged".$items_profiles;
 				
 				if($json){
 					$time_end = microtime(true);
