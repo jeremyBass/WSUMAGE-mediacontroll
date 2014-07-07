@@ -246,7 +246,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 						$newModel->setData(array('prod_id'=>$prodID,'imgprofile'=>json_encode($productArray)))->setId(null);
 						$newModel->save();
 						$status .= "logged as having issues";
-						$status_code=2;
+						$status_code=0;
 					}else{
 						$status .= "found with no issues";
 						$status_code=2;
@@ -257,7 +257,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 				}
 				
 			}else{
-				$status_code=0;
+				$status_code=1;
 				$status .= " Cound not find found items";	
 			}
 		}
