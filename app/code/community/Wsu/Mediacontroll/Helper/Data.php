@@ -184,32 +184,40 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			}
 			$prodcollection->addStoreFilter();
 		}
+		
 		$prodcollection->getSelect()->order('entity_id','ASC');
 		//print( $prodcollection->getSelect() );//die();
 		//var_dump(count($prodcollection));print('<br/>');
-		
+		$status = "nothing done";
 		if($type!='orphaned'){
 		
 			$productImgCollection=array();
 			//$prodcollection = $this->prodBasedImgCollection->getSelect();
 			//var_dump('here');var_dump($collection);
-			foreach($prodcollection as $product){
-				$prodID=(int)$product->getId();
-
-				$productArray = $this->checkProductImgs($prodID);				
-				$missingAssigned = $productArray['productImageProfile']['missingAssigned'];
-				$missingSorted = $productArray['productImageProfile']['missingSorted'];
-				$_prodImgObj = $productArray['productImageProfile']['imgs'];
-				//var_dump(count($_prodImgObj)); print('<br/>');
-				if( 
-					   $type == 'imgless' && count($_prodImgObj)==0
-					|| $type == 'missassignments' && $missingAssigned && count($_prodImgObj)>0
-					|| $type == 'unsorted' && $missingSorted && count($_prodImgObj)>0
-				){
-					$newModel = Mage::getModel('wsu_mediacontroll/'.$type);	
-					$newModel->setData(array('prod_id'=>$prodID,'imgprofile'=>json_encode($productArray)))->setId(null);
-					$newModel->save();
+			if(!empty($prodcollection)){
+				foreach($prodcollection as $product){
+					$prodID=(int)$product->getId();
+	
+					$productArray = $this->checkProductImgs($prodID);				
+					$missingAssigned = $productArray['productImageProfile']['missingAssigned'];
+					$missingSorted = $productArray['productImageProfile']['missingSorted'];
+					$_prodImgObj = $productArray['productImageProfile']['imgs'];
+					//var_dump(count($_prodImgObj)); print('<br/>');
+					if( 
+						   $type == 'imgless' && count($_prodImgObj)==0
+						|| $type == 'missassignments' && $missingAssigned && count($_prodImgObj)>0
+						|| $type == 'unsorted' && $missingSorted && count($_prodImgObj)>0
+					){
+						$newModel = Mage::getModel('wsu_mediacontroll/'.$type);	
+						$newModel->setData(array('prod_id'=>$prodID,'imgprofile'=>json_encode($productArray)))->setId(null);
+						$newModel->save();
+						$status = "logged as having ${type} issues";
+					}
+					$status .= " <pre class='usedobj'>".json_encode($productArray)."</pre>";
 				}
+				
+			}else{
+				$status .= " Cound not find found items";	
 			}
 		}
 		if($type=='orphaned'){
@@ -238,7 +246,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 		if($json){
 			return (object)array(
 				"error"=>"",
-				"http_code"=>"finished",
+				"http_code"=>$status,
 				"total_time"=>$time_end - $time_start
 			
 			);
