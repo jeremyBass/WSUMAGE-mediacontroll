@@ -205,15 +205,17 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 					//var_dump(count($_prodImgObj)); print('<br/>');
 					if( 
 						   $type == 'imgless' && count($_prodImgObj)==0
-						|| $type == 'missassignments' && $missingAssigned && count($_prodImgObj)>0
+						|| $type == 'missassignments' && $missingAssigned===true && count($_prodImgObj)>0
 						|| $type == 'unsorted' && $missingSorted && count($_prodImgObj)>0
 					){
 						$newModel = Mage::getModel('wsu_mediacontroll/'.$type);	
 						$newModel->setData(array('prod_id'=>$prodID,'imgprofile'=>json_encode($productArray)))->setId(null);
 						$newModel->save();
-						$status = "logged as having ${type} issues";
+						$status = "logged as having issues";
+					}else{
+						$status = "found with no issues";
 					}
-					$status .= " <pre class='usedobj'>".json_encode($productArray)."</pre>";
+					$status .= " for ${type} <pre class='usedobj'>".json_encode($productArray)."</pre>";
 				}
 				
 			}else{
