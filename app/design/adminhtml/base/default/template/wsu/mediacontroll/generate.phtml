@@ -77,10 +77,10 @@ $_products = $this->getProducts();
 						var ttook = ( (end-start)/1000 ).toFixed(4);
 						
                         if (result.error && result.error !="") {
-							message = '<strong style="color:red;"> ' + result.error + '' + result.http_code + '</strong> <em>(server:' + took + 's | total:' + ttook + 's)</em>';
+							message = '<strong style="color:red;"> ' + result.error + '' + result.http_code + '</strong> <em>(server:' + took + 's | total:' + ttook + 's :::: ' +start+ '::' +end+ ')</em>';
                         } else {
                             var color = result.http_code == 200 ? 'green' : 'red';
-							message = '<strong style="color:'+ color +';"> ' + result.http_code + '</strong> <em>(server:' + took + 's | total:' + ttook + 's)</em>';	
+							message = '<strong style="color:'+ color +';"> ' + result.http_code + '</strong> <em>(server:' + took + 's | total:' + ttook+ 's :::: ' +start+ '::' +end+ ')</em>';	
                         }
 						$('generate-' + i).insert({
                             bottom: message
