@@ -48,6 +48,7 @@ $_products = $this->getProducts();
             });
         }
 		var start=0;
+		var end=0;
         function processUrl(i) {
             if (!run) {
                 setTimeout(function() {
@@ -73,7 +74,7 @@ $_products = $this->getProducts();
                         var result = response.responseJSON;
 						var message="";
 						var took = (Math.round(result.total_time * 10000) / 10000).toFixed(4);
-						var end=performance.now();
+						end=performance.now();
 						var ttook = ( (end-start)/1000 ).toFixed(4);
 						
                         if (result.error && result.error !="") {
