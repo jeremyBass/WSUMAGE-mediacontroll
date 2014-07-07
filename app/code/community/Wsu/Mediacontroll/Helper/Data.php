@@ -161,7 +161,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			$prodcollection->addAttributeToFilter('entity_id', array('eq' => $id));
 			
 			
-			$typecollection = Mage::getModel('wsu_mediacontroll/'.$type)->getCollection()->addFieldToFilter('entity_id', array('eq' => $id));
+			$typecollection = Mage::getModel('wsu_mediacontroll/'.$type)->getCollection()->addFieldToFilter($type.'_id', array('eq' => $id));
 			if($typecollection->getSize()>0){
 				$status = "Item is already logged";
 			}
