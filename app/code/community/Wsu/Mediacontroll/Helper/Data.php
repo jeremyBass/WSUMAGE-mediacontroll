@@ -356,7 +356,9 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 							);
 		$missingAssigned=true;
 		if($_assignCount>0){
-			if($_assignCount==count($types))$missingAssigned=false;
+			if( ( count($productArray['types']) = count($productArray['avialible_types']) ) || $_assignCount==count($types)){
+				$missingAssigned=false;
+			}
 		}
 
 
