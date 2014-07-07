@@ -33,8 +33,6 @@ $_products = $this->getProducts();
         var generateUrl = '<?=$this->getGenerateUrl()?>';
         var products = '<?=$this->helper('core')->jsonEncode($_products)?>'.evalJSON();
         var interval = null;
-        var start = 0;
-        var end = 0;
 
         if ($('btn-pause')) {
             $('btn-pause').observe('click', function(e) {
@@ -46,8 +44,8 @@ $_products = $this->getProducts();
                 $('btn-pause').title = label;
             });
         }
-		var start=performance.now();
-		var end=performance.now();
+		var starting=performance.now();
+		var ending=performance.now();
         function processUrl(i) {
             if (!run) {
                 setTimeout(function() {
@@ -58,8 +56,8 @@ $_products = $this->getProducts();
                 $('generate-offset').innerHTML = i + 1;
                 $('generate-count').innerHTML = products.length;
 				//note the type needs to be a var when abstracted later
-				start= performance.now();
-				console.log("starting at :"+start);
+				starting= performance.now();
+				console.log("starting at :"+starting);
                 new Ajax.Request(generateUrl + '?json=true&type=missassignments&id=' + products[i] , {
                     onCreate: function() {
                         start = new Date().getTime();
@@ -68,15 +66,15 @@ $_products = $this->getProducts();
                         });
                         interval = setInterval(function() {
                             $('generate-' + i).insert({ bottom: '.' });
-                        }, 100);
+                        }, 50);
                     },
                     onSuccess: function(response) {
                         var result = response.responseJSON;
 						var message="";
 						var took = (Math.round(result.total_time * 10000) / 10000).toFixed(4);
-						end=performance.now();
-						console.log("ending at :"+start);
-						var ttook = ( (end-start)/1000 ).toFixed(4);
+						ending=performance.now();
+						console.log("ending at :"+ending);
+						var ttook = ( (ending-starting)/1000 ).toFixed(4);
                         if (result.error && result.error !="") {
 							message = '<strong style="color:red;"> ' + result.error + '' + result.http_code + '</strong> <em>(server:' + took + 's | total:' + ttook + 's)</em>';
                         } else {
