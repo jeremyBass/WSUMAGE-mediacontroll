@@ -171,7 +171,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 					$item=(array)$itemObj;
 					$items_profiles.=json_encode($item['imgprofile']);
 				}
-				$status_code=0;
+				$status_code=2;
 				$status = "Item is already logged";
 				$obj =$items_profiles;
 				if($json){
@@ -249,7 +249,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 						$status_code=2;
 					}else{
 						$status .= "found with no issues";
-						$status_code=0;
+						$status_code=2;
 					}
 					$status .= " for ${type}";
 					$obj .= json_encode($productArray);
