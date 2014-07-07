@@ -47,8 +47,8 @@ $_products = $this->getProducts();
                 $('btn-pause').title = label;
             });
         }
-		var start=0;
-		var end=0;
+		var start=performance.now();
+		var end=performance.now();
         function processUrl(i) {
             if (!run) {
                 setTimeout(function() {
