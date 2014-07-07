@@ -21,7 +21,15 @@ $_products = $this->getProducts();
         document.observe('dom:loaded', function () {
             $('loading-mask').remove();
         });
-
+		window.performance = window.performance || {};
+		performance.now = (function() {
+			return performance.now       ||
+				performance.mozNow    ||
+				performance.msNow     ||
+				performance.oNow      ||
+				performance.webkitNow ||            
+				Date.now  /*none found - fallback to browser default */
+		})();
         var run = true;
         var generateUrl = '<?=$this->getGenerateUrl()?>';
         var products = '<?=$this->helper('core')->jsonEncode($_products)?>'.evalJSON();
@@ -50,7 +58,7 @@ $_products = $this->getProducts();
                 $('generate-offset').innerHTML = i + 1;
                 $('generate-count').innerHTML = products.length;
 				//note the type needs to be a var when abstracted later
-				var start=new Date().getTime();
+				var start= performance.now();
                 new Ajax.Request(generateUrl + '?json=true&type=missassignments&id=' + products[i] , {
                     onCreate: function() {
                         start = new Date().getTime();
@@ -63,19 +71,22 @@ $_products = $this->getProducts();
                     },
                     onSuccess: function(response) {
                         var result = response.responseJSON;
+						var message="";
+						var took = (Math.round(result.total_time * 10000) / 10000).toFixed(4);
+						var end=performance.now();
+						var ttook = (end-start).toFixed(4);
+						
                         if (result.error && result.error !="") {
-                            $('generate-' + i).insert({
-                                bottom: '<strong style="color:red;"> ' + result.error + '</strong>'
-                            });
+							message = '<strong style="color:red;"> ' + result.error + '' + result.http_code + '</strong> <em>(server:' + took + 's | total:' + ttook + 's)</em>';
                         } else {
                             var color = result.http_code == 200 ? 'green' : 'red';
-                            var took = (Math.round(result.total_time * 10000) / 10000);
-							var end=new Date().getTime();
-							var ttook = ( Math.round( (end-start)/ 10000 ) );
-                            $('generate-' + i).insert({
-                                bottom: '<strong style="color:'+ color +';"> ' + result.http_code + '</strong> <em>(server:' + took.toFixed(4) + 's | total:' + ttook.toFixed(4) + 's)</em>'
-                            });
+							message = '<strong style="color:'+ color +';"> ' + result.http_code + '</strong> <em>(server:' + took + 's | total:' + ttook + 's)</em>';	
                         }
+						$('generate-' + i).insert({
+                            bottom: message
+                        });
+						
+						
                     },
                     onFailure: function() {
                         $('generate-' + i).insert({
