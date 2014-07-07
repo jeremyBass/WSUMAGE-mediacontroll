@@ -50,6 +50,7 @@ $_products = $this->getProducts();
                 $('generate-offset').innerHTML = i + 1;
                 $('generate-count').innerHTML = products.length;
 				//note the type needs to be a var when abstracted later
+				var start=new Date().getTime();
                 new Ajax.Request(generateUrl + '?json=true&type=missassignments&id=' + products[i] , {
                     onCreate: function() {
                         start = new Date().getTime();
@@ -69,8 +70,10 @@ $_products = $this->getProducts();
                         } else {
                             var color = result.http_code == 200 ? 'green' : 'red';
                             var took = (Math.round(result.total_time * 10000) / 10000);
+							var end=new Date().getTime();
+							var ttook = (Math.round( (start-end) * 10000) / 10000);
                             $('generate-' + i).insert({
-                                bottom: '<strong style="color:'+ color +';"> ' + result.http_code + '</strong> <em>(' + took.toFixed(4) + 's)</em>'
+                                bottom: '<strong style="color:'+ color +';"> ' + result.http_code + '</strong> <em>(server:' + took.toFixed(4) + 's | total:' + ttook.toFixed(4) + 's)</em>'
                             });
                         }
                     },
