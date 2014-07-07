@@ -27,8 +27,7 @@ $_products = $this->getProducts();
 				performance.mozNow    ||
 				performance.msNow     ||
 				performance.oNow      ||
-				performance.webkitNow ||            
-				Date.now  /*none found - fallback to browser default */
+				performance.webkitNow
 		})();
         var run = true;
         var generateUrl = '<?=$this->getGenerateUrl()?>';
