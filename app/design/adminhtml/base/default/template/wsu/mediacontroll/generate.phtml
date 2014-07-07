@@ -60,6 +60,7 @@ $_products = $this->getProducts();
                 $('generate-count').innerHTML = products.length;
 				//note the type needs to be a var when abstracted later
 				start= performance.now();
+				console.log("starting at :"+start);
                 new Ajax.Request(generateUrl + '?json=true&type=missassignments&id=' + products[i] , {
                     onCreate: function() {
                         start = new Date().getTime();
@@ -75,13 +76,13 @@ $_products = $this->getProducts();
 						var message="";
 						var took = (Math.round(result.total_time * 10000) / 10000).toFixed(4);
 						end=performance.now();
+						console.log("ending at :"+start);
 						var ttook = ( (end-start)/1000 ).toFixed(4);
-						
                         if (result.error && result.error !="") {
-							message = '<strong style="color:red;"> ' + result.error + '' + result.http_code + '</strong> <em>(server:' + took + 's | total:' + ttook + 's :::: ' +start+ '::' +end+ ')</em>';
+							message = '<strong style="color:red;"> ' + result.error + '' + result.http_code + '</strong> <em>(server:' + took + 's | total:' + ttook + 's)</em>';
                         } else {
                             var color = result.http_code == 200 ? 'green' : 'red';
-							message = '<strong style="color:'+ color +';"> ' + result.http_code + '</strong> <em>(server:' + took + 's | total:' + ttook+ 's :::: ' +start+ '::' +end+ ')</em>';	
+							message = '<strong style="color:'+ color +';"> ' + result.http_code + '</strong> <em>(server:' + took + 's | total:' + ttook+ 's)</em>';	
                         }
 						$('generate-' + i).insert({
                             bottom: message
