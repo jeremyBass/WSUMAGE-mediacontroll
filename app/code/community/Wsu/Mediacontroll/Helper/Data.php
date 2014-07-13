@@ -345,8 +345,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 				$typed_as=array();
 				$filepath = Mage::getBaseUrl('media').'catalog/product'.$file;
 				if(file_exists($filepath)===FALSE){
-					$faillist[$typeof]=$file;
-					$filename = "";
+					$faillist[$typeof]=$filepath;
 				}else{
 					$filenameTest = basename($file, ".jpg").'/';
 					foreach ($attrImgs as $code=>$setFile){	
