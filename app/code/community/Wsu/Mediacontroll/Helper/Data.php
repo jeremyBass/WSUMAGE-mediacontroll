@@ -312,7 +312,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			$types[] = $attribute->getAttributeCode();
 		}
 		$productArray['avialible_types']=$types;
-		$productArray['nonexists']=array();
+		$faillist=array();
 		$attrImgs=array();
 		foreach ($types as $typeof){
 			$imgHelper = Mage::helper('catalog/image');
@@ -320,7 +320,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			try{
 				$filename = Mage::helper('catalog/image')->init($_prod, $typeof);
 				if(!file_exists($filename)){
-					$productArray['nonexists'][]=$filename;
+					$faillist[]=$filename;
 					$filename = "";
 				}
 			}catch(Exception $e){}
@@ -329,6 +329,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 				$attrImgs[$typeof] = $filename."";
 			}	
 		}
+		$productArray['nonexists']=$faillist;
 		$productArray['types']=$attrImgs;
 
 		$_assignCount = 0;
