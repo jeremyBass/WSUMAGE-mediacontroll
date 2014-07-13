@@ -319,7 +319,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			$filename = "";
 			try{
 				$filename = Mage::helper('catalog/image')->init($_prod, $typeof);
-				if(!file_exists($filename)){
+				if(@file_exists($filename)===FALSE){
 					$faillist[]=$filename;
 					$filename = "";
 				}
