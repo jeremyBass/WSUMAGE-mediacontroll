@@ -343,7 +343,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 				$_imgObj['id']=(int)$IMGID;
 
 				$typed_as=array();
-				$filepath = Mage::getBaseDir('media').'catalog/product'.$file;
+				$filepath = Mage::getBaseDir('media').'/catalog/product'.$file;
 				if(file_exists($filepath)===FALSE){
 					$faillist[$typeof]=$filepath;
 				}else{
