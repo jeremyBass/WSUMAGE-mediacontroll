@@ -312,7 +312,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			$types[] = $attribute->getAttributeCode();
 		}
 		$productArray['avialible_types']=$types;
-		$faillist=array();
+
 		$attrImgs=array();
 		foreach ($types as $typeof){
 			$imgHelper = Mage::helper('catalog/image');
@@ -320,39 +320,42 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			try{
 				$filename = Mage::helper('catalog/image')->init($_prod, $typeof);
 			}catch(Exception $e){}
-			if(@file_exists($filename."")===FALSE){
-				$faillist[$typeof]=$filename."";
-				$filename = "";
-			}
 			if ($filename!="") {
 				$attrImgs[$typeof] = $filename."";
 			}	
 		}
-		$productArray['nonexists']=$faillist;
+		
 		$productArray['types']=$attrImgs;
 
 		$_assignCount = 0;
 		$_sortedCount = 0;
 		$_excluded = 0;
-
+		
+		$faillist=array();
 		$_prodImgObj = array();
 		$_sortedArray=array();
 		if(count($_images)){
+			
 			foreach ($_images as $_image){
 				$_imgObj=array();
 				$IMGID=$_image['value_id'];
-				
+				$file=$_image['file'];
 				$_imgObj['id']=(int)$IMGID;
 
 				$typed_as=array();
-				$filenameTest = basename($_image['file'], ".jpg").'/';
-				foreach ($attrImgs as $code=>$setFile){	
-					if(strpos($setFile,$filenameTest)>-1){
-						$typed_as[]=$code;
-						$_assignCount++;
+				
+				if(file_exists($file)===FALSE){
+					$faillist[$typeof]=$file;
+					$filename = "";
+				}else{
+					$filenameTest = basename($file, ".jpg").'/';
+					foreach ($attrImgs as $code=>$setFile){	
+						if(strpos($setFile,$filenameTest)>-1){
+							$typed_as[]=$code;
+							$_assignCount++;
+						}
 					}
 				}
-				
 				$position=$_image['position'];
 				$disabled=$_image['disabled'];
 					$_imgObj['disabled']=$disabled;
@@ -372,7 +375,7 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 				$_prodImgObj[]=$_imgObj;
 			}
 		}
-		
+		$productArray['nonexists']=$faillist;
 		$_sortIndexes=array();
 		$_sortConflict=array();
 		foreach($_sortedArray as $k=>$v){
