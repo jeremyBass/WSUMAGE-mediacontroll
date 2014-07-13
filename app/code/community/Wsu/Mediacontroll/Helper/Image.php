@@ -190,7 +190,7 @@ class Wsu_Mediacontroll_Helper_Image extends Mage_Catalog_Helper_Image {
     }
     /**
      * Return a different number depending on the attributeCode passt to init()
-     *
+     * @todo this needs to be a detected thing, not hardcoded
      * @param string $attributeCode
      * @return integer
      */
