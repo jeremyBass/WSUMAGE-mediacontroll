@@ -312,12 +312,17 @@ class Wsu_Mediacontroll_Helper_Data extends Mage_Core_Helper_Abstract {
 			$types[] = $attribute->getAttributeCode();
 		}
 		$productArray['avialible_types']=$types;
+		$productArray['nonexists']=array();
 		$attrImgs=array();
 		foreach ($types as $typeof){
 			$imgHelper = Mage::helper('catalog/image');
 			$filename = "";
 			try{
 				$filename = Mage::helper('catalog/image')->init($_prod, $typeof);
+				if(!file_exists($filename)){
+					$productArray['nonexists'][]=$filename;
+					$filename = "";
+				}
 			}catch(Exception $e){}
 
 			if ($filename!="") {
