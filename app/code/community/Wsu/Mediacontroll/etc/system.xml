@@ -199,6 +199,11 @@
 				</editortools>
           </fields>
         </config>
+		
+		
+
+		
+		
         <profilers translate="label comment">
           <label>Mediacontroll Settings</label>
           <sort_order>10</sort_order>

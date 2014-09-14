@@ -32,7 +32,7 @@ class Wsu_Mediacontroll_SortedController extends Mage_Adminhtml_Controller_actio
 		$unsorted_id = ($id > 0) ? $id : $requestId;
 		$affected = array();
 		$starting = 1;
-		if( $prod_id > 0 ) {
+		if( $unsorted_id > 0 ) {
 				$model = Mage::getModel('wsu_mediacontroll/unsorted');
 				$model->load($unsorted_id);			
 				$product = mage::getModel('catalog/product')->load($model['prod_id']);
